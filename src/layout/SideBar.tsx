@@ -1,15 +1,12 @@
 import {
   EuiIcon,
-  EuiKeyPadMenu,
   EuiKeyPadMenuItem,
   EuiPageSideBar,
-  EuiThemeComputed,
-  useEuiTheme,
   useGeneratedHtmlId,
 } from '@elastic/eui'
-import { css } from '@emotion/react'
 import Link from 'next/link'
-import { CSSProperties, useState } from 'react'
+import { useRouter } from 'next/router'
+import { CSSProperties, useEffect, useState } from 'react'
 
 const buttonStyle: CSSProperties = {
   width: '100%',
@@ -18,15 +15,24 @@ const buttonStyle: CSSProperties = {
 }
 
 const SideBar = () => {
-  const keypadButtonId__1 = useGeneratedHtmlId({
+  const keypadButtonId_1 = useGeneratedHtmlId({
     prefix: 'keypadButton',
     suffix: 'first',
   })
-  const keypadButtonId__2 = useGeneratedHtmlId({
+  const keypadButtonId_2 = useGeneratedHtmlId({
     prefix: 'keypadButton',
     suffix: 'second',
   })
-  const [selectedID, setSelectedID] = useState(keypadButtonId__1)
+  const [selectedID, setSelectedID] = useState(keypadButtonId_1)
+
+  const { pathname } = useRouter()
+  useEffect(() => {
+    if (pathname === '/') {
+      setSelectedID(keypadButtonId_1)
+    } else if (pathname === '/analytics') {
+      setSelectedID(keypadButtonId_2)
+    }
+  }, [pathname])
 
   return (
     <EuiPageSideBar paddingSize="s" sticky>
@@ -38,10 +44,10 @@ const SideBar = () => {
       >
         <Link href="/" passHref>
           <EuiKeyPadMenuItem
-            id={keypadButtonId__1}
+            id={keypadButtonId_1}
             label="Campaigns"
-            isSelected={selectedID === keypadButtonId__1}
-            onClick={() => setSelectedID(keypadButtonId__1)}
+            isSelected={selectedID === keypadButtonId_1 || pathname === '/'}
+            onClick={() => setSelectedID(keypadButtonId_1)}
             style={buttonStyle}
           >
             <EuiIcon type="list" size="l" />
@@ -50,10 +56,12 @@ const SideBar = () => {
 
         <Link href="/analytics" passHref>
           <EuiKeyPadMenuItem
-            id={keypadButtonId__2}
+            id={keypadButtonId_2}
             label="Analytics"
-            isSelected={selectedID === keypadButtonId__2}
-            onClick={() => setSelectedID(keypadButtonId__2)}
+            isSelected={
+              selectedID === keypadButtonId_2 || pathname === '/analytics'
+            }
+            onClick={() => setSelectedID(keypadButtonId_2)}
             style={buttonStyle}
           >
             <EuiIcon type="visBarVertical" size="l" />
