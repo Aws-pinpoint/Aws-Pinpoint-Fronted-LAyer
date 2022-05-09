@@ -8,12 +8,6 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { CSSProperties, useEffect, useState } from 'react'
 
-const buttonStyle: CSSProperties = {
-  width: '100%',
-  height: '4rem',
-  marginBottom: '1rem',
-}
-
 const SideBar = () => {
   const keypadButtonId_1 = useGeneratedHtmlId({
     prefix: 'keypadButton',
@@ -23,6 +17,14 @@ const SideBar = () => {
     prefix: 'keypadButton',
     suffix: 'second',
   })
+  const keypadButtonId_3 = useGeneratedHtmlId({
+    prefix: 'keypadButton',
+    suffix: 'third',
+  })
+  const keypadButtonId_4 = useGeneratedHtmlId({
+    prefix: 'keypadButton',
+    suffix: 'fourth',
+  })
   const [selectedID, setSelectedID] = useState(keypadButtonId_1)
 
   const { pathname } = useRouter()
@@ -31,6 +33,10 @@ const SideBar = () => {
       setSelectedID(keypadButtonId_1)
     } else if (pathname === '/analytics') {
       setSelectedID(keypadButtonId_2)
+    } else if (pathname === '/campaigns') {
+      setSelectedID(keypadButtonId_3)
+    } else if (pathname === '/settings') {
+      setSelectedID(keypadButtonId_4)
     }
   }, [pathname])
 
@@ -42,33 +48,72 @@ const SideBar = () => {
           marginTop: '3.6rem',
         }}
       >
-        <Link href="/" passHref>
-          <EuiKeyPadMenuItem
-            id={keypadButtonId_1}
-            label="Campaigns"
-            isSelected={selectedID === keypadButtonId_1 || pathname === '/'}
-            onClick={() => setSelectedID(keypadButtonId_1)}
-            style={buttonStyle}
-          >
-            <EuiIcon type="list" size="l" />
-          </EuiKeyPadMenuItem>
-        </Link>
+        <PageButton
+          label="Analytics"
+          href="/"
+          keypadID={keypadButtonId_1}
+          onClick={() => setSelectedID(keypadButtonId_1)}
+          selectedID={selectedID}
+          icontType="visualizeApp"
+        />
 
-        <Link href="/analytics" passHref>
-          <EuiKeyPadMenuItem
-            id={keypadButtonId_2}
-            label="Analytics"
-            isSelected={
-              selectedID === keypadButtonId_2 || pathname === '/analytics'
-            }
-            onClick={() => setSelectedID(keypadButtonId_2)}
-            style={buttonStyle}
-          >
-            <EuiIcon type="visBarVertical" size="l" />
-          </EuiKeyPadMenuItem>
-        </Link>
+        <PageButton
+          label="Segments"
+          href="/segments"
+          keypadID={keypadButtonId_2}
+          onClick={() => setSelectedID(keypadButtonId_2)}
+          selectedID={selectedID}
+          icontType="spacesApp"
+        />
+
+        <PageButton
+          label="Campaigns"
+          href="/campaigns"
+          keypadID={keypadButtonId_3}
+          onClick={() => setSelectedID(keypadButtonId_3)}
+          selectedID={selectedID}
+          icontType="bell"
+        />
+
+        <PageButton
+          label="Settings"
+          href="/settings"
+          keypadID={keypadButtonId_4}
+          onClick={() => setSelectedID(keypadButtonId_4)}
+          selectedID={selectedID}
+          icontType="managementApp"
+        />
       </nav>
     </EuiPageSideBar>
+  )
+}
+
+const buttonStyle: CSSProperties = {
+  width: '100%',
+  height: '4rem',
+  marginBottom: '1rem',
+}
+interface PageButtonProps {
+  keypadID: string
+  selectedID: string
+  href: string
+  label: string
+  onClick: () => void
+  icontType: string
+}
+const PageButton = (props: PageButtonProps) => {
+  return (
+    <Link href={props.href} passHref>
+      <EuiKeyPadMenuItem
+        id={props.keypadID}
+        label={props.label}
+        isSelected={props.selectedID === props.keypadID}
+        onClick={props.onClick}
+        style={buttonStyle}
+      >
+        <EuiIcon type={props.icontType} size="l" color="inherit" />
+      </EuiKeyPadMenuItem>
+    </Link>
   )
 }
 

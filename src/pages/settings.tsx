@@ -2,16 +2,16 @@ import { FunctionComponent } from 'react'
 import Head from 'next/head'
 import { EuiSpacer, EuiTitle } from '@elastic/eui'
 
-const GettingStarted: FunctionComponent = () => {
+const Settings: FunctionComponent = () => {
   return (
     <>
       <Head>
-        <title>Analytics</title>
+        <title>Settings</title>
       </Head>
 
       <div>
         <EuiTitle size="l">
-          <h2>Analytics</h2>
+          <h2>Settings</h2>
         </EuiTitle>
 
         <EuiSpacer size="xs" />
@@ -20,4 +20,4 @@ const GettingStarted: FunctionComponent = () => {
   )
 }
 
-export default GettingStarted
+export default Settings

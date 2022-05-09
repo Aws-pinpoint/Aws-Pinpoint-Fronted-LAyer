@@ -8,7 +8,7 @@ const Index: FunctionComponent = () => {
   return (
     <>
       <Head>
-        <title>Campaigns</title>
+        <title>Analytics</title>
       </Head>
 
       <HomeHero />
