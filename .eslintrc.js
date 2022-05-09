@@ -54,6 +54,8 @@ module.exports = {
     // Use template strings instead of string concatenation
     'prefer-template': 'error',
 
+    'react-hooks/exhaustive-deps': 'off',
+
     // This is documented as the default, but apparently now needs to be
     // set explicitly
     'prettier/prettier': [
