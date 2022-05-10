@@ -8,6 +8,15 @@ import {
   EuiPageBody,
 } from '@elastic/eui'
 
+import SuperTokensReact from 'supertokens-auth-react'
+import * as SuperTokensConfig from '../config/frontendConfig'
+import Session from 'supertokens-auth-react/recipe/session'
+import { redirectToAuth } from 'supertokens-auth-react/recipe/thirdpartyemailpassword'
+
+if (typeof window !== 'undefined') {
+  SuperTokensReact.init(SuperTokensConfig.frontendConfig())
+}
+
 const Layout = ({ children }) => {
   const Btn = () => <button>haha</button>
   return (

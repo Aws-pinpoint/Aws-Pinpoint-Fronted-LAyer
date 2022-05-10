@@ -9,13 +9,7 @@ import { Theme } from '../components/theme'
 import { globalStyes } from '../styles/global.styles'
 import Layout from '../layout/Layout'
 
-/**
- * Next.js uses the App component to initialize pages. You can override it
- * and control the page initialization. Here use use it to render the
- * `Chrome` component on each page, and apply an error boundary.
- *
- * @see https://nextjs.org/docs/advanced-features/custom-app
- */
+
 const EuiApp: FunctionComponent<AppProps> = ({ Component, pageProps }) => (
   <>
     <Head>
