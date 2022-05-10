@@ -1,6 +1,8 @@
 import { FunctionComponent } from 'react'
 import Head from 'next/head'
 import { EuiSpacer, EuiTitle } from '@elastic/eui'
+import SegmentsTable from '../components/Segments/SegmentsTable'
+import X from '../components/Segments/x'
 
 const Segments: FunctionComponent = () => {
   return (
@@ -14,7 +16,8 @@ const Segments: FunctionComponent = () => {
           <h2>Segments</h2>
         </EuiTitle>
 
-        <EuiSpacer size="xs" />
+        <EuiSpacer size="l" />
+        <SegmentsTable />
       </div>
     </>
   )
