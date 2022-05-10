@@ -1,10 +1,4 @@
-import {
-  FunctionComponent,
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-} from 'react'
+import { createContext, useContext, useState, useEffect } from 'react'
 import { getTheme, enableTheme } from '../lib/theme'
 
 /**
@@ -17,7 +11,7 @@ export const GlobalProvider = createContext<{
   setColorMode?: (colorMode: string) => void
 }>({})
 
-export const Theme: FunctionComponent = ({ children }) => {
+export const Theme = ({ children }) => {
   const [colorMode, setColorMode] = useState('light')
 
   // on initial mount in the browser, use any theme from local storage
