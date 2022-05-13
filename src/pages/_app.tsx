@@ -9,7 +9,6 @@ import { Theme } from '../components/theme'
 import { globalStyes } from '../styles/global.styles'
 import Layout from '../layout/Layout'
 
-
 const EuiApp: FunctionComponent<AppProps> = ({ Component, pageProps }) => (
   <>
     <Head>
