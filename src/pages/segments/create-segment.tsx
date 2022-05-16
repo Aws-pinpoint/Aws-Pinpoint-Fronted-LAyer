@@ -5,53 +5,22 @@ import {
   EuiButtonIcon,
   EuiFieldText,
   EuiRadioGroup,
+  EuiSelect,
   EuiSpacer,
   EuiTitle,
 } from '@elastic/eui'
 
-const standardAttributeOptions = [
-  'Platform',
-  'AppVersion',
-  'Make',
-  'Model',
-  'Country',
-  'Locale',
-]
-const standardOperatorOptions = ['Is', 'Is not']
+import {
+  includeAudiencesOptions,
+  attributeOptions,
+  defaultSegmentGroup,
+  SegmentGroup,
+  standardOperatorOptions,
+  defaultStandardFilter,
+  defaultCriteria,
+} from '../../components/Segments/models'
 
-interface StandardFilter {
-  attribute: string
-  operator: 'Is' | 'Is not'
-  value: string
-}
-
-const activityAttributeOptions = ['Active', 'Inactive']
-interface ActivityFilter {
-  attribute: 'Active' | 'Inactive'
-  operator: 'During'
-  value: 'last_day' | 'last_7days' | 'last_14days' | 'last_30days'
-}
-
-interface Criteria {
-  filters: (StandardFilter | ActivityFilter)[]
-  logic: 'AND' | 'OR' | 'NOR'
-}
-
-const includeAudiencesOptions = [
-  { id: 'any', label: 'Include any audiences' },
-  { id: 'all', label: 'Include all audiences' },
-]
-interface SegmentGroup {
-  includeAudiences: 'all' | 'any'
-  baseSegments: 'all' | SegmentGroup[]
-  criterias: Criteria[]
-}
-
-const defaultSegmentGroup: SegmentGroup = {
-  includeAudiences: 'any',
-  baseSegments: 'all',
-  criterias: [],
-}
+import cloneDeep from 'clone-deep'
 
 const CreateSegment: FunctionComponent = () => {
   const [segmentName, setSegmentName] = useState('')
@@ -66,6 +35,7 @@ const CreateSegment: FunctionComponent = () => {
   const handleAddSegmentGroup = () => {
     setSegmentGroups([...segmentGroups, defaultSegmentGroup])
   }
+
   const handleRemoveSegmentGroup = (segmentGroupIndex: number) => {
     let segmentGroupsRes = [...segmentGroups]
     segmentGroupsRes = segmentGroupsRes.filter(
@@ -79,8 +49,64 @@ const CreateSegment: FunctionComponent = () => {
     newValue: 'any' | 'all',
     segmentGroupIndex: number
   ) => {
-    const segmentGroupsRes = [...segmentGroups]
+    const segmentGroupsRes = cloneDeep(segmentGroups)
     segmentGroupsRes[segmentGroupIndex].includeAudiences = newValue
+
+    setSegmentGroups(segmentGroupsRes)
+  }
+
+  const handleAddCriteria = (sgIndex: number) => {
+    const segmentGroupsRes = cloneDeep(segmentGroups)
+    segmentGroupsRes[sgIndex].criterias = [
+      ...segmentGroupsRes[sgIndex].criterias,
+      defaultCriteria,
+    ]
+
+    setSegmentGroups(segmentGroupsRes)
+  }
+  const handleRemoveCriteria = (sgIndex: number, criteriaIndex: number) => {
+    const segmentGroupsRes = cloneDeep(segmentGroups)
+    segmentGroupsRes[sgIndex].criterias = segmentGroupsRes[
+      sgIndex
+    ].criterias.filter((_, i) => i !== criteriaIndex)
+
+    setSegmentGroups(segmentGroupsRes)
+  }
+
+  const handleAddFilter = (sgIndex: number, criteriaIndex: number) => {
+    const segmentGroupsRes = cloneDeep(segmentGroups)
+    segmentGroupsRes[sgIndex].criterias[criteriaIndex].filters = [
+      ...segmentGroupsRes[sgIndex].criterias[criteriaIndex].filters,
+      defaultStandardFilter,
+    ]
+
+    setSegmentGroups(segmentGroupsRes)
+  }
+  const handleRemoveFilter = (
+    sgIndex: number,
+    criteriaIndex: number,
+    filterIndex: number
+  ) => {
+    const segmentGroupsRes = cloneDeep(segmentGroups)
+    segmentGroupsRes[sgIndex].criterias[criteriaIndex].filters =
+      segmentGroupsRes[sgIndex].criterias[criteriaIndex].filters.filter(
+        (_, i) => i !== filterIndex
+      )
+
+    setSegmentGroups(segmentGroupsRes)
+  }
+
+  const handleFilterAttribute = (
+    newValue: string,
+    sgIndex: number,
+    criteriaIndex: number,
+    filterIndex: number
+  ) => {
+    // const segmentGroupsRes = [...segmentGroups]
+    const segmentGroupsRes = cloneDeep(segmentGroups)
+    segmentGroupsRes[sgIndex].criterias[criteriaIndex].filters[
+      filterIndex
+    ].attribute = newValue
     setSegmentGroups(segmentGroupsRes)
   }
 
@@ -105,53 +131,158 @@ const CreateSegment: FunctionComponent = () => {
         />
         <EuiSpacer size="xxl" />
 
-        {segmentGroups.map((segmentGroup, i) => {
-          return (
-            <div
-              key={i}
-              className="border-slate-300 border-solid border-2 p-2 mb-4"
-            >
-              <div className="flex w-full">
-                <EuiTitle size="s" className="mb-2">
-                  <h4>Segment group {i + 1}</h4>
-                </EuiTitle>
-
-                {i !== 0 && (
-                  <EuiButtonIcon
-                    // display="fill"
-                    size="s"
-                    iconType="trash"
-                    color="danger"
-                    aria-label="Remove segment group"
-                    className="justify-self-end"
-                    onClick={() => {
-                      handleRemoveSegmentGroup(i)
-                    }}
-                  />
-                )}
-              </div>
-              <EuiTitle size="xs" className="mb-2">
-                <h5>Base Segments</h5>
+        {segmentGroups.map((segmentGroup, sgIndex) => (
+          <div
+            key={`segmentGroup-${sgIndex}`}
+            className="border-slate-300 border-solid border-2 p-2 mb-4"
+          >
+            <div className="flex w-full">
+              <EuiTitle size="s" className="mb-2">
+                <h4>Segment group {sgIndex + 1}</h4>
               </EuiTitle>
-              <EuiRadioGroup
-                options={includeAudiencesOptions}
-                idSelected={segmentGroup.includeAudiences}
-                onChange={(e: 'any' | 'all') => {
-                  handleIncludeAudiences(e, i)
-                }}
-                name={`include-audiences-${i}`}
-              />
-              <EuiSpacer size="l" />
 
+              {sgIndex !== 0 && (
+                <EuiButtonIcon
+                  // display="fill"
+                  size="s"
+                  iconType="trash"
+                  color="danger"
+                  aria-label="Remove segment group"
+                  className="justify-self-end"
+                  onClick={() => {
+                    handleRemoveSegmentGroup(sgIndex)
+                  }}
+                />
+              )}
+            </div>
+            <EuiTitle size="xs" className="mb-2">
+              <h5>Base Segments</h5>
+            </EuiTitle>
+            <EuiRadioGroup
+              options={includeAudiencesOptions.map(item => ({
+                id: `includeAudiencesOption-${item.value}-${sgIndex}`,
+                ...item,
+              }))}
+              idSelected={`includeAudiencesOption-${segmentGroup.includeAudiences}-${sgIndex}`}
+              onChange={(_, newValue: 'any' | 'all') => {
+                handleIncludeAudiences(newValue, sgIndex)
+              }}
+              name={`include-audiences-${sgIndex}`}
+            />
+            <EuiSpacer size="l" />
+
+            {segmentGroup.criterias.length === 0 && (
               <EuiTitle size="xs" className="mb-2">
                 <h5>
                   Criteria - <i>optional</i>
                 </h5>
               </EuiTitle>
-              <EuiButton fill>Add criteria</EuiButton>
-            </div>
-          )
-        })}
+            )}
+            {segmentGroup.criterias.map((criteria, criteriaIndex) => (
+              <>
+                <div className="flex w-full items-center">
+                  <EuiTitle size="xs" className="">
+                    <h5>Criteria {criteriaIndex + 1}</h5>
+                  </EuiTitle>
+                  {criteriaIndex !== 0 && (
+                    <EuiButtonIcon
+                      // display="fill"
+                      size="s"
+                      iconType="trash"
+                      color="danger"
+                      aria-label="Remove segment group"
+                      onClick={() => {
+                        handleRemoveCriteria(sgIndex, criteriaIndex)
+                      }}
+                    />
+                  )}
+                </div>
+                <div
+                  className="border-slate-300 border-solid border-2 p-2 mb-8"
+                  key={`criteria-${criteriaIndex}`}
+                >
+                  {criteria.filters.map((filter, filterIndex) => (
+                    <div key={`filter-${filterIndex}`} className="flex mb-4">
+                      <div className="mr-8">
+                        {filterIndex === 0 && (
+                          <p>
+                            <b>Attribute</b>
+                          </p>
+                        )}
+                        <EuiSelect
+                          options={attributeOptions}
+                          value={filter.attribute}
+                          onChange={e => {
+                            handleFilterAttribute(
+                              e.target.value,
+                              sgIndex,
+                              criteriaIndex,
+                              filterIndex
+                            )
+                          }}
+                        />
+                      </div>
+                      <div className="mr-8">
+                        {filterIndex === 0 && (
+                          <p>
+                            <b>Operator</b>
+                          </p>
+                        )}
+                        <EuiSelect options={standardOperatorOptions} />
+                      </div>
+                      <div>
+                        {filterIndex === 0 && (
+                          <p>
+                            <b>Values</b>
+                          </p>
+                        )}
+                        <EuiFieldText
+                          placeholder="Placeholder text"
+                          // onChange={onChange}
+                        />
+                      </div>
+                      {filterIndex !== 0 && (
+                        <EuiButtonIcon
+                          // display="fill"
+                          size="s"
+                          iconType="trash"
+                          color="danger"
+                          aria-label="Remove segment group"
+                          className="self-end ml-2"
+                          onClick={() => {
+                            handleRemoveFilter(
+                              sgIndex,
+                              criteriaIndex,
+                              filterIndex
+                            )
+                          }}
+                        />
+                      )}
+                    </div>
+                  ))}
+                  <EuiButton
+                    size="s"
+                    fill
+                    onClick={() => {
+                      handleAddFilter(sgIndex, criteriaIndex)
+                    }}
+                  >
+                    Add filter
+                  </EuiButton>
+                </div>
+              </>
+            ))}
+            <EuiButton
+              size="s"
+              fill
+              onClick={() => {
+                handleAddCriteria(sgIndex)
+              }}
+            >
+              Add criteria
+            </EuiButton>
+          </div>
+        ))}
 
         <EuiButton fill onClick={handleAddSegmentGroup}>
           Add another segment group
