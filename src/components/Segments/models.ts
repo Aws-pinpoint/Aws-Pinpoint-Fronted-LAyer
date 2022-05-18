@@ -49,6 +49,12 @@ export const includeAudiencesOptions = [
   { value: 'all', label: 'Include all audiences' },
 ]
 
+export const criteriaLogicOptions = [
+  { value: 'AND', text: 'AND' },
+  { value: 'OR', text: 'OR' },
+  { value: 'NOR', text: 'NOR' },
+]
+
 export const attributeOptions = [
   { value: 'Standard Attributes', text: 'Standard Attributes', disabled: true },
   { value: 'Platform', text: 'Platform' },

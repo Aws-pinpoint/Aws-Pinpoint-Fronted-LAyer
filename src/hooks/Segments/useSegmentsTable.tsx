@@ -1,7 +1,7 @@
 import faker from '@faker-js/faker'
 
 const useSegmentsTable = () => {
-  const COLUMNS = [
+  const columns = [
     { id: 'Segment Name' },
     { id: 'Type' },
     { id: 'Segment ID' },
@@ -17,7 +17,7 @@ const useSegmentsTable = () => {
     })
   }
 
-  return [COLUMNS, dataStore]
+  return [columns, dataStore]
 }
 
 export default useSegmentsTable
