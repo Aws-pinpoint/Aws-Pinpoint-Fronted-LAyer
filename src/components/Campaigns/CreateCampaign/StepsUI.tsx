@@ -3,7 +3,7 @@ import { EuiSteps, EuiText } from '@elastic/eui'
 interface Props {
   className?: string
 }
-const Steps = ({ className }: Props) => {
+const StepsUI = ({ className }: Props) => {
   return (
     <EuiSteps
       className={`${className} border-solid border-0 border-r-2 border-slate-300`}
@@ -39,4 +39,4 @@ const Steps = ({ className }: Props) => {
   )
 }
 
-export default Steps
+export default StepsUI

@@ -9,14 +9,7 @@ const CreateCampaignPage = () => {
         <title>Create a campaign</title>
       </Head>
 
-      <div>
-        <EuiTitle size="l">
-          <h2>Create a campaign</h2>
-        </EuiTitle>
-        <EuiSpacer size="xl" />
-        <EuiSpacer size="m" />
-        <CreateCampaign />
-      </div>
+      <CreateCampaign />
     </>
   )
 }
