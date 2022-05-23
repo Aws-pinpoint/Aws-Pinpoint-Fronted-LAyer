@@ -1,4 +1,4 @@
-import { EuiSteps, EuiText } from '@elastic/eui'
+import { EuiSteps } from '@elastic/eui'
 
 interface Props {
   className?: string
