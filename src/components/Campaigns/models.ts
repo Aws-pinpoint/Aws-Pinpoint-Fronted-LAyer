@@ -1,3 +1,25 @@
+type SelectedStep = 'step1' | 'step2' | 'step3' | 'step4' | 'step5'
+
+interface StepProgress {
+  title: string
+  status: 'current' | 'complete' | 'disabled'
+  key: SelectedStep
+}
+
+export interface Campaign {
+  steps: Steps
+  selectedStep: SelectedStep
+  stepsProgress: StepProgress[]
+}
+
+interface Steps {
+  step1: Step1
+  step2?: Step2
+  step3?: Step3
+  step4?: Step4
+  step5?: Step5
+}
+
 export const defaultStep1: Step1 = {
   campaignName: '',
   campaignType: 'standard',
@@ -10,17 +32,38 @@ export const defaultSteps: Steps = {
   step1: defaultStep1,
 }
 
+export const defaultStepProgressList: StepProgress[] = [
+  {
+    title: 'Step 1',
+    status: 'current',
+    key: 'step1',
+  },
+  {
+    title: 'Step 2',
+    status: 'disabled',
+    key: 'step2',
+  },
+  {
+    title: 'Step 3',
+    status: 'disabled',
+    key: 'step3',
+  },
+  {
+    title: 'Step 4',
+    status: 'disabled',
+    key: 'step4',
+  },
+  {
+    title: 'Step 5',
+    status: 'disabled',
+    key: 'step5',
+  },
+]
+
 export const defaultCampaign: Campaign = {
   steps: defaultSteps,
-}
-
-export interface Campaign {
-  steps: Steps
-}
-
-//possible keys: step1 | step2 | step3 | step4 | step5
-type Steps = {
-  [key: string]: Step1 | Step2 | Step3 | Step4 | Step5
+  selectedStep: 'step1',
+  stepsProgress: defaultStepProgressList,
 }
 
 // ==========================================================================
