@@ -1,12 +1,19 @@
 import cloneDeep from 'clone-deep'
 import { atom } from 'jotai'
-import { Campaign, defaultCampaign, defaultStep1, Step1 } from './models'
+import {
+  Campaign,
+  defaultCampaign,
+  SelectedStep,
+} from './CreateCampaign/models/models'
+import { defaultStep1, Step1 } from './CreateCampaign/models/Step1'
 
 const initCampaignAtom = atom<Campaign>(defaultCampaign)
 
 interface CampaignAtomAction {
-  type: 'empty' | 'set' | 'goNextStep'
+  type: 'empty' | 'set' | 'goNextStep' | 'goToStep'
+
   data?: Campaign
+  goToStep?: SelectedStep
 }
 export const CampaignAtom = atom(
   get => get(initCampaignAtom),
@@ -25,6 +32,20 @@ export const CampaignAtom = atom(
             campaignCopy.stepsProgress[currentIndex + 1].key
           campaignCopy.stepsProgress[currentIndex + 1].status = 'current'
         }
+        return campaignCopy
+      })
+    } else if (action.type === 'goToStep') {
+      set(initCampaignAtom, prev => {
+        const campaignCopy = cloneDeep(prev)
+        const currentIndex = campaignCopy.stepsProgress.findIndex(
+          stepProgress => stepProgress.key === campaignCopy.selectedStep
+        )
+        const currentStepStatus =
+          campaignCopy.stepsProgress[currentIndex].status
+        if (currentStepStatus !== 'complete')
+          campaignCopy.stepsProgress[currentIndex].status = 'incomplete'
+
+        campaignCopy.selectedStep = action.goToStep
         return campaignCopy
       })
     } else {

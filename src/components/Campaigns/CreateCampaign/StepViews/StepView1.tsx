@@ -1,13 +1,13 @@
 import { EuiFieldText, EuiRadioGroup } from '@elastic/eui'
 import { useAtom } from 'jotai'
-import { Title } from '../../../ui-kit/Form'
+import { Title } from '../../../../ui-kit/Form'
 import {
   campaignTypeOptions,
   channelOptions,
   compareVariableOptions,
   prioritizationOptions,
-} from '../models'
-import { Step1Atom } from '../store'
+} from '../models/Step1'
+import { Step1Atom } from '../../store'
 
 const StepView1 = () => {
   const [step1, setStep1] = useAtom(Step1Atom)

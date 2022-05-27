@@ -31,11 +31,11 @@ const SideBar = () => {
   useEffect(() => {
     if (pathname === '/') {
       setSelectedID(keypadButtonId_1)
-    } else if (pathname === '/analytics') {
+    } else if (pathname.startsWith('/analytics')) {
       setSelectedID(keypadButtonId_2)
-    } else if (pathname === '/campaigns') {
+    } else if (pathname.startsWith('/campaigns')) {
       setSelectedID(keypadButtonId_3)
-    } else if (pathname === '/settings') {
+    } else if (pathname.startsWith('/settings')) {
       setSelectedID(keypadButtonId_4)
     }
   }, [pathname])

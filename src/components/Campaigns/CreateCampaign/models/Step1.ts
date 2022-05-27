@@ -1,71 +1,3 @@
-type SelectedStep = 'step1' | 'step2' | 'step3' | 'step4' | 'step5'
-
-interface StepProgress {
-  title: string
-  status: 'current' | 'complete' | 'disabled'
-  key: SelectedStep
-}
-
-export interface Campaign {
-  steps: Steps
-  selectedStep: SelectedStep
-  stepsProgress: StepProgress[]
-}
-
-interface Steps {
-  step1: Step1
-  step2?: Step2
-  step3?: Step3
-  step4?: Step4
-  step5?: Step5
-}
-
-export const defaultStep1: Step1 = {
-  campaignName: '',
-  campaignType: 'standard',
-  compareVariable: null,
-  channel: 'push-notification',
-  prioritization: null,
-}
-
-export const defaultSteps: Steps = {
-  step1: defaultStep1,
-}
-
-export const defaultStepProgressList: StepProgress[] = [
-  {
-    title: 'Step 1',
-    status: 'current',
-    key: 'step1',
-  },
-  {
-    title: 'Step 2',
-    status: 'disabled',
-    key: 'step2',
-  },
-  {
-    title: 'Step 3',
-    status: 'disabled',
-    key: 'step3',
-  },
-  {
-    title: 'Step 4',
-    status: 'disabled',
-    key: 'step4',
-  },
-  {
-    title: 'Step 5',
-    status: 'disabled',
-    key: 'step5',
-  },
-]
-
-export const defaultCampaign: Campaign = {
-  steps: defaultSteps,
-  selectedStep: 'step1',
-  stepsProgress: defaultStepProgressList,
-}
-
 // ==========================================================================
 // ==                              Step 1                                 ==
 // ==========================================================================
@@ -83,6 +15,17 @@ export interface Step1 {
     | 'less-important'
     | null
 }
+
+// Default values
+export const defaultStep1: Step1 = {
+  campaignName: '',
+  campaignType: 'standard',
+  compareVariable: null,
+  channel: 'push-notification',
+  prioritization: null,
+}
+
+// Options
 export const campaignTypeOptions = [
   {
     value: 'standard',
@@ -151,20 +94,3 @@ export const prioritizationOptions = [
     label: 'Less important',
   },
 ]
-
-// ==========================================================================
-// ==                              Step 2                                 ==
-// ==========================================================================
-
-interface Step2 {
-  pass: string
-}
-interface Step3 {
-  pass: string
-}
-interface Step4 {
-  pass: string
-}
-interface Step5 {
-  pass: string
-}
