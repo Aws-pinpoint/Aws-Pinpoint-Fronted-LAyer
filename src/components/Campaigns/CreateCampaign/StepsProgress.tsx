@@ -3,7 +3,7 @@ import { useAtom } from 'jotai'
 import { SelectedStep, StepProgressStatus } from './models/models'
 import { CampaignAtom } from '../store'
 
-//TODO: consider moving views logic here...
+//TODO: consider moving views state logic here...
 
 interface StepDescriptionProps {
   index: number

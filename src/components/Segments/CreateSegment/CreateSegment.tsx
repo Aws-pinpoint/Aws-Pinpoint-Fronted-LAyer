@@ -17,7 +17,6 @@ import {
   standardOperatorOptions,
   defaultStandardFilter,
   defaultCriteria,
-  criteriaLogicOptions,
 } from '../models'
 
 import cloneDeep from 'clone-deep'

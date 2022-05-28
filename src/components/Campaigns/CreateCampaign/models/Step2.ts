@@ -3,5 +3,11 @@
 // ==========================================================================
 
 export interface Step2 {
-  pass: string
+  segmentName: string
+  holdoutPercent: number
+}
+
+export const defaultStep2: Step2 = {
+  segmentName: '',
+  holdoutPercent: 0,
 }

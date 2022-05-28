@@ -1,10 +1,10 @@
 import { EuiFieldNumber, EuiSpacer, EuiSuperSelect } from '@elastic/eui'
-import { useState } from 'react'
+import { useAtom } from 'jotai'
 import { Title } from '../../../../ui-kit/Form'
+import { Step2Atom } from '../../store'
 
 const StepView2 = () => {
-  const [selectedSegment, setSelectedSegment] = useState('')
-  const [holdOut, setHoldout] = useState(0)
+  const [step2, setStep2] = useAtom(Step2Atom)
 
   return (
     <div>
@@ -28,10 +28,10 @@ const StepView2 = () => {
             inputDisplay: <p>test-segment-2</p>,
           },
         ]}
-        valueOfSelected={selectedSegment}
-        defaultValue={selectedSegment}
+        valueOfSelected={step2.segmentName}
+        defaultValue=""
         onChange={val => {
-          setSelectedSegment(val)
+          setStep2({ key: 'segmentName', val: val })
         }}
       />
 
@@ -48,11 +48,11 @@ const StepView2 = () => {
         <div className="w-20 mr-2">
           <EuiFieldNumber
             placeholder="Placeholder text"
-            value={holdOut}
+            value={step2.holdoutPercent}
             onChange={e => {
               const newHoldout = Number(e.target.value)
               if (!isNaN(newHoldout) && newHoldout <= 100) {
-                setHoldout(newHoldout)
+                setStep2({ key: 'holdoutPercent', val: newHoldout })
               }
             }}
           />

@@ -6,6 +6,7 @@ import {
   SelectedStep,
 } from './CreateCampaign/models/models'
 import { defaultStep1, Step1 } from './CreateCampaign/models/Step1'
+import { defaultStep2, Step2 } from './CreateCampaign/models/Step2'
 
 const initCampaignAtom = atom<Campaign>(defaultCampaign)
 
@@ -101,5 +102,22 @@ export const Step1Atom = atom(
         ...prev,
         [action.key]: action.val,
       }))
+  }
+)
+
+const initStep2 = atom<Step2>(defaultStep2)
+
+export interface Step2AtomAction {
+  key: 'segmentName' | 'holdoutPercent'
+  val: string | number
+}
+
+export const Step2Atom = atom(
+  get => get(initStep2),
+  (_, set, action: Step2AtomAction) => {
+    set(initStep2, (prev: Step2) => ({
+      ...prev,
+      [action.key]: action.val,
+    }))
   }
 )

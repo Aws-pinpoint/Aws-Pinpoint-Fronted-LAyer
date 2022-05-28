@@ -28,7 +28,7 @@ interface SpecificTimeStep {
   endDate?: number
   timeZone: string
 
-  quietTime: QuietTime | null
+  quietTime?: QuietTime
 }
 
 interface CampaignSettings {
