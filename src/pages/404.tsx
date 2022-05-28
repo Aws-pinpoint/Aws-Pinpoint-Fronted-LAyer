@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react'
 import { EuiButton, EuiEmptyPrompt, EuiImage } from '@elastic/eui'
-import { useTheme } from '../components/theme'
+import { useTheme } from '../eui/theme'
 import { useRouter } from 'next/router'
 
 const NotFoundPage: FunctionComponent = () => {

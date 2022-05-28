@@ -7,12 +7,12 @@ import {
   EuiTitle,
   useEuiTheme,
 } from '@elastic/eui'
-import { imageLoader } from '../lib/loader'
+import { imageLoader } from '../eui/lib/loader'
 import Logo from '../../public/images/automato-logo.png'
 
 import { FunctionComponent } from 'react'
 import { EuiHeaderSectionItemButton, EuiIcon, EuiToolTip } from '@elastic/eui'
-import { useTheme } from '../components/theme'
+import { useTheme } from '../eui/theme'
 
 const navbarStyles = (euiTheme: EuiThemeComputed<unknown>) => ({
   logo: css`
