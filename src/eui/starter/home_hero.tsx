@@ -12,7 +12,7 @@ import { useEuiTheme } from '@elastic/eui'
 import { css } from '@emotion/react'
 import { useTheme } from '../theme'
 import Image from 'next/image'
-import { imageLoader } from '../../lib/loader'
+import { imageLoader } from '../lib/loader'
 import IllustrationLight from '../../../public/images/home/illustration-eui-hero-500-shadow.svg'
 import IllustrationDark from '../../../public/images/home/illustration-eui-hero-500-darkmode-shadow.svg'
 

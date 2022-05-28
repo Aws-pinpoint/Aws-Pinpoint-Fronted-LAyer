@@ -7,6 +7,12 @@ import {
 } from './CreateCampaign/models/models'
 import { defaultStep1, Step1 } from './CreateCampaign/models/Step1'
 import { defaultStep2, Step2 } from './CreateCampaign/models/Step2'
+import { defaultStep3, Step3 } from './CreateCampaign/models/Step3'
+import { Step4 } from './CreateCampaign/models/Step4'
+
+// ==========================================================================
+// ==                              Campaign                                ==
+// ==========================================================================
 
 const initCampaignAtom = atom<Campaign>(defaultCampaign)
 
@@ -16,6 +22,7 @@ interface CampaignAtomAction {
   data?: Campaign
   goToStep?: SelectedStep
 }
+
 export const CampaignAtom = atom(
   get => get(initCampaignAtom),
   (_, set, action: CampaignAtomAction) => {
@@ -55,6 +62,10 @@ export const CampaignAtom = atom(
     }
   }
 )
+
+// ==========================================================================
+// ==                              Step 1                                  ==
+// ==========================================================================
 
 const initStep1 = atom<Step1>(defaultStep1)
 
@@ -105,19 +116,33 @@ export const Step1Atom = atom(
   }
 )
 
-const initStep2 = atom<Step2>(defaultStep2)
+// ==========================================================================
+// ==                              Step 2                                  ==
+// ==========================================================================
 
-export interface Step2AtomAction {
-  key: 'segmentName' | 'holdoutPercent'
-  val: string | number
+export const Step2Atom = atom<Step2>(defaultStep2)
+
+// ==========================================================================
+// ==                              Step 3                                  ==
+// ==========================================================================
+
+export const Step3Atom = atom<Step3>(defaultStep3)
+
+// ==========================================================================
+// ==                              Step 4                                  ==
+// ==========================================================================
+
+/* const initStep4 = atom<Step4 | null>(defaultStep4)
+export interface Step4AtomAction {
+  key: 'templateType' | 'templateName'
+  val: string
 }
-
-export const Step2Atom = atom(
-  get => get(initStep2),
-  (_, set, action: Step2AtomAction) => {
-    set(initStep2, (prev: Step2) => ({
+export const Step4Atom = atom(
+  get => get(initStep4),
+  (_, set, action: Step4AtomAction) => {
+    set(initStep4, (prev: Step4) => ({
       ...prev,
       [action.key]: action.val,
     }))
   }
-)
+) */

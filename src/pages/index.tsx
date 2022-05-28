@@ -1,8 +1,8 @@
 import { FunctionComponent } from 'react'
 import Head from 'next/head'
 import { EuiSpacer } from '@elastic/eui'
-import HomeHero from '../components/starter/home_hero'
-import HomeWhy from '../components/starter/home_why'
+import HomeHero from '../eui/starter/home_hero'
+import HomeWhy from '../eui/starter/home_why'
 
 const Index: FunctionComponent = () => {
   return (

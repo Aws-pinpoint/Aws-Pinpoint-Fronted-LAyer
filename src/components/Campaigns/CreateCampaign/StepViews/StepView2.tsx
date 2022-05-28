@@ -31,7 +31,10 @@ const StepView2 = () => {
         valueOfSelected={step2.segmentName}
         defaultValue=""
         onChange={val => {
-          setStep2({ key: 'segmentName', val: val })
+          setStep2(prev => ({
+            ...prev,
+            segmentName: val,
+          }))
         }}
       />
 
@@ -52,7 +55,7 @@ const StepView2 = () => {
             onChange={e => {
               const newHoldout = Number(e.target.value)
               if (!isNaN(newHoldout) && newHoldout <= 100) {
-                setStep2({ key: 'holdoutPercent', val: newHoldout })
+                setStep2(prev => ({ ...prev, holdoutPercent: newHoldout }))
               }
             }}
           />
