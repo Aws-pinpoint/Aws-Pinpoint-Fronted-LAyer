@@ -232,7 +232,7 @@ const CreateSegment = () => {
                       <EuiButtonIcon
                         // display="fill"
                         size="s"
-                        iconType="trash"
+                        iconType="cross"
                         color="danger"
                         aria-label="Remove segment group"
                         className="self-end ml-2"

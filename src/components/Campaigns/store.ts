@@ -8,7 +8,7 @@ import {
 import { defaultStep1, Step1 } from './CreateCampaign/models/Step1'
 import { defaultStep2, Step2 } from './CreateCampaign/models/Step2'
 import { defaultStep3, Step3 } from './CreateCampaign/models/Step3'
-import { Step4 } from './CreateCampaign/models/Step4'
+import { defaultStep4, Step4 } from './CreateCampaign/models/Step4'
 
 // ==========================================================================
 // ==                              Campaign                                ==
@@ -130,6 +130,12 @@ export const Step3Atom = atom<Step3>(defaultStep3)
 
 // ==========================================================================
 // ==                              Step 4                                  ==
+// ==========================================================================
+
+export const Step4Atom = atom<Step4>(defaultStep4)
+
+// ==========================================================================
+// ==                              Step 5                                  ==
 // ==========================================================================
 
 /* const initStep4 = atom<Step4 | null>(defaultStep4)

@@ -16,11 +16,13 @@ const CreateCampaign = () => {
     <>
       <div className="flex mb-2">
         <StepsProgress className="w-2/12 mr-4" />
-        {campaign.selectedStep === 'step1' && <StepView1 />}
-        {campaign.selectedStep === 'step2' && <StepView2 />}
-        {campaign.selectedStep === 'step3' && <StepView3 />}
-        {campaign.selectedStep === 'step4' && <StepView4 />}
-        {campaign.selectedStep === 'step5' && <StepView5 />}
+        <div className="w-10/12">
+          {campaign.selectedStep === 'step1' && <StepView1 />}
+          {campaign.selectedStep === 'step2' && <StepView2 />}
+          {campaign.selectedStep === 'step3' && <StepView3 />}
+          {campaign.selectedStep === 'step4' && <StepView4 />}
+          {campaign.selectedStep === 'step5' && <StepView5 />}
+        </div>
       </div>
       <div className="flex gap-2 justify-end">
         <Link href="/campaigns" passHref>
