@@ -9,6 +9,7 @@ const StepView5 = () => {
         spacerSize="xxl"
         spacerPos="bot"
       />
+      <Title value="Details" subTitle="Placeholder details here..." />
     </div>
   )
 }

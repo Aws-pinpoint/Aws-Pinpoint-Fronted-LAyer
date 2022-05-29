@@ -35,15 +35,32 @@ const CreateCampaign = () => {
             Cancel
           </EuiButton>
         </Link>
-        <EuiButton
-          size="s"
-          fill
-          onClick={() => {
-            setCampaign({ type: 'goNextStep' })
-          }}
-        >
-          Next
-        </EuiButton>
+        {campaign.selectedStep !== 'step1' && (
+          <EuiButton
+            size="s"
+            color="text"
+            onClick={() => {
+              setCampaign({ type: 'goNextStep' })
+            }}
+          >
+            Previous
+          </EuiButton>
+        )}
+        {campaign.selectedStep === 'step5' ? (
+          <EuiButton size="s" fill>
+            Launch campaign
+          </EuiButton>
+        ) : (
+          <EuiButton
+            size="s"
+            fill
+            onClick={() => {
+              setCampaign({ type: 'goNextStep' })
+            }}
+          >
+            Next
+          </EuiButton>
+        )}
       </div>
     </>
   )
