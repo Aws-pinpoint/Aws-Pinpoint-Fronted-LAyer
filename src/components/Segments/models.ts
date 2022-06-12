@@ -1,14 +1,26 @@
-import _uniqueId from 'lodash/uniqueId'
+export type GroupsLogic = 'AND' | 'OR' | 'NOR'
+
+export interface Segment {
+  name: string
+  logic: GroupsLogic
+  segmentGroups: SegmentGroup
+}
+
+export interface SegmentGroup {
+  includeAudiences: 'all' | 'any' | 'none'
+  baseSegments: 'all' | SegmentGroup[]
+  criterias: Criteria[]
+  criteriasLogic: GroupsLogic
+}
+
+export interface Criteria {
+  filters: (StandardFilter | ActivityFilter)[]
+}
 
 export interface StandardFilter {
   attribute: string
   operator: 'Is' | 'Is not'
   value: string
-}
-export const defaultStandardFilter: StandardFilter = {
-  attribute: '',
-  operator: 'Is',
-  value: '',
 }
 
 export interface ActivityFilter {
@@ -16,33 +28,33 @@ export interface ActivityFilter {
   operator: 'During'
   value: 'last_day' | 'last_7days' | 'last_14days' | 'last_30days'
 }
+
+// Defaults
+
+export const defaultStandardFilter: StandardFilter = {
+  attribute: '',
+  operator: 'Is',
+  value: '',
+}
+
 export const defaultActivityFilter: ActivityFilter = {
   attribute: 'Active',
   operator: 'During',
   value: 'last_day',
 }
 
-export interface Criteria {
-  filters: (StandardFilter | ActivityFilter)[]
-  logic: 'AND' | 'OR' | 'NOR'
-}
-
 export const defaultCriteria: Criteria = {
   filters: [defaultStandardFilter],
-  logic: 'AND',
-}
-
-export interface SegmentGroup {
-  includeAudiences: 'all' | 'any'
-  baseSegments: 'all' | SegmentGroup[]
-  criterias: Criteria[]
 }
 
 export const defaultSegmentGroup: SegmentGroup = {
   includeAudiences: 'any',
   baseSegments: 'all',
   criterias: [],
+  criteriasLogic: 'AND',
 }
+
+// Options
 
 export const includeAudiencesOptions = [
   { value: 'any', label: 'Include any audiences' },
