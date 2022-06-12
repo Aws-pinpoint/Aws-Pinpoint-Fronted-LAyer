@@ -2,17 +2,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextApiRequest } from 'next'
 import pinpoint from '../pinpoint/client'
+import { CreateSegmentRequest } from './models'
 
 export const createSegmentPostHandler = async (
-  _req: NextApiRequest
+  req: NextApiRequest
   // res: NextApiResponse
 ): Promise<{ status: number; json: any }> => {
-  // const body: MeilisearchRequestBody = req.body
+  const reqBody: CreateSegmentRequest = req.body
   try {
-    pinpoint.createSegment({})
+    pinpoint.createSegment(reqBody.segment)
     return {
-      status: 200,
-      json: { success: 'Yay!' },
+      status: 201,
+      json: { success: 'Segment created!' },
     }
   } catch (err) {
     return {

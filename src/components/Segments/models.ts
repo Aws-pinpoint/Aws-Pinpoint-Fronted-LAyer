@@ -1,38 +1,58 @@
 export type GroupsLogic = 'AND' | 'OR' | 'NOR'
+export type Inclusion = 'all' | 'any' | 'none'
 
 export interface Segment {
   name: string
   logic: GroupsLogic
-  segmentGroups: SegmentGroup
+  segmentGroups: SegmentGroup[]
 }
 
 export interface SegmentGroup {
-  includeAudiences: 'all' | 'any' | 'none'
+  includeAudiences: Inclusion
   baseSegments: 'all' | SegmentGroup[]
   criterias: Criteria[]
   criteriasLogic: GroupsLogic
 }
 
+export type Filter = StandardFilter | ActivityFilter
+export type FilterAttribute = StandardFilterAttribute | ActivityFilterAttribute
+export type FilterOperator = StandardFilterOperator | ActivityFilterOperator
+
 export interface Criteria {
-  filters: (StandardFilter | ActivityFilter)[]
+  filters: Filter[]
 }
 
+export type StandardFilterAttribute =
+  | 'Platform'
+  | 'AppVersion'
+  | 'Make'
+  | 'Model'
+  | 'Country'
+  | 'Locale'
+export type StandardFilterOperator = 'Is' | 'Is not'
 export interface StandardFilter {
-  attribute: string
-  operator: 'Is' | 'Is not'
+  attribute: StandardFilterAttribute
+  operator: StandardFilterOperator
   value: string
 }
 
+export type ActivityFilterAttribute = 'Active' | 'Inactive'
+export type ActivityFilterOperator = 'During'
+export type ActivityFilterValue =
+  | 'last_day'
+  | 'last_7days'
+  | 'last_14days'
+  | 'last_30days'
 export interface ActivityFilter {
-  attribute: 'Active' | 'Inactive'
-  operator: 'During'
-  value: 'last_day' | 'last_7days' | 'last_14days' | 'last_30days'
+  attribute: ActivityFilterAttribute
+  operator: ActivityFilterOperator
+  value: ActivityFilterValue
 }
 
 // Defaults
 
 export const defaultStandardFilter: StandardFilter = {
-  attribute: '',
+  attribute: 'Platform',
   operator: 'Is',
   value: '',
 }
@@ -69,14 +89,16 @@ export const criteriaLogicOptions = [
 
 export const attributeOptions = [
   { value: 'Standard Attributes', text: 'Standard Attributes', disabled: true },
+
   { value: 'Platform', text: 'Platform' },
   { value: 'AppVersion', text: 'AppVersion' },
   { value: 'Make', text: 'Make' },
   { value: 'Model', text: 'Model' },
   { value: 'Country', text: 'Country' },
-  { value: 'AppVersion', text: 'AppVersion' },
   { value: 'Locale', text: 'Locale' },
+
   { value: 'Activity', text: 'Activity', disabled: true },
+
   { value: 'Active', text: 'Active' },
   { value: 'Inactive', text: 'Inactive' },
 ]
@@ -85,4 +107,11 @@ export const standardOperatorOptions = [
   { value: 'Is', text: 'Is' },
   { value: 'Is not', text: 'Is not' },
 ]
+
 export const activityOperatorOptions = [{ value: 'During', text: 'During' }]
+export const activityValuesOptions = [
+  { value: 'last_day', text: 'the last day' },
+  { value: 'last_7days', text: 'the last 7 days' },
+  { value: 'last_14days', text: 'the last 14 days' },
+  { value: 'last_30days', text: 'the last 30 days' },
+]

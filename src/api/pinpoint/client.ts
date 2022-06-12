@@ -1,8 +1,6 @@
-import {
-  PinpointClient,
-  CreateSegmentCommand,
-  WriteSegmentRequest,
-} from '@aws-sdk/client-pinpoint'
+import { PinpointClient, CreateSegmentCommand } from '@aws-sdk/client-pinpoint'
+import { Segment } from '../../components/Segments/models'
+import { toWriteSegmetRequest } from './mappings'
 
 interface PinpointConstructor {
   awsRegion: string
@@ -25,7 +23,13 @@ class Pinpoint {
     })
   }
 
-  public async createSegment(writeSegmentRequest: WriteSegmentRequest) {
+  public async createSegment(segment: Segment) {
+    const writeSegmentRequest = toWriteSegmetRequest(segment)
+    console.log(
+      'writeSegmentRequest ->',
+      JSON.stringify(writeSegmentRequest, undefined, 2)
+    )
+
     const command = new CreateSegmentCommand({
       ApplicationId: this.applicationId,
       WriteSegmentRequest: writeSegmentRequest,

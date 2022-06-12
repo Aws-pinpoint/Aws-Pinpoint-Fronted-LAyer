@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { createSegmentPostHandler } from '../../api/server/handlers'
+import { createSegmentPostHandler } from '../../api/automato/server'
 
 export default async function handler(
   req: NextApiRequest,

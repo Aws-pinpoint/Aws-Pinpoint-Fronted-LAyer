@@ -19,10 +19,29 @@ import {
   defaultCriteria,
   GroupsLogic,
   criteriaLogicOptions,
+  Segment,
+  activityOperatorOptions,
+  Filter,
+  FilterAttribute,
+  ActivityFilterAttribute,
+  StandardFilterAttribute,
+  FilterOperator,
+  activityValuesOptions,
 } from '../models'
 
 import cloneDeep from 'clone-deep'
 import Link from 'next/link'
+import automatoApi from '../../../api/automato/client'
+
+const getFilterType = (
+  filterAttribute: FilterAttribute
+): 'activity' | 'standard' => {
+  if (['Active', 'Inactive'].includes(filterAttribute)) {
+    return 'activity'
+  } else {
+    return 'standard'
+  }
+}
 
 const CreateSegment = () => {
   const [segmentName, setSegmentName] = useState('')
@@ -46,7 +65,6 @@ const CreateSegment = () => {
     segmentGroupsRes = segmentGroupsRes.filter(
       (_, i) => segmentGroupIndex !== i
     )
-    console.log(segmentGroupsRes)
     setSegmentGroups(segmentGroupsRes)
   }
 
@@ -102,16 +120,55 @@ const CreateSegment = () => {
   }
 
   const handleFilterAttribute = (
+    newValue: FilterAttribute,
+    sgIndex: number,
+    criteriaIndex: number,
+    filterIndex: number
+  ) => {
+    let res: Filter
+    if (getFilterType(newValue) === 'activity') {
+      res = {
+        attribute: newValue as ActivityFilterAttribute,
+        operator: 'During',
+        value: 'last_day',
+      }
+    } else {
+      res = {
+        attribute: newValue as StandardFilterAttribute,
+        operator: 'Is',
+        value: '',
+      }
+    }
+
+    const segmentGroupsRes = cloneDeep(segmentGroups)
+    segmentGroupsRes[sgIndex].criterias[criteriaIndex].filters[filterIndex] =
+      res
+    setSegmentGroups(segmentGroupsRes)
+  }
+
+  const handleFilterOperator = (
+    newValue: FilterOperator,
+    sgIndex: number,
+    criteriaIndex: number,
+    filterIndex: number
+  ) => {
+    const segmentGroupsRes = cloneDeep(segmentGroups)
+    segmentGroupsRes[sgIndex].criterias[criteriaIndex].filters[
+      filterIndex
+    ].operator = newValue
+    setSegmentGroups(segmentGroupsRes)
+  }
+
+  const handleFilterValues = (
     newValue: string,
     sgIndex: number,
     criteriaIndex: number,
     filterIndex: number
   ) => {
-    // const segmentGroupsRes = [...segmentGroups]
     const segmentGroupsRes = cloneDeep(segmentGroups)
     segmentGroupsRes[sgIndex].criterias[criteriaIndex].filters[
       filterIndex
-    ].attribute = newValue
+    ].value = newValue
     setSegmentGroups(segmentGroupsRes)
   }
 
@@ -119,6 +176,17 @@ const CreateSegment = () => {
     const segmentGroupsRes = cloneDeep(segmentGroups)
     segmentGroupsRes[sgIndex].criteriasLogic = newValue
     setSegmentGroups(segmentGroupsRes)
+  }
+
+  const handleCreateSegment = () => {
+    const segment: Segment = {
+      name: segmentName,
+      logic: segmentGroupsLogic,
+      segmentGroups: segmentGroups,
+    }
+    console.log(segment)
+
+    automatoApi.createSegment(segment)
   }
 
   return (
@@ -212,7 +280,7 @@ const CreateSegment = () => {
                           value={filter.attribute}
                           onChange={e => {
                             handleFilterAttribute(
-                              e.target.value,
+                              e.target.value as FilterAttribute,
                               sgIndex,
                               criteriaIndex,
                               filterIndex
@@ -226,7 +294,21 @@ const CreateSegment = () => {
                             <b>Operator</b>
                           </p>
                         )}
-                        <EuiSelect options={standardOperatorOptions} />
+                        <EuiSelect
+                          options={
+                            getFilterType(filter.attribute) === 'activity'
+                              ? activityOperatorOptions
+                              : standardOperatorOptions
+                          }
+                          onChange={e => {
+                            handleFilterOperator(
+                              e.target.value as FilterOperator,
+                              sgIndex,
+                              criteriaIndex,
+                              filterIndex
+                            )
+                          }}
+                        />
                       </div>
                       <div>
                         {filterIndex === 0 && (
@@ -234,10 +316,31 @@ const CreateSegment = () => {
                             <b>Values</b>
                           </p>
                         )}
-                        <EuiFieldText
-                          placeholder="Placeholder text"
-                          // onChange={onChange}
-                        />
+                        {getFilterType(filter.attribute) === 'activity' ? (
+                          <EuiSelect
+                            options={activityValuesOptions}
+                            onChange={e => {
+                              handleFilterValues(
+                                e.target.value,
+                                sgIndex,
+                                criteriaIndex,
+                                filterIndex
+                              )
+                            }}
+                          />
+                        ) : (
+                          <EuiFieldText
+                            placeholder="Placeholder text"
+                            onChange={e => {
+                              handleFilterValues(
+                                e.target.value,
+                                sgIndex,
+                                criteriaIndex,
+                                filterIndex
+                              )
+                            }}
+                          />
+                        )}
                       </div>
                       {filterIndex !== 0 && (
                         <EuiButtonIcon
@@ -327,7 +430,7 @@ const CreateSegment = () => {
             Cancel
           </EuiButton>
         </Link>
-        <EuiButton size="s" fill>
+        <EuiButton size="s" fill onClick={handleCreateSegment}>
           Create
         </EuiButton>
       </div>
