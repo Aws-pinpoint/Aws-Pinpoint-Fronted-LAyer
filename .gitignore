@@ -22,3 +22,5 @@ out
 
 # TypeScript cache
 tsconfig.tsbuildinfo
+
+.env.local
