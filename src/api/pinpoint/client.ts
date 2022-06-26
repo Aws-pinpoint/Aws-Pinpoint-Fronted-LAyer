@@ -1,6 +1,14 @@
-import { PinpointClient, CreateSegmentCommand } from '@aws-sdk/client-pinpoint'
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import {
+  PinpointClient,
+  CreateSegmentCommand,
+  CreateCampaignCommand,
+  GetCampaignCommand,
+} from '@aws-sdk/client-pinpoint'
+import { Campaign } from '../../components/Campaigns/CreateCampaign/models/models'
 import { Segment } from '../../components/Segments/models'
-import { toWriteSegmetRequest } from './mappings'
+import { toWriteCampaignRequest } from './mappings/campaigns'
+import { toWriteSegmetRequest } from './mappings/segments'
 
 interface PinpointConstructor {
   awsRegion: string
@@ -38,6 +46,43 @@ class Pinpoint {
     try {
       const res = await this.client.send(command)
       console.log('res ->', res)
+    } catch (err) {
+      console.error(err)
+      throw err
+    }
+  }
+
+  public async createCampaign(_campaign: Campaign) {
+    const writeCampaignRequest = toWriteCampaignRequest()
+
+    const command = new CreateCampaignCommand({
+      ApplicationId: this.applicationId,
+      WriteCampaignRequest: writeCampaignRequest,
+    })
+
+    console.log('command ->', command)
+    /* try {
+      const res = await this.client.send(command)
+      console.log('res ->', res)
+    } catch (err) {
+      console.error(err)
+      throw err
+    } */
+  }
+
+  public async getCampaign(id: string) {
+    const command = new GetCampaignCommand({
+      ApplicationId: this.applicationId,
+      CampaignId: id,
+    })
+
+    try {
+      const res = await this.client.send(command)
+      console.log(
+        'res ->',
+        // res,
+        JSON.stringify(res, undefined, 2)
+      )
     } catch (err) {
       console.error(err)
       throw err

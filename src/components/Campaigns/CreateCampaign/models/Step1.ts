@@ -1,12 +1,11 @@
 // ==========================================================================
 // ==                              Step 1                                 ==
 // ==========================================================================
-
 export interface Step1 {
   campaignName: string
-  campaignType: 'standard' | 'AB'
+  campaignType: CampaignType
   compareVariable: 'message-content' | 'delivery-schedule' | null
-  channel: 'email' | 'in-app' | 'sms' | 'push-notification' | 'custom'
+  channel: CampaignChannel
   prioritization:
     | 'very-important'
     | 'fairly-important'
@@ -15,6 +14,14 @@ export interface Step1 {
     | 'less-important'
     | null
 }
+
+export type CampaignType = 'standard' | 'AB'
+export type CampaignChannel =
+  | 'email'
+  | 'in-app'
+  | 'sms'
+  | 'push-notification'
+  | 'custom'
 
 // Default values
 export const defaultStep1: Step1 = {

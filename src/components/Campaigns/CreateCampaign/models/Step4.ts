@@ -48,13 +48,13 @@ export interface OnEventStep {
   triggerEvent: string
   attributes: OnEventAttribute[]
 
-  metric: Metric
+  metric: OnEventMetric
   startTime: number | null
   endTime: number | null
   timeZone: string
 }
 
-interface Metric {
+export interface OnEventMetric {
   metric: string
   operator: MetricOperator
   value: string
@@ -67,7 +67,7 @@ export type MetricOperator =
   | 'greater-than-or-equal-to'
   | 'less-than-or-equal-to'
 
-interface OnEventAttribute {
+export interface OnEventAttribute {
   attribute: string
   value: string
 }

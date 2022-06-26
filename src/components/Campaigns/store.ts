@@ -17,7 +17,7 @@ import { defaultStep4, Step4 } from './CreateCampaign/models/Step4'
 const initCampaignAtom = atom<Campaign>(defaultCampaign)
 
 interface CampaignAtomAction {
-  type: 'empty' | 'set' | 'goNextStep' | 'goToStep'
+  type: 'empty' | 'set' | 'goNextStep' | 'goPrevStep' | 'goToStep'
 
   data?: Campaign
   goToStep?: SelectedStep
@@ -39,6 +39,20 @@ export const CampaignAtom = atom(
           campaignCopy.selectedStep =
             campaignCopy.stepsProgress[currentIndex + 1].key
           campaignCopy.stepsProgress[currentIndex + 1].status = 'current'
+        }
+        return campaignCopy
+      })
+    } else if (action.type === 'goPrevStep') {
+      set(initCampaignAtom, prev => {
+        const campaignCopy = cloneDeep(prev)
+        const currentIndex = campaignCopy.stepsProgress.findIndex(
+          stepProgress => stepProgress.key === campaignCopy.selectedStep
+        )
+        campaignCopy.stepsProgress[currentIndex].status = 'incomplete'
+        if (currentIndex > 0) {
+          campaignCopy.selectedStep =
+            campaignCopy.stepsProgress[currentIndex - 1].key
+          campaignCopy.stepsProgress[currentIndex - 1].status = 'current'
         }
         return campaignCopy
       })

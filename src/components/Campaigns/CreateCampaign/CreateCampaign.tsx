@@ -40,7 +40,7 @@ const CreateCampaign = () => {
             size="s"
             color="text"
             onClick={() => {
-              setCampaign({ type: 'goNextStep' })
+              setCampaign({ type: 'goPrevStep' })
             }}
           >
             Previous
