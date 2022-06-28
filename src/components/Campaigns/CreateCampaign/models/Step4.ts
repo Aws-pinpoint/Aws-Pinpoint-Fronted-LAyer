@@ -13,7 +13,7 @@ export interface Step4 {
 // ==                            Specic Time                               ==
 // ==========================================================================
 
-type SendingType =
+export type SendingType =
   | 'Immediately'
   | 'Once'
   | 'Hourly'

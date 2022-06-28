@@ -2,7 +2,11 @@
 import { NextApiRequest } from 'next'
 import { defaultCampaign } from '../../components/Campaigns/CreateCampaign/models/models'
 import pinpoint from '../pinpoint/client'
-import { CreateSegmentRequest, HandlerRes } from './models'
+import {
+  CreateCampaignRequest,
+  CreateSegmentRequest,
+  HandlerRes,
+} from './models'
 
 // POST `/api/segments`
 export const createSegmentPOSTHandler = async (
@@ -26,12 +30,12 @@ export const createSegmentPOSTHandler = async (
 
 // POST `/api/campaigns`
 export const createCampaignPOSTHandler = async (
-  _req: NextApiRequest
+  req: NextApiRequest
   // res: NextApiResponse
 ): Promise<HandlerRes> => {
-  // const reqBody: CreateSegmentRequest = req.body
+  const reqBody: CreateCampaignRequest = req.body
   try {
-    await pinpoint.createCampaign(defaultCampaign)
+    await pinpoint.createCampaign(reqBody.campaignDetails)
     return {
       status: 201,
       json: { success: 'Campaign created!' },

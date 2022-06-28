@@ -9,6 +9,7 @@ import { defaultStep1, Step1 } from './CreateCampaign/models/Step1'
 import { defaultStep2, Step2 } from './CreateCampaign/models/Step2'
 import { defaultStep3, Step3 } from './CreateCampaign/models/Step3'
 import { defaultStep4, Step4 } from './CreateCampaign/models/Step4'
+import { defaultStep5, Step5 } from './CreateCampaign/models/Step5'
 
 // ==========================================================================
 // ==                              Campaign                                ==
@@ -52,7 +53,7 @@ export const CampaignAtom = atom(
         if (currentIndex > 0) {
           campaignCopy.selectedStep =
             campaignCopy.stepsProgress[currentIndex - 1].key
-          campaignCopy.stepsProgress[currentIndex - 1].status = 'current'
+          campaignCopy.stepsProgress[currentIndex + 1].status = 'current'
         }
         return campaignCopy
       })
@@ -152,17 +153,4 @@ export const Step4Atom = atom<Step4>(defaultStep4)
 // ==                              Step 5                                  ==
 // ==========================================================================
 
-/* const initStep4 = atom<Step4 | null>(defaultStep4)
-export interface Step4AtomAction {
-  key: 'templateType' | 'templateName'
-  val: string
-}
-export const Step4Atom = atom(
-  get => get(initStep4),
-  (_, set, action: Step4AtomAction) => {
-    set(initStep4, (prev: Step4) => ({
-      ...prev,
-      [action.key]: action.val,
-    }))
-  }
-) */
+export const Step5Atom = atom<Step5>(defaultStep5)

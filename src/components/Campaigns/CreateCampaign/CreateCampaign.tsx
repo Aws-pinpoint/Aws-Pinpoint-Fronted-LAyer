@@ -3,14 +3,16 @@ import StepsProgress from './StepsProgress'
 import { EuiButton } from '@elastic/eui'
 import Link from 'next/link'
 import { useAtom } from 'jotai'
-import { CampaignAtom } from '../store'
+import { CampaignAtom, Step5Atom } from '../store'
 import StepView2 from './StepViews/StepView2'
 import StepView3 from './StepViews/StepView3'
 import StepView4 from './StepViews/StepView4'
 import StepView5 from './StepViews/StepView5'
+import automatoApi from '../../../api/automato/client'
 
 const CreateCampaign = () => {
   const [campaign, setCampaign] = useAtom(CampaignAtom)
+  const [step5] = useAtom(Step5Atom)
 
   return (
     <>
@@ -47,7 +49,13 @@ const CreateCampaign = () => {
           </EuiButton>
         )}
         {campaign.selectedStep === 'step5' ? (
-          <EuiButton size="s" fill>
+          <EuiButton
+            size="s"
+            fill
+            onClick={() => {
+              automatoApi.createCampaign(step5.campaignDetails)
+            }}
+          >
             Launch campaign
           </EuiButton>
         ) : (

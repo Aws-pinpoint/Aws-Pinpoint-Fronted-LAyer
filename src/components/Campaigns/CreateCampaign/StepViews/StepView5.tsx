@@ -1,6 +1,53 @@
+import { useAtom } from 'jotai'
+import { useEffect } from 'react'
 import { Title } from '../../../../ui-kit/Form'
+import {
+  Step1Atom,
+  Step2Atom,
+  Step3Atom,
+  Step4Atom,
+  Step5Atom,
+} from '../../store'
+import { OnEventSchedule } from '../models/Step5'
 
 const StepView5 = () => {
+  const [step1] = useAtom(Step1Atom)
+  const [step2] = useAtom(Step2Atom)
+  const [step3] = useAtom(Step3Atom)
+  const [step4] = useAtom(Step4Atom)
+  const [step5, setStep5] = useAtom(Step5Atom)
+  // const [step5, setStep5] = useAtom(Step5Atom)
+
+  useEffect(() => {
+    if (step4.campaignSendType === 'on-event' && step4.onEventStep !== null) {
+      setStep5({
+        campaignDetails: {
+          name: step1.campaignName,
+          type: step1.campaignType,
+
+          segment: {
+            name: step2.segmentName,
+            id: '',
+          },
+
+          message: {
+            channel: step1.channel,
+            contentType: '',
+            inAppMessage: '',
+          },
+          schedule: {
+            triggerEvent: step4.onEventStep.triggerEvent,
+            attributes: step4.onEventStep.attributes,
+            metric: step4.onEventStep.metric,
+            startTime: step4.onEventStep.startTime,
+            endTime: step4.onEventStep.endTime,
+            timezone: step4.onEventStep.timeZone,
+          } as OnEventSchedule,
+        },
+      })
+    }
+  }, [])
+
   return (
     <div>
       <Title

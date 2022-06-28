@@ -5,7 +5,7 @@ import {
   CreateCampaignCommand,
   GetCampaignCommand,
 } from '@aws-sdk/client-pinpoint'
-import { Campaign } from '../../components/Campaigns/CreateCampaign/models/models'
+import { CampaignDetails } from '../../components/Campaigns/CreateCampaign/models/Step5'
 import { Segment } from '../../components/Segments/models'
 import { toWriteCampaignRequest } from './mappings/campaigns'
 import { toWriteSegmetRequest } from './mappings/segments'
@@ -52,14 +52,15 @@ class Pinpoint {
     }
   }
 
-  public async createCampaign(_campaign: Campaign) {
-    const writeCampaignRequest = toWriteCampaignRequest()
+  public async createCampaign(campaignDetails: CampaignDetails) {
+    const writeCampaignRequest = toWriteCampaignRequest(campaignDetails)
 
     const command = new CreateCampaignCommand({
       ApplicationId: this.applicationId,
       WriteCampaignRequest: writeCampaignRequest,
     })
 
+    console.log('campaignDetails ->', campaignDetails)
     console.log('command ->', command)
     /* try {
       const res = await this.client.send(command)
