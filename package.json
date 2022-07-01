@@ -38,6 +38,7 @@
     "clone-deep": "^4.0.1",
     "jotai": "^1.6.7",
     "nextjs-cors": "^2.1.1",
+    "regenerator-runtime": "^0.13.9",
     "supertokens-auth-react": "^0.20.4",
     "supertokens-node": "^9.2.0"
   },

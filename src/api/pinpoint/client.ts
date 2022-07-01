@@ -4,9 +4,11 @@ import {
   CreateSegmentCommand,
   CreateCampaignCommand,
   GetCampaignCommand,
+  GetSegmentsCommand,
 } from '@aws-sdk/client-pinpoint'
 import { CampaignDetails } from '../../components/Campaigns/CreateCampaign/models/Step5'
-import { Segment } from '../../components/Segments/models'
+import { Segment } from '../../components/Segments/CreateSegment/models'
+import { SegmentsList } from '../../components/Segments/models'
 import { toWriteCampaignRequest } from './mappings/campaigns'
 import { toWriteSegmetRequest } from './mappings/segments'
 
@@ -52,6 +54,26 @@ class Pinpoint {
     }
   }
 
+  public async getSegments(): Promise<SegmentsList[]> {
+    const command = new GetSegmentsCommand({
+      ApplicationId: this.applicationId,
+    })
+
+    try {
+      const commandRes = await this.client.send(command)
+      const res: SegmentsList[] = commandRes.SegmentsResponse.Item.map(x => ({
+        name: x.Name,
+        id: x.Id,
+        lastModified: new Date(x.LastModifiedDate).getTime(),
+        type: x.SegmentType === 'DIMENSIONAL' ? 'Dynamic' : 'Static',
+      }))
+      return res
+    } catch (err) {
+      console.error(err)
+      throw err
+    }
+  }
+
   public async createCampaign(campaignDetails: CampaignDetails) {
     const writeCampaignRequest = toWriteCampaignRequest(campaignDetails)
 
@@ -61,14 +83,14 @@ class Pinpoint {
     })
 
     console.log('campaignDetails ->', campaignDetails)
-    console.log('command ->', command)
-    /* try {
+    console.log('command ->', JSON.stringify(command, undefined, 2))
+    try {
       const res = await this.client.send(command)
       console.log('res ->', res)
     } catch (err) {
       console.error(err)
       throw err
-    } */
+    }
   }
 
   public async getCampaign(id: string) {

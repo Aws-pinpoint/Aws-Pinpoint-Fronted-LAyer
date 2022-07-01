@@ -3,10 +3,11 @@ import {
   EuiFieldText,
   EuiRadioGroup,
   EuiSuperSelect,
+  EuiTextArea,
 } from '@elastic/eui'
 import { useAtom } from 'jotai'
 import { Title } from '../../../../ui-kit/Form'
-import { Step3Atom } from '../../store'
+import { Step1Atom, Step3Atom } from '../../store'
 import {
   TemplateType,
   templateTypeOptions,
@@ -15,6 +16,7 @@ import {
 } from '../models/Step3'
 
 const StepView3 = () => {
+  const [step1] = useAtom(Step1Atom)
   const [step3, setStep3] = useAtom(Step3Atom)
   return (
     <div>
@@ -24,6 +26,7 @@ const StepView3 = () => {
         spacerSize="xxl"
         spacerPos="bot"
       />
+      {/*
       <EuiRadioGroup
         options={templateTypeOptions.map(item => ({
           id: `templateTypeOption-${item.value}`,
@@ -44,6 +47,44 @@ const StepView3 = () => {
       <EuiButton size="s" fill>
         Choose a template
       </EuiButton>
+      */}
+
+      <Title value="Message header" />
+      <EuiFieldText
+        placeholder="Title"
+        value={step3.messageHeader}
+        onChange={e => {
+          setStep3(prev => ({ ...prev, messageHeader: e.target.value }))
+        }}
+      />
+      <Title value="Message Body" spacerPos="top" spacerSize="m" />
+      <EuiTextArea
+        placeholder="Content"
+        value={step3.messageBody}
+        onChange={e => {
+          setStep3(prev => ({ ...prev, messageBody: e.target.value }))
+        }}
+      />
+
+      {step1.channel === 'push-notification' && (
+        <>
+          <Title
+            value="Push-notification go-to URL"
+            spacerPos="top"
+            spacerSize="m"
+          />
+          <EuiFieldText
+            placeholder="eg: https://example.com"
+            value={step3.pushNotificationUrl}
+            onChange={e => {
+              setStep3(prev => ({
+                ...prev,
+                pushNotificationUrl: e.target.value,
+              }))
+            }}
+          />
+        </>
+      )}
 
       <Title
         value="Send a test message"

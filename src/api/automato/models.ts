@@ -1,5 +1,5 @@
 import { CampaignDetails } from '../../components/Campaigns/CreateCampaign/models/Step5'
-import { Segment } from '../../components/Segments/models'
+import { Segment } from '../../components/Segments/CreateSegment/models'
 
 export interface CreateSegmentRequest {
   segment: Segment

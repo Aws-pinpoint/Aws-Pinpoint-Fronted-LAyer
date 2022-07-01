@@ -27,7 +27,7 @@ import {
   StandardFilterAttribute,
   FilterOperator,
   activityValuesOptions,
-} from '../models'
+} from './models'
 
 import cloneDeep from 'clone-deep'
 import Link from 'next/link'

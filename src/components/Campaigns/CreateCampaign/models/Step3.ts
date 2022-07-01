@@ -5,6 +5,11 @@
 export interface Step3 {
   templateType: TemplateType
   templateName: string
+
+  messageHeader: string
+  messageBody: string
+  pushNotificationUrl: string | null
+
   testMessageType: TestMessageType
   testMessage: TestSegmentName | EndpointIDs
 }
@@ -39,6 +44,9 @@ export const testMessageTypeOptions = [
 export const defaultStep3: Step3 = {
   templateType: 'existing',
   templateName: '',
+  messageHeader: '',
+  messageBody: '',
+  pushNotificationUrl: null,
   testMessageType: 'segment-name',
   testMessage: '',
 }

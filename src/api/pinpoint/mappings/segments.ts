@@ -16,7 +16,7 @@ import {
   StandardFilter,
   StandardFilterOperator,
   ActivityFilterValue,
-} from '../../../components/Segments/models'
+} from '../../../components/Segments/CreateSegment/models'
 
 export const toWriteSegmetRequest = (segment: Segment): WriteSegmentRequest => {
   const pinpointSegmentGroups: PinpointSegmentGroup[] =

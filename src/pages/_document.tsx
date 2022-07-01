@@ -1,6 +1,7 @@
-import React, { ReactElement } from 'react'
+import { ReactElement } from 'react'
 import Document, { Head, Html, Main, NextScript } from 'next/document'
 import { defaultTheme, Theme, themeConfig } from '../eui/lib/theme'
+import 'regenerator-runtime/runtime'
 
 const pathPrefix = process.env.PATH_PREFIX
 

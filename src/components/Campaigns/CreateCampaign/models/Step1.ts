@@ -6,14 +6,16 @@ export interface Step1 {
   campaignType: CampaignType
   compareVariable: 'message-content' | 'delivery-schedule' | null
   channel: CampaignChannel
-  prioritization:
-    | 'very-important'
-    | 'fairly-important'
-    | 'important'
-    | 'slightly-important'
-    | 'less-important'
-    | null
+  prioritization: CampaignPriority
 }
+
+export type CampaignPriority =
+  | 'very-important'
+  | 'fairly-important'
+  | 'important'
+  | 'slightly-important'
+  | 'less-important'
+  | null
 
 export type CampaignType = 'standard' | 'AB'
 export type CampaignChannel =
@@ -71,7 +73,7 @@ export const channelOptions = [
     label: 'SMS',
   },
   {
-    value: 'push-notifications',
+    value: 'push-notification',
     label: 'Push notifications',
   },
   {

@@ -9,6 +9,6 @@ export default async function handler(
     const r = await getCampaignGETHandler(req)
     res.status(r.status).json(r.json)
   } else {
-    res.status(501).json({ error: 'Not implemented' })
+    res.status(501).json({ msg: 'Not implemented' })
   }
 }

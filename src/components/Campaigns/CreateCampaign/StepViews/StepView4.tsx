@@ -1,4 +1,9 @@
-import { EuiFieldText, EuiSelect, EuiSuperSelect } from '@elastic/eui'
+import {
+  EuiFieldNumber,
+  EuiFieldText,
+  EuiSelect,
+  EuiSuperSelect,
+} from '@elastic/eui'
 import { useAtom } from 'jotai'
 import { ChangeEvent } from 'react'
 import DatePicker from '../../../../ui-kit/DatePicker'
@@ -40,7 +45,7 @@ const StepView4 = () => {
         ...prev.onEventStep,
         metric: {
           ...prev.onEventStep.metric,
-          value: newVal,
+          value: Number(newVal),
         },
       },
     }))
@@ -131,7 +136,7 @@ const StepView4 = () => {
             </div>
             <div>
               <b>Value</b>
-              <EuiFieldText
+              <EuiFieldNumber
                 value={step4.onEventStep.metric.value}
                 onChange={handleMetricValue}
               />

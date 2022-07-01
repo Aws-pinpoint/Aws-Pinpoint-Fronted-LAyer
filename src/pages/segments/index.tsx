@@ -5,9 +5,14 @@ import { EuiButton, EuiSpacer, EuiTitle } from '@elastic/eui'
 import SegmentsTable from '../../ui-kit/Table'
 import Link from 'next/link'
 import useSegmentsTable from '../../hooks/Segments/useSegmentsTable'
+import { SegmentsList } from '../../components/Segments/models'
+import pinpoint from '../../api/pinpoint/client'
 
-const Segments: FunctionComponent = () => {
-  const [columns, dataStore] = useSegmentsTable()
+interface Props {
+  segments: SegmentsList[]
+}
+const Segments: FunctionComponent = (props: Props) => {
+  const [columns, dataStore] = useSegmentsTable(props.segments)
 
   return (
     <>
@@ -30,6 +35,11 @@ const Segments: FunctionComponent = () => {
       </div>
     </>
   )
+}
+
+export async function getServerSideProps() {
+  const segments = await pinpoint.getSegments()
+  return { props: { segments } }
 }
 
 export default Segments

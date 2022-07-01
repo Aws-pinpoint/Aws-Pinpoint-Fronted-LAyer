@@ -24,17 +24,26 @@ const StepView5 = () => {
         campaignDetails: {
           name: step1.campaignName,
           type: step1.campaignType,
+          priority: step1.prioritization,
 
           segment: {
             name: step2.segmentName,
-            id: '',
+            id: 'e25a3e3bfdc84379beb19b5e9d4f863b',
+            holdoutPercent: step2.holdoutPercent,
           },
 
           message: {
             channel: step1.channel,
             contentType: '',
             inAppMessage: '',
+            header: step3.messageHeader,
+            body: step3.messageBody,
+            pushNotificationUrl:
+              step1.channel === 'push-notification'
+                ? step3.pushNotificationUrl
+                : null,
           },
+
           schedule: {
             triggerEvent: step4.onEventStep.triggerEvent,
             attributes: step4.onEventStep.attributes,

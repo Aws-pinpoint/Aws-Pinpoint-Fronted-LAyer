@@ -48,15 +48,15 @@ const StepView2 = () => {
         subTitle="The percentage of customers from the chosen segment who won't receive messages from this campaign."
       />
       <div className="flex items-center">
-        <div className="w-20 mr-2">
+        <div className="w-24 mr-2">
           <EuiFieldNumber
             placeholder="Placeholder text"
             value={step2.holdoutPercent}
             onChange={e => {
               const newHoldout = Number(e.target.value)
-              if (!isNaN(newHoldout) && newHoldout <= 100) {
-                setStep2(prev => ({ ...prev, holdoutPercent: newHoldout }))
-              }
+              // if (!isNaN(newHoldout) && newHoldout >= 100) {
+              setStep2(prev => ({ ...prev, holdoutPercent: newHoldout }))
+              // }
             }}
           />
         </div>

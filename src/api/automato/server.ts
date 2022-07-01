@@ -1,12 +1,27 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { NextApiRequest } from 'next'
-import { defaultCampaign } from '../../components/Campaigns/CreateCampaign/models/models'
 import pinpoint from '../pinpoint/client'
 import {
   CreateCampaignRequest,
   CreateSegmentRequest,
   HandlerRes,
 } from './models'
+
+// GET `/api/segments`
+export const getSegmentsGETHandler = async (): Promise<HandlerRes> => {
+  try {
+    const segments = await pinpoint.getSegments()
+    return {
+      status: 200,
+      json: { msg: 'Segments got!', data: segments },
+    }
+  } catch (err) {
+    return {
+      status: 500,
+      json: { msg: 'Error getting segments ;(' },
+    }
+  }
+}
 
 // POST `/api/segments`
 export const createSegmentPOSTHandler = async (
@@ -18,12 +33,12 @@ export const createSegmentPOSTHandler = async (
     await pinpoint.createSegment(reqBody.segment)
     return {
       status: 201,
-      json: { success: 'Segment created!' },
+      json: { msg: 'Segment created!' },
     }
   } catch (err) {
     return {
       status: 500,
-      json: { error: 'Error creating segment ;(' },
+      json: { msg: 'Error creating segment ;(' },
     }
   }
 }
@@ -38,13 +53,13 @@ export const createCampaignPOSTHandler = async (
     await pinpoint.createCampaign(reqBody.campaignDetails)
     return {
       status: 201,
-      json: { success: 'Campaign created!' },
+      json: { msg: 'Campaign created!' },
     }
   } catch (err) {
     console.error(err)
     return {
       status: 500,
-      json: { error: 'Error creating campaign ;(' },
+      json: { msg: 'Error creating campaign ;(' },
     }
   }
 }
@@ -60,12 +75,12 @@ export const getCampaignGETHandler = async (
     await pinpoint.getCampaign(id)
     return {
       status: 201,
-      json: { success: 'Campaign got!' },
+      json: { msg: 'Campaign got!' },
     }
   } catch (err) {
     return {
       status: 500,
-      json: { error: 'Error getting campaign ;(' },
+      json: { msg: 'Error getting campaign ;(' },
     }
   }
 }

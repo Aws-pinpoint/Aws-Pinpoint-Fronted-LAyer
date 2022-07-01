@@ -57,7 +57,7 @@ export interface OnEventStep {
 export interface OnEventMetric {
   metric: string
   operator: MetricOperator
-  value: string
+  value: number
 }
 
 export type MetricOperator =
@@ -106,7 +106,7 @@ export const dafaultOnEventStep: OnEventStep = {
   metric: {
     metric: '',
     operator: 'equal-to',
-    value: '',
+    value: 0,
   },
   startTime: null,
   endTime: null,
