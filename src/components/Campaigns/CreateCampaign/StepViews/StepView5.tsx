@@ -15,7 +15,7 @@ const StepView5 = () => {
   const [step2] = useAtom(Step2Atom)
   const [step3] = useAtom(Step3Atom)
   const [step4] = useAtom(Step4Atom)
-  const [step5, setStep5] = useAtom(Step5Atom)
+  const [, setStep5] = useAtom(Step5Atom)
   // const [step5, setStep5] = useAtom(Step5Atom)
 
   useEffect(() => {
@@ -27,8 +27,8 @@ const StepView5 = () => {
           priority: step1.prioritization,
 
           segment: {
-            name: step2.segmentName,
-            id: 'e25a3e3bfdc84379beb19b5e9d4f863b',
+            name: '',
+            id: step2.segmentId,
             holdoutPercent: step2.holdoutPercent,
           },
 

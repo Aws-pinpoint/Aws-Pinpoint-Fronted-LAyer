@@ -3,11 +3,11 @@
 // ==========================================================================
 
 export interface Step2 {
-  segmentName: string
+  segmentId: string
   holdoutPercent: number
 }
 
 export const defaultStep2: Step2 = {
-  segmentName: '',
+  segmentId: '',
   holdoutPercent: 0,
 }

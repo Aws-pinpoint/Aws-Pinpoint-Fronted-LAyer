@@ -1,5 +1,6 @@
 import cloneDeep from 'clone-deep'
 import { atom } from 'jotai'
+import { SegmentsList } from '../Segments/models'
 import {
   Campaign,
   defaultCampaign,
@@ -77,6 +78,8 @@ export const CampaignAtom = atom(
     }
   }
 )
+
+export const SegmentsListAtom = atom<SegmentsList[]>([])
 
 // ==========================================================================
 // ==                              Step 1                                  ==

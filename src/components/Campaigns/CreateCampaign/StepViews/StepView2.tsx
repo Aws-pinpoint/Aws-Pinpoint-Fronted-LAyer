@@ -1,10 +1,31 @@
-import { EuiFieldNumber, EuiSpacer, EuiSuperSelect } from '@elastic/eui'
+import {
+  EuiFieldNumber,
+  EuiSpacer,
+  EuiSuperSelect,
+  EuiSuperSelectOption,
+} from '@elastic/eui'
 import { useAtom } from 'jotai'
+import { useEffect, useState } from 'react'
 import { Title } from '../../../../ui-kit/Form'
-import { Step2Atom } from '../../store'
+import { SegmentsListAtom, Step2Atom } from '../../store'
 
 const StepView2 = () => {
   const [step2, setStep2] = useAtom(Step2Atom)
+
+  const [segmentsOptions, setSegmentsOptions] = useState<
+    EuiSuperSelectOption<string>[]
+  >([])
+  const [segmentsList] = useAtom(SegmentsListAtom)
+  useEffect(() => {
+    setSegmentsOptions(
+      segmentsList.map(segment => ({
+        value: segment.id,
+        inputDisplay: (
+          <p>{segment.name !== undefined ? segment.name : 'Unnamed'}</p>
+        ),
+      }))
+    )
+  }, [segmentsList])
 
   return (
     <div>
@@ -18,22 +39,13 @@ const StepView2 = () => {
       <Title value="Segment details" size="s" spacerPos="bot" spacerSize="xs" />
       <Title value="Segment" />
       <EuiSuperSelect
-        options={[
-          {
-            value: 'test-segment-1',
-            inputDisplay: <p>test-segment-1</p>,
-          },
-          {
-            value: 'test-segment-2',
-            inputDisplay: <p>test-segment-2</p>,
-          },
-        ]}
-        valueOfSelected={step2.segmentName}
+        options={segmentsOptions}
+        valueOfSelected={step2.segmentId}
         defaultValue=""
         onChange={val => {
           setStep2(prev => ({
             ...prev,
-            segmentName: val,
+            segmentId: val,
           }))
         }}
       />
