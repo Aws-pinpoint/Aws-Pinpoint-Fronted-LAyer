@@ -1,5 +1,7 @@
 import Head from 'next/head'
 import { EuiTitle } from '@elastic/eui'
+import { GetServerSideProps } from 'next'
+import pinpoint from '../../../api/pinpoint/client'
 
 const SegmentDetails = () => {
   return (
@@ -15,6 +17,12 @@ const SegmentDetails = () => {
       </div>
     </>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+  const segmentId = query.id as string
+  const segment = await pinpoint.getSegment(segmentId)
+  return { props: { segment } }
 }
 
 export default SegmentDetails

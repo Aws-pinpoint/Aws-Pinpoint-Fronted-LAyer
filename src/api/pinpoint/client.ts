@@ -5,12 +5,14 @@ import {
   CreateCampaignCommand,
   GetCampaignCommand,
   GetSegmentsCommand,
+  GetSegmentCommand,
 } from '@aws-sdk/client-pinpoint'
 import { CampaignDetails } from '../../components/Campaigns/CreateCampaign/models/Step5'
 import { Segment } from '../../components/Segments/CreateSegment/models'
 import { SegmentsList } from '../../components/Segments/models'
-import { toWriteCampaignRequest } from './mappings/campaigns'
-import { toWriteSegmetRequest } from './mappings/segments'
+import { toAutomatoSegment } from './mappings/toAutomato/segments'
+import { toWriteCampaignRequest } from './mappings/toPinpoint/campaigns'
+import { toWriteSegmetRequest } from './mappings/toPinpoint/segments'
 
 interface PinpointConstructor {
   awsRegion: string
@@ -68,6 +70,28 @@ class Pinpoint {
         type: x.SegmentType === 'DIMENSIONAL' ? 'Dynamic' : 'Static',
       }))
       return res
+    } catch (err) {
+      console.error(err)
+      throw err
+    }
+  }
+
+  public async getSegment(id: string): Promise<any> {
+    const command = new GetSegmentCommand({
+      ApplicationId: this.applicationId,
+      SegmentId: id,
+    })
+
+    try {
+      const commandRes = await this.client.send(command)
+
+      const segmentResponse = commandRes.SegmentResponse
+      const aSegment = toAutomatoSegment(commandRes.SegmentResponse)
+
+      console.log('res ->', JSON.stringify(segmentResponse, undefined, 2))
+      console.log('aSegment ->', JSON.stringify(aSegment, undefined, 2))
+
+      return segmentResponse
     } catch (err) {
       console.error(err)
       throw err

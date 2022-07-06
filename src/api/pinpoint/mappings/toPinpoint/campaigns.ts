@@ -11,18 +11,18 @@ import {
 import {
   CampaignChannel,
   CampaignPriority,
-} from '../../../components/Campaigns/CreateCampaign/models/Step1'
+} from '../../../../components/Campaigns/CreateCampaign/models/Step1'
 import {
   MetricOperator,
   OnEventAttribute,
   OnEventMetric,
   SendingType,
-} from '../../../components/Campaigns/CreateCampaign/models/Step4'
+} from '../../../../components/Campaigns/CreateCampaign/models/Step4'
 import {
   CampaignDetails,
   OnEventSchedule,
   SpecificTimeSchedule,
-} from '../../../components/Campaigns/CreateCampaign/models/Step5'
+} from '../../../../components/Campaigns/CreateCampaign/models/Step5'
 
 export const toWriteCampaignRequest = (
   campaignDetails: CampaignDetails
@@ -35,7 +35,11 @@ export const toWriteCampaignRequest = (
       campaignDetails.message.channel,
       campaignDetails.priority
     ),
-    Schedule: toPinpointSchedule('on-event', campaignDetails.schedule),
+    Schedule: toPinpointSchedule(
+      'on-event',
+      campaignDetails.message.channel,
+      campaignDetails.schedule
+    ),
     MessageConfiguration: toPinpointMessageConfiguration(
       campaignDetails.message
     ),
@@ -118,6 +122,7 @@ const toPinpointMessageConfiguration = (
 // Schedule
 const toPinpointSchedule = (
   scheduleType: 'specific-time' | 'on-event',
+  channel: CampaignChannel,
   schedule: OnEventSchedule | SpecificTimeSchedule
 ): Schedule => {
   const res: Schedule = {
@@ -128,8 +133,9 @@ const toPinpointSchedule = (
   if (scheduleType === 'on-event') {
     schedule = schedule as OnEventSchedule
     res.EventFilter = toPinpointScheduleEventFilter(schedule)
-    // res.Frequency = 'IN_APP_EVENT'
-    res.Frequency = 'EVENT'
+
+    if (channel === 'in-app') res.Frequency = 'IN_APP_EVENT'
+    else if (channel === 'push-notification') res.Frequency = 'EVENT'
   } else {
     // if (scheduleType === 'specific-time')
     schedule = schedule as SpecificTimeSchedule

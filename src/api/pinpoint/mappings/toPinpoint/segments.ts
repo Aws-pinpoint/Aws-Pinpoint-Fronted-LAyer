@@ -16,7 +16,8 @@ import {
   StandardFilter,
   StandardFilterOperator,
   ActivityFilterValue,
-} from '../../../components/Segments/CreateSegment/models'
+} from '../../../../components/Segments/CreateSegment/models'
+import { PinpointDuration, PinpointInclusion } from '../models'
 
 export const toWriteSegmetRequest = (segment: Segment): WriteSegmentRequest => {
   const pinpointSegmentGroups: PinpointSegmentGroup[] =
@@ -36,7 +37,6 @@ export const toWriteSegmetRequest = (segment: Segment): WriteSegmentRequest => {
   return res
 }
 
-type PinpointInclusion = 'ANY' | 'ALL' | 'NONE'
 const toPinpointInclusion = (
   type: 'logic' | 'inclusion',
   x: GroupsLogic | Inclusion
@@ -115,7 +115,6 @@ const toPinpointSegmentBehavior = (
   return { Recency: { RecencyType: recencyType, Duration: duration } }
 }
 
-type PinpointDuration = 'HR_24' | 'DAY_7' | 'DAY_14' | 'DAY_30'
 const toPinpointDuration = (x: ActivityFilterValue): PinpointDuration => {
   if (x === 'last_day') {
     return 'HR_24'

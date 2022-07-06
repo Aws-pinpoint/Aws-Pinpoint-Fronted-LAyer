@@ -9,10 +9,13 @@ import { SegmentsList } from '../../components/Segments/models'
 import pinpoint from '../../api/pinpoint/client'
 
 interface Props {
-  segments: SegmentsList[]
+  segmentsJson: string
 }
+// const Segments: NextPage<Props> = (props: Props) => {
 const Segments: FunctionComponent = (props: Props) => {
-  const [columns, dataStore] = useSegmentsTable(props.segments)
+  const [columns, dataStore] = useSegmentsTable(
+    JSON.parse(props.segmentsJson) as SegmentsList[]
+  )
 
   return (
     <>
@@ -37,9 +40,14 @@ const Segments: FunctionComponent = (props: Props) => {
   )
 }
 
+/* Segments.getInitialProps = async () => {
+  const segments = await pinpoint.getSegments()
+  return { segmentsJson: JSON.stringify(segments) }
+} */
+
 export async function getServerSideProps() {
   const segments = await pinpoint.getSegments()
-  return { props: { segments } }
+  return { props: { segmentsJson: JSON.stringify(segments) } }
 }
 
 export default Segments
