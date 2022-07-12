@@ -8,12 +8,12 @@ export const frontendConfig = () => {
     recipeList: [
       ThirdPartyEmailPasswordReact.init({
         signInAndUpFeature: {
-          providers: [
-            ThirdPartyEmailPasswordReact.Google.init(),
-            ThirdPartyEmailPasswordReact.Facebook.init(),
-            ThirdPartyEmailPasswordReact.Github.init(),
-            ThirdPartyEmailPasswordReact.Apple.init(),
-          ],
+          // providers: [
+          //   ThirdPartyEmailPasswordReact.Google.init(),
+          //   ThirdPartyEmailPasswordReact.Facebook.init(),
+          //   ThirdPartyEmailPasswordReact.Github.init(),
+          //   ThirdPartyEmailPasswordReact.Apple.init(),
+          // ],
         },
       }),
       SessionReact.init(),

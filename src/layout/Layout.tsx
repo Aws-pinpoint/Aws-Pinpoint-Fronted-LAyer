@@ -8,7 +8,7 @@ import {
 } from '@elastic/eui'
 
 import SuperTokensReact from 'supertokens-auth-react'
-import * as SuperTokensConfig from '../config/frontendConfig'
+import * as SuperTokensConfig from '../api/supertokens/config/frontendConfig'
 
 if (typeof window !== 'undefined') {
   SuperTokensReact.init(SuperTokensConfig.frontendConfig())
@@ -20,7 +20,9 @@ const Layout = ({ children }) => {
     <>
       <EuiPage paddingSize="none">
         <Navbar />
-        <SideBar />
+        {/*
+          <SideBar />
+        */}
         <EuiPageBody
           panelled
           style={{

@@ -8,9 +8,8 @@ export const backendConfig = (): TypeInput => {
     framework: 'express',
     supertokens: {
       // These are the connection details of the app you created on supertokens.com
-      connectionURI:
-        'https://ef063901ce0a11ec964f014fe604f8e7-eu-west-1.aws.supertokens.io:3573',
-      apiKey: 'oSkSzSLOKtfZsZ4h-luVLYk=UiH-QE',
+      connectionURI: process.env.SUPERTOKENS_URL,
+      // apiKey: 'oSkSzSLOKtfZsZ4h-luVLYk=UiH-QE',
     },
     appInfo,
     recipeList: [
@@ -44,7 +43,7 @@ export const backendConfig = (): TypeInput => {
       }),
       SessionNode.init(),
     ],
+    telemetry: false,
     isInServerlessEnv: true,
   }
 }
-

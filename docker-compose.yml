@@ -1,0 +1,27 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:14-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - '5432:5432'
+    volumes: 
+      - db:/var/lib/postgresql/data
+  supertokens:
+    depends_on:
+    - db
+    image: registry.supertokens.io/supertokens/supertokens-postgresql
+    ports:
+      - 3567:3567
+    environment:
+      POSTGRESQL_USER: postgres
+      POSTGRESQL_PASSWORD: postgres
+      POSTGRESQL_HOST: db
+      POSTGRESQL_PORT: '5432'
+      POSTGRESQL_DATABASE_NAME: supertokens
+
+volumes:
+  db: {}
