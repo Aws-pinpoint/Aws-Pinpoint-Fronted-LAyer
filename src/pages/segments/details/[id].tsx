@@ -19,10 +19,10 @@ const SegmentDetails = () => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+/* export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const segmentId = query.id as string
   const segment = await pinpoint.getSegment(segmentId)
   return { props: { segment } }
-}
+} */
 
 export default SegmentDetails

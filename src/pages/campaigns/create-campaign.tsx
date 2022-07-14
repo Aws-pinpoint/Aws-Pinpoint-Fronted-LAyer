@@ -1,10 +1,10 @@
 import Head from 'next/head'
 import CreateCampaign from '../../components/Campaigns/CreateCampaign/CreateCampaign'
-import pinpoint from '../../api/pinpoint/client'
 import { SegmentsList } from '../../components/Segments/models'
 import { SegmentsListAtom } from '../../components/Campaigns/store'
 import { useAtom } from 'jotai'
 import { useEffect } from 'react'
+import automatoApi from '../../api/automato/client'
 
 interface Props {
   segmentsJson: string
@@ -27,7 +27,7 @@ const CreateCampaignPage = (props: Props) => {
 }
 
 export async function getServerSideProps() {
-  const segments = await pinpoint.getSegments()
+  const segments = await automatoApi.getSegments()
   return { props: { segmentsJson: JSON.stringify(segments) } }
 }
 

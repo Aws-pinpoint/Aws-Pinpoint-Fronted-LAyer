@@ -2,18 +2,44 @@ import ThirdPartyEmailPasswordNode from 'supertokens-node/recipe/thirdpartyemail
 import SessionNode from 'supertokens-node/recipe/session'
 import { appInfo } from './appInfo'
 import { TypeInput } from 'supertokens-node/types'
+import supertokensHooks from '../lib/callbacks'
 
 export const backendConfig = (): TypeInput => {
   return {
     framework: 'express',
     supertokens: {
-      // These are the connection details of the app you created on supertokens.com
       connectionURI: process.env.SUPERTOKENS_URL,
-      // apiKey: 'oSkSzSLOKtfZsZ4h-luVLYk=UiH-QE',
     },
     appInfo,
     recipeList: [
       ThirdPartyEmailPasswordNode.init({
+        override: {
+          apis: originalImplementation => {
+            return {
+              ...originalImplementation,
+              // override the email password sign up API
+              emailPasswordSignUpPOST: async function (input) {
+                if (
+                  originalImplementation.emailPasswordSignUpPOST === undefined
+                ) {
+                  throw Error('Should never come here')
+                }
+
+                // TODO: some pre sign up logic
+
+                const response =
+                  await originalImplementation.emailPasswordSignUpPOST(input)
+
+                if (response.status === 'OK') {
+                  // TODO: some post sign up logic
+                  supertokensHooks.postSignupHook(response.user.id)
+                }
+
+                return response
+              },
+            }
+          },
+        },
         providers: [
           // We have provided you with development keys which you can use for testsing.
           // IMPORTANT: Please replace them with your own OAuth keys for production use.

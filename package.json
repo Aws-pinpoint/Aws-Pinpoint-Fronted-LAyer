@@ -38,7 +38,10 @@
     "clone-deep": "^4.0.1",
     "jotai": "^1.6.7",
     "nextjs-cors": "^2.1.1",
+    "pg": "^8.7.3",
+    "pg-hstore": "^2.3.4",
     "regenerator-runtime": "^0.13.9",
+    "sequelize": "^6.21.3",
     "supertokens-auth-react": "^0.20.4",
     "supertokens-node": "^9.2.0"
   },

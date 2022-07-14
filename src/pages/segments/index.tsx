@@ -6,7 +6,7 @@ import SegmentsTable from '../../ui-kit/Table'
 import Link from 'next/link'
 import useSegmentsTable from '../../hooks/Segments/useSegmentsTable'
 import { SegmentsList } from '../../components/Segments/models'
-import pinpoint from '../../api/pinpoint/client'
+import automatoApi from '../../api/automato/client'
 
 interface Props {
   segmentsJson: string
@@ -46,7 +46,7 @@ const Segments: FunctionComponent = (props: Props) => {
 } */
 
 export async function getServerSideProps() {
-  const segments = await pinpoint.getSegments()
+  const segments = await automatoApi.getSegments()
   return { props: { segmentsJson: JSON.stringify(segments) } }
 }
 

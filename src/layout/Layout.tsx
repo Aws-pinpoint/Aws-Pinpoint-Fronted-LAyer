@@ -20,9 +20,7 @@ const Layout = ({ children }) => {
     <>
       <EuiPage paddingSize="none">
         <Navbar />
-        {/*
-          <SideBar />
-        */}
+        <SideBar />
         <EuiPageBody
           panelled
           style={{
