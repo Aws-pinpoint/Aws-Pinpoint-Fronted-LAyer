@@ -42,8 +42,9 @@
     "pg-hstore": "^2.3.4",
     "regenerator-runtime": "^0.13.9",
     "sequelize": "^6.21.3",
-    "supertokens-auth-react": "^0.20.4",
-    "supertokens-node": "^9.2.0"
+    "supertokens-auth-react": "^0.24.2",
+    "supertokens-node": "^11.0.2",
+    "usehooks-ts": "^2.6.0"
   },
   "devDependencies": {
     "@elastic/datemath": "^5.0.3",

@@ -5,6 +5,7 @@ import { SegmentsListAtom } from '../../components/Campaigns/store'
 import { useAtom } from 'jotai'
 import { useEffect } from 'react'
 import automatoApi from '../../api/automato/client'
+import ThirdPartyEmailPassword from 'supertokens-auth-react/recipe/thirdpartyemailpassword'
 
 interface Props {
   segmentsJson: string
@@ -16,13 +17,13 @@ const CreateCampaignPage = (props: Props) => {
   }, [props.segmentsJson])
 
   return (
-    <>
+    <ThirdPartyEmailPassword.ThirdPartyEmailPasswordAuth>
       <Head>
         <title>Create a campaign</title>
       </Head>
 
       <CreateCampaign />
-    </>
+    </ThirdPartyEmailPassword.ThirdPartyEmailPasswordAuth>
   )
 }
 

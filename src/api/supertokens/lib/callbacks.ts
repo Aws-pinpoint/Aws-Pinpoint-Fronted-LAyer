@@ -1,7 +1,13 @@
 import postgres from '../../postgres/client'
 
 const postSignupHook = async (userId: string) => {
-  postgres.insertUser(userId)
+  try {
+    // await postgres.ensureConnection()
+    await postgres.insertUser(userId)
+  } catch (err) {
+    console.error(err)
+    throw err
+  }
 }
 
 const supertokensHooks = {

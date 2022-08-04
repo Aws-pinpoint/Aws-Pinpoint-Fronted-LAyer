@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Sequelize, DataTypes, ModelCtor, Model } from 'sequelize'
-
-const sequelize = new Sequelize(`postgres://user:pass@example.com:5432/dbname`)
+import crypto from 'node:crypto'
+import { UserDetails } from '../../store/models'
 
 interface PostgresConstructor {
   username: string
@@ -19,44 +19,38 @@ class Postgres {
   client: Sequelize
   models: Models
 
-  // constructor() {}
-
-  public static async constructorAsync(c: PostgresConstructor) {
-    const me = new Postgres()
-
-    me.client = new Sequelize(
+  constructor(c: PostgresConstructor) {
+    this.client = new Sequelize(
       `postgres://${c.username}:${c.password}@${c.host}:${c.port}/automato`
     )
 
-    // Test connection
-    await me.testConnection()
-
-    me.models = me.defineModels()
-
-    // synchronise all models
-    await sequelize.sync({ force: true })
-
-    return me
+    this.models = this.defineModels()
   }
 
-  async testConnection() {
+  async ensureConnection() {
     try {
-      await sequelize.authenticate()
+      // Test connection
+      await this.client.authenticate()
+
+      // synchronise all models
+      await this.client.sync({ force: true })
+
       console.log(
         'Connection to postgres DB has been established successfully.'
       )
     } catch (error) {
       console.error('Unable to connect to the postgres DB:', error)
+      throw error
     }
   }
 
-  defineModels() {
+  private defineModels() {
     const User = this.client.define('user', {
       supertokensId: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      aciveAccount: {
+      activeAccount: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false,
@@ -93,22 +87,38 @@ class Postgres {
 
     //insert verification code (insecure for now)
     //TODO: encrypt code and store it in the database
-    const code = generateRandomCode
+    const code = generateRandomCode()
     await this.models.VerificationCode.create({
       code,
       userId,
     })
   }
+
+  async getUserBySupertokensId(supertokensId: string): Promise<UserDetails> {
+    const res = await this.models.User.findOne({
+      where: {
+        supertokensId,
+      },
+    })
+    if (res === null) return null
+
+    return {
+      id: res.getDataValue('id'),
+      supertokensId: res.getDataValue('supertokensId'),
+      activeAccount: res.getDataValue('activeAccount'),
+    } as UserDetails
+  }
 }
 
 const generateRandomCode = (): string => {
-  const crypto = new Crypto()
-  const a = new Uint8Array(32)
-  crypto.getRandomValues(a)
-  return Buffer.from(a).toString('base64')
+  // const crypto = new Crypto()
+  // const crypto = new Crypto()
+  // const a = new Uint8Array(32)
+  const rb = crypto.randomBytes(32)
+  return Buffer.from(rb).toString('base64')
 }
 
-const postgres = await Postgres.constructorAsync({
+const postgres = new Postgres({
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   host: process.env.DB_HOST,

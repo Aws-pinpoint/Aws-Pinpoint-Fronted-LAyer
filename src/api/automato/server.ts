@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { NextApiRequest } from 'next'
 import pinpoint from '../pinpoint/client'
+import postgres from '../postgres/client'
 import {
   CreateCampaignRequest,
   CreateSegmentRequest,
@@ -81,6 +82,34 @@ export const getCampaignGETHandler = async (
     return {
       status: 500,
       json: { msg: 'Error getting campaign ;(' },
+    }
+  }
+}
+
+export const userGETHandler = async (
+  req: NextApiRequest
+  // res: NextApiResponse
+): Promise<HandlerRes> => {
+  const supertokensId = req.query.supertokensid as string
+
+  try {
+    const userDetails = await postgres.getUserBySupertokensId(supertokensId)
+
+    if (userDetails === null)
+      return {
+        status: 404,
+        json: { msg: 'User does not exist by this supertokensId' },
+      }
+
+    return {
+      status: 200,
+      json: { userDetails },
+    }
+  } catch (err) {
+    console.error(err)
+    return {
+      status: 500,
+      json: { msg: 'Error getting account ;(' },
     }
   }
 }

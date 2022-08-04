@@ -6,34 +6,24 @@ import {
   EuiPageContentBody,
   EuiPageBody,
 } from '@elastic/eui'
-
-import SuperTokensReact from 'supertokens-auth-react'
-import * as SuperTokensConfig from '../api/supertokens/config/frontendConfig'
-
-if (typeof window !== 'undefined') {
-  SuperTokensReact.init(SuperTokensConfig.frontendConfig())
-}
+import { useAuth } from '../hooks/Auth/useAuth'
 
 const Layout = ({ children }) => {
-  const Btn = () => <button>haha</button>
+  const loggedIn = useAuth()
+
   return (
     <>
       <EuiPage paddingSize="none">
         <Navbar />
-        <SideBar />
+
+        {loggedIn && <SideBar />}
+
         <EuiPageBody
           panelled
           style={{
             marginTop: '3.6rem',
           }}
         >
-          {/* <EuiPageHeader
-            restrictWidth
-            iconType="logoElastic"
-            pageTitle="Page title"
-            rightSideItems={[Btn]}
-            tabs={[{ label: 'Tab 1', isSelected: true }, { label: 'Tab 2' }]}
-          /> */}
           <EuiPageContent
             hasBorder={false}
             hasShadow={false}
