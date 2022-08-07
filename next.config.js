@@ -22,6 +22,10 @@ const pathPrefix = usePathPrefix ? derivePathPrefix() : ''
 const themeConfig = buildThemeConfig()
 
 const nextConfig = {
+  experimental: {
+    outputStandalone: true,
+  },
+
   /** Disable the `X-Powered-By: Next.js` response header. */
   poweredByHeader: false,
 
