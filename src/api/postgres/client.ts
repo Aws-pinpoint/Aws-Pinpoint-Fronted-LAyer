@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Sequelize, DataTypes, ModelCtor, Model } from 'sequelize'
+import pg from 'pg'
 import crypto from 'node:crypto'
 import { UserDetails } from '../../store/models'
 
@@ -20,9 +21,12 @@ class Postgres {
   models: Models
 
   constructor(c: PostgresConstructor) {
-    this.client = new Sequelize(
-      `postgres://${c.username}:${c.password}@${c.host}:${c.port}/automato`
-    )
+    this.client = new Sequelize('automato', c.username, c.password, {
+      host: c.host,
+      port: Number(c.port),
+      dialect: 'postgres',
+      dialectModule: pg,
+    })
 
     this.models = this.defineModels()
   }
