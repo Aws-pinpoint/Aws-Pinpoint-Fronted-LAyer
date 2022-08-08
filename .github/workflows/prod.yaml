@@ -1,0 +1,79 @@
+name: Build and push image to Amazon ECR so that ArgoCD pulls the new image to the cluster
+
+on:
+  push:
+    branches:
+      - "master"
+
+env:
+  AWS_REGION: us-east-1
+  ECR_REPOSITORY: automato-dashboard
+  YQ_BINARY: yq_linux_amd64
+  YQ_VERSION: v4.27.2
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+
+    - name: Build, tag, and push image to Amazon ECR
+      id: build-image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        # Build a docker container and
+        # push it to ECR so that it can
+        # be deployed to ECS.
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+    - name: Change image name in the Gitops repo to make ArgoCD pull the new image to the cluster
+      env: 
+        GH_USER: Adoliin
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        YQ_DOWNLOAD_URL: https://github.com/mikefarah/yq/releases/download/${{ env.YQ_VERSION }}/${{ env.YQ_BINARY }}.tar.gz
+        NEW_IMAGE: ${{ steps.build-image.outputs.image }}
+      run: |
+        # Set author name and email
+        git config --global user.name "Automa-boto"
+        git config --global user.email "ben.meft0@gmail.com"
+
+        # Clone repo
+        git clone https://$GH_USER:$GH_TOKEN@github.com/Automa-to/gitops
+
+        # Download yq
+        wget --quiet "$YQ_DOWNLOAD_URL" -O - | tar xz && mv $YQ_BINARY yq
+
+        # Change image URL in k8s deployment manifest
+        ./yq \
+          --inplace \
+          '.spec.template.spec.containers[0].image = "'"$NEW_IMAGE"'"' \
+          ./gitops/prod/automato/dashboard-deployment.yaml
+
+        # Add, commit, and push to repo to let Argo detect changes and pull
+        # the new image to cluster
+        cd gitops
+        git add .
+        git commit -m "Update automato-dashboard prod deployment image link"
+        git push origin master
