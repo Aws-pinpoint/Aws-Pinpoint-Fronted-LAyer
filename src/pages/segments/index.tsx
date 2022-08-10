@@ -7,7 +7,7 @@ import Link from 'next/link'
 import useSegmentsTable from '../../hooks/Segments/useSegmentsTable'
 import { SegmentsList } from '../../components/Segments/models'
 import automatoApi from '../../api/automato/client'
-import ThirdPartyEmailPassword from 'supertokens-auth-react/recipe/thirdpartyemailpassword'
+import { ProtectPage } from '../../components/Auth/ProtectPage'
 
 interface Props {
   segmentsJson: string
@@ -19,7 +19,7 @@ const Segments: FunctionComponent = (props: Props) => {
   )
 
   return (
-    <ThirdPartyEmailPassword.ThirdPartyEmailPasswordAuth>
+    <ProtectPage>
       <Head>
         <title>Segments</title>
       </Head>
@@ -37,7 +37,7 @@ const Segments: FunctionComponent = (props: Props) => {
         </div>
         <SegmentsTable columns={columns} dataStore={dataStore} />
       </div>
-    </ThirdPartyEmailPassword.ThirdPartyEmailPasswordAuth>
+    </ProtectPage>
   )
 }
 

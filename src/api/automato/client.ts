@@ -4,7 +4,10 @@ import { CampaignDetails } from '../../components/Campaigns/CreateCampaign/model
 import { SegmentsList } from '../../components/Segments/models'
 import { UserDetails } from '../../store/models'
 
-const BASE_API_URL = 'http://localhost:3000/api'
+const BASE_API_URL =
+  process.env.NODE_ENV === 'production'
+    ? process.env.NEXT_PUBLIC_BASE_API_URL
+    : 'http://localhost:3000/api'
 
 const getSegments = async (): Promise<SegmentsList[]> => {
   try {
@@ -67,8 +70,12 @@ const createCampaign = async (campaignDetails: CampaignDetails) => {
   }
 }
 
-const getUserDetails = async (supertokensId: string): Promise<UserDetails> => {
+const getUserDetails = async (
+  supertokensId: string
+): Promise<UserDetails | null> => {
   try {
+    console.log(`${BASE_API_URL}/user?supertokensid=${supertokensId}`)
+
     const res = await fetch(
       `${BASE_API_URL}/user?supertokensid=${supertokensId}`,
       {
@@ -78,12 +85,15 @@ const getUserDetails = async (supertokensId: string): Promise<UserDetails> => {
         },
       }
     )
+
     const resJson = await res.json()
+    if (res.status === 404) return null
     if (res.status !== 200) {
       throw new Error(resJson.msg)
     }
 
-    return resJson.data as UserDetails
+    console.log(resJson)
+    return resJson.userDetails as UserDetails
   } catch (err) {
     throw new Error(`Failed getting userDetails: "${err}"`)
   }

@@ -1,1 +1,46 @@
-export {}
+import { Toast } from '@elastic/eui/src/components/toast/global_toast_list'
+import { atom } from 'jotai'
+import store from 'store2'
+import { UserDetails, userDetailsLSkey } from './models'
+
+/* const UserDetailsInitAtom = atom<UserDetails | null>(
+  (JSON.parse(localStorage.getItem(userDetailsLSkey)) as UserDetails) ?? null
+) */
+const UserDetailsInitAtom = atom<UserDetails | null>(
+  (store.get(userDetailsLSkey) as UserDetails) ?? null
+)
+
+export const UserDetailsAtom = atom(
+  get => get(UserDetailsInitAtom),
+  (_, set, newUserDetails: UserDetails) => {
+    set(UserDetailsInitAtom, newUserDetails)
+    // localStorage.setItem(userDetailsLSkey, JSON.stringify(newUserDetails))
+    store.set(userDetailsLSkey, newUserDetails)
+  }
+)
+
+export type ToastsAction =
+  | { type: 'add'; toast: Toast }
+  | { type: 'remove'; toastId: string }
+  | { type: 'clean' }
+
+const InitToastsAtom = atom<Toast[]>([])
+export const ToastsAtom = atom(
+  get => get(InitToastsAtom),
+  (get, set, action: ToastsAction) => {
+    switch (action.type) {
+      case 'add':
+        set(InitToastsAtom, [...get(InitToastsAtom), action.toast])
+        break
+      case 'remove':
+        set(
+          InitToastsAtom,
+          get(InitToastsAtom).filter(t => t.id !== action.toastId)
+        )
+        break
+      case 'clean':
+        set(InitToastsAtom, [])
+        break
+    }
+  }
+)

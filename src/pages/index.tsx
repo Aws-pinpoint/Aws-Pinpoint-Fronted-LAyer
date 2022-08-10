@@ -3,19 +3,21 @@ import Head from 'next/head'
 import { EuiSpacer } from '@elastic/eui'
 import HomeHero from '../eui/starter/home_hero'
 import HomeWhy from '../eui/starter/home_why'
-import ThirdPartyEmailPassword from 'supertokens-auth-react/recipe/thirdpartyemailpassword'
+import { ProtectPage } from '../components/Auth/ProtectPage'
 
 const Index: FunctionComponent = () => {
   return (
-    <ThirdPartyEmailPassword.ThirdPartyEmailPasswordAuth>
-      <Head>
-        <title>Analytics</title>
-      </Head>
+    <ProtectPage>
+      <>
+        <Head>
+          <title>Analytics</title>
+        </Head>
 
-      <HomeHero />
-      <EuiSpacer size="xxl" />
-      <HomeWhy />
-    </ThirdPartyEmailPassword.ThirdPartyEmailPasswordAuth>
+        <HomeHero />
+        <EuiSpacer size="xxl" />
+        <HomeWhy />
+      </>
+    </ProtectPage>
   )
 }
 

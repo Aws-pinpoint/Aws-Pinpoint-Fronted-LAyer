@@ -35,6 +35,7 @@
     "@aws-sdk/client-pinpoint": "^3.105.0",
     "@elastic/eui": "^55.1.0",
     "@types/clone-deep": "^4.0.1",
+    "async-mutex": "^0.3.2",
     "clone-deep": "^4.0.1",
     "jotai": "^1.6.7",
     "nextjs-cors": "^2.1.1",
@@ -42,6 +43,7 @@
     "pg-hstore": "^2.3.4",
     "regenerator-runtime": "^0.13.9",
     "sequelize": "^6.21.3",
+    "store2": "^2.14.2",
     "supertokens-auth-react": "^0.24.2",
     "supertokens-node": "^11.0.2",
     "usehooks-ts": "^2.6.0"

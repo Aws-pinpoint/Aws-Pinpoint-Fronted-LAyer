@@ -1,11 +1,11 @@
 import Head from 'next/head'
 import { EuiTitle } from '@elastic/eui'
 import CreateSegment from '../../components/Segments/CreateSegment/CreateSegment'
-import ThirdPartyEmailPassword from 'supertokens-auth-react/recipe/thirdpartyemailpassword'
+import { ProtectPage } from '../../components/Auth/ProtectPage'
 
 const CreateSegmentPage = () => {
   return (
-    <ThirdPartyEmailPassword.ThirdPartyEmailPasswordAuth>
+    <ProtectPage>
       <Head>
         <title>Create a Segment</title>
       </Head>
@@ -16,7 +16,7 @@ const CreateSegmentPage = () => {
         </EuiTitle>
         <CreateSegment />
       </div>
-    </ThirdPartyEmailPassword.ThirdPartyEmailPasswordAuth>
+    </ProtectPage>
   )
 }
 

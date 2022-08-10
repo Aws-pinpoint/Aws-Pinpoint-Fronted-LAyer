@@ -37,6 +37,8 @@ const SideBar = () => {
       setSelectedID(keypadButtonId_3)
     } else if (pathname.startsWith('/settings')) {
       setSelectedID(keypadButtonId_4)
+    } else {
+      setSelectedID(undefined)
     }
   }, [pathname])
 

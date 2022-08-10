@@ -90,9 +90,9 @@ export const userGETHandler = async (
   req: NextApiRequest
   // res: NextApiResponse
 ): Promise<HandlerRes> => {
-  const supertokensId = req.query.supertokensid as string
-
+  console.log('yaya')
   try {
+    const supertokensId = req.query.supertokensid as string
     const userDetails = await postgres.getUserBySupertokensId(supertokensId)
 
     if (userDetails === null)

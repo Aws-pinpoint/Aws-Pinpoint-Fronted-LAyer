@@ -4,12 +4,12 @@ import { EuiButton, EuiSpacer, EuiTitle } from '@elastic/eui'
 import SegmentsTable from '../../ui-kit/Table'
 import Link from 'next/link'
 import useCampaignsTable from '../../hooks/Campaigns/useCampaignsTable'
-import ThirdPartyEmailPassword from 'supertokens-auth-react/recipe/thirdpartyemailpassword'
+import { ProtectPage } from '../../components/Auth/ProtectPage'
 
 const Campaigns: FunctionComponent = () => {
   const [columns, dataStore] = useCampaignsTable()
   return (
-    <ThirdPartyEmailPassword.ThirdPartyEmailPasswordAuth>
+    <ProtectPage>
       <Head>
         <title>Campaigns</title>
       </Head>
@@ -27,7 +27,7 @@ const Campaigns: FunctionComponent = () => {
         </div>
         <SegmentsTable columns={columns} dataStore={dataStore} />
       </div>
-    </ThirdPartyEmailPassword.ThirdPartyEmailPasswordAuth>
+    </ProtectPage>
   )
 }
 

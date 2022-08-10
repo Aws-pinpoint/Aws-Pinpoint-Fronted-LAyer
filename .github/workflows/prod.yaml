@@ -55,7 +55,7 @@ jobs:
         YQ_DOWNLOAD_URL: https://github.com/mikefarah/yq/releases/download/${{ env.YQ_VERSION }}/${{ env.YQ_BINARY }}.tar.gz
         NEW_IMAGE: ${{ steps.build-image.outputs.image }}
       run: |
-        # Set author name and email
+        # Set author's name and email
         git config --global user.name "Automa-boto"
         git config --global user.email "ben.meft0@gmail.com"
 

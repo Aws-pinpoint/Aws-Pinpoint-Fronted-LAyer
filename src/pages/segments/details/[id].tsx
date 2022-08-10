@@ -2,11 +2,11 @@ import Head from 'next/head'
 import { EuiTitle } from '@elastic/eui'
 import { GetServerSideProps } from 'next'
 import pinpoint from '../../../api/pinpoint/client'
-import ThirdPartyEmailPassword from 'supertokens-auth-react/recipe/thirdpartyemailpassword'
+import { ProtectPage } from '../../../components/Auth/ProtectPage'
 
 const SegmentDetails = () => {
   return (
-    <ThirdPartyEmailPassword.ThirdPartyEmailPasswordAuth>
+    <ProtectPage>
       <Head>
         <title>Segment Details - X </title>
       </Head>
@@ -16,7 +16,7 @@ const SegmentDetails = () => {
           <h2>Segment Details: </h2>
         </EuiTitle>
       </div>
-    </ThirdPartyEmailPassword.ThirdPartyEmailPasswordAuth>
+    </ProtectPage>
   )
 }
 

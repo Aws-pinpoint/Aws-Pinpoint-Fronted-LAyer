@@ -9,7 +9,7 @@ import {
 import { useAuth } from '../hooks/Auth/useAuth'
 
 const Layout = ({ children }) => {
-  const loggedIn = useAuth()
+  const { loggedIn } = useAuth()
 
   return (
     <>

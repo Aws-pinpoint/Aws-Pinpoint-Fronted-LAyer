@@ -2,7 +2,7 @@ import ThirdPartyEmailPasswordNode from 'supertokens-node/recipe/thirdpartyemail
 import SessionNode from 'supertokens-node/recipe/session'
 import { appInfo } from './appInfo'
 import { TypeInput } from 'supertokens-node/types'
-import supertokensHooks from '../lib/callbacks'
+import { postSignupBackendHook } from '../lib/backendHooks'
 
 export const backendConfig = (): TypeInput => {
   return {
@@ -32,7 +32,7 @@ export const backendConfig = (): TypeInput => {
 
                 if (response.status === 'OK') {
                   // TODO: some post sign up logic
-                  supertokensHooks.postSignupHook(response.user.id)
+                  postSignupBackendHook(response.user.id)
                 }
 
                 return response

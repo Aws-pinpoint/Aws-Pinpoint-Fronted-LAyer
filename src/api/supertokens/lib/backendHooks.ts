@@ -1,6 +1,6 @@
 import postgres from '../../postgres/client'
 
-const postSignupHook = async (userId: string) => {
+export const postSignupBackendHook = async (userId: string) => {
   try {
     // await postgres.ensureConnection()
     await postgres.insertUser(userId)
@@ -9,9 +9,3 @@ const postSignupHook = async (userId: string) => {
     throw err
   }
 }
-
-const supertokensHooks = {
-  postSignupHook,
-}
-
-export default supertokensHooks

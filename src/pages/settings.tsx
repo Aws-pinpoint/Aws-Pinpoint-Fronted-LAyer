@@ -2,11 +2,10 @@ import { FunctionComponent } from 'react'
 import Head from 'next/head'
 import { EuiSpacer, EuiTitle } from '@elastic/eui'
 import ThirdPartyEmailPassword from 'supertokens-auth-react/recipe/thirdpartyemailpassword'
-import { Protected } from '../components/Auth/Protected'
 
 const Settings: FunctionComponent = () => {
   return (
-    <Protected>
+    <ThirdPartyEmailPassword.ThirdPartyEmailPasswordAuth>
       <Head>
         <title>Settings</title>
       </Head>
@@ -18,7 +17,7 @@ const Settings: FunctionComponent = () => {
 
         <EuiSpacer size="xs" />
       </div>
-    </Protected>
+    </ThirdPartyEmailPassword.ThirdPartyEmailPasswordAuth>
   )
 }
 
