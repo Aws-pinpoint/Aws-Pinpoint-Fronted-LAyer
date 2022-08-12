@@ -19,6 +19,7 @@ interface Models {
 class Postgres {
   client: Sequelize
   models: Models
+  connectionIsEnsured: boolean
 
   constructor(c: PostgresConstructor) {
     this.client = new Sequelize('automato', c.username, c.password, {
@@ -28,10 +29,13 @@ class Postgres {
       dialectModule: pg,
     })
 
+    this.connectionIsEnsured = false
+
     this.models = this.defineModels()
   }
 
   async ensureConnection() {
+    if (this.connectionIsEnsured) return
     try {
       // Test connection
       await this.client.authenticate()
@@ -42,6 +46,8 @@ class Postgres {
       console.log(
         'Connection to postgres DB has been established successfully.'
       )
+
+      this.connectionIsEnsured = false
     } catch (error) {
       console.error('Unable to connect to the postgres DB:', error)
       throw error
@@ -84,6 +90,8 @@ class Postgres {
   }
 
   async insertUser(userId: string) {
+    await this.ensureConnection()
+
     //insert user
     await this.models.User.create({
       supertokensId: userId,
@@ -99,6 +107,8 @@ class Postgres {
   }
 
   async getUserBySupertokensId(supertokensId: string): Promise<UserDetails> {
+    await this.ensureConnection()
+
     const res = await this.models.User.findOne({
       where: {
         supertokensId,
@@ -115,9 +125,6 @@ class Postgres {
 }
 
 const generateRandomCode = (): string => {
-  // const crypto = new Crypto()
-  // const crypto = new Crypto()
-  // const a = new Uint8Array(32)
   const rb = crypto.randomBytes(32)
   return Buffer.from(rb).toString('base64')
 }
