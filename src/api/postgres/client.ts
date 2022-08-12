@@ -3,6 +3,7 @@ import { Sequelize, DataTypes, ModelCtor, Model } from 'sequelize'
 import pg from 'pg'
 import crypto from 'node:crypto'
 import { UserDetails } from '../../store/models'
+import migration_1_init from './migrations/1_init_models'
 
 interface PostgresConstructor {
   username: string
@@ -41,7 +42,7 @@ class Postgres {
       await this.client.authenticate()
 
       // synchronise all models
-      await this.client.sync({ force: true })
+      await this.client.sync()
 
       console.log(
         'Connection to postgres DB has been established successfully.'
@@ -55,33 +56,15 @@ class Postgres {
   }
 
   private defineModels() {
-    const User = this.client.define('user', {
-      supertokensId: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      activeAccount: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: false,
-      },
-    })
+    const User = this.client.define(
+      migration_1_init.userModel.name,
+      migration_1_init.userModel.definition
+    )
 
-    const VerificationCode = this.client.define('verification_code', {
-      code: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      used: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: false,
-      },
-      userId: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-    })
+    const VerificationCode = this.client.define(
+      migration_1_init.verificationCodeModel.name,
+      migration_1_init.verificationCodeModel.definition
+    )
 
     return {
       User,

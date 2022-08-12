@@ -1,7 +1,10 @@
 import ThirdPartyEmailPasswordReact from 'supertokens-auth-react/recipe/thirdpartyemailpassword'
 import SessionReact from 'supertokens-auth-react/recipe/session'
 import { appInfo } from './appInfo'
-import { postSigninFrontendHook } from '../lib/frontendHooks'
+import {
+  postSigninFrontendHook,
+  postSignupFrontendHook,
+} from '../lib/frontendHooks'
 import { Mutex } from 'async-mutex'
 
 const mutex = new Mutex()
@@ -18,6 +21,12 @@ export const frontendConfig = () => {
             const { id } = context.user
             if (context.isNewUser) {
               // Sign up
+
+              // lock mutex so that the postSignupFrontendHook can run fully
+              // and not be cancelled by redirection
+              await mutex.runExclusive(async () => {
+                await postSignupFrontendHook(id)
+              })
             } else {
               // Sign in
 

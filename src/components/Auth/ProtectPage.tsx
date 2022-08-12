@@ -17,7 +17,7 @@ export const ProtectPage = (props: Props) => {
   const [userDetails] = useAtom(UserDetailsAtom)
 
   if (loggedIn) {
-    if (userDetails !== null && !userDetails.activeAccount) {
+    if (userDetails === null || !userDetails.activeAccount) {
       router.push('/activate-account')
     }
   }
