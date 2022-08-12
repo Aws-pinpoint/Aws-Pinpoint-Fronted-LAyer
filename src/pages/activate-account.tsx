@@ -2,20 +2,32 @@ import { FunctionComponent, useState } from 'react'
 import Head from 'next/head'
 import { EuiButton, EuiFieldText, EuiTitle } from '@elastic/eui'
 import ThirdPartyEmailPassword from 'supertokens-auth-react/recipe/thirdpartyemailpassword'
-import { setError } from '../components/Toasts/utils'
+import { useToasts } from '../components/Toasts/Toasts'
+import automatoApi from '../api/automato/client'
 import { useAtom } from 'jotai'
-import { ToastsAtom } from '../store/store'
+import { UserDetailsAtom } from '../store/store'
+import { useRouter } from 'next/router'
 
 const ActivateAccount: FunctionComponent = () => {
   const [activationCode, setActivationCode] = useState('')
-  const [, setToasts] = useAtom(ToastsAtom)
+  const { setError, setSuccess } = useToasts()
+  const [userDetails, setUserDetails] = useAtom(UserDetailsAtom)
+  const router = useRouter()
 
-  const handleActivateAccount = () => {
+  const handleActivateAccount = async () => {
     try {
-      // throw new Error('Not implemented')
-      throw new Error('Not implemented')
+      await automatoApi.activateAccount(
+        userDetails.supertokensId,
+        activationCode
+      )
+      setSuccess(
+        'Account activated successfully',
+        'You can now start using Automato'
+      )
+      setUserDetails({ ...userDetails, activeAccount: true })
+      router.push('/')
     } catch (e) {
-      setError(setToasts, 'Sorry ;(', e.message)
+      setError('Error activating account', e.message)
     }
   }
   return (

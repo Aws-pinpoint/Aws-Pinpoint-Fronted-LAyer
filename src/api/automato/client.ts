@@ -1,4 +1,8 @@
-import { CreateCampaignRequest, CreateSegmentRequest } from './models'
+import {
+  ActivateAccountRequest,
+  CreateCampaignRequest,
+  CreateSegmentRequest,
+} from './models'
 import { Segment } from '../../components/Segments/CreateSegment/models'
 import { CampaignDetails } from '../../components/Campaigns/CreateCampaign/models/Step5'
 import { SegmentsList } from '../../components/Segments/models'
@@ -99,11 +103,37 @@ const getUserDetails = async (
   }
 }
 
+const activateAccount = async (
+  supertokensId: string,
+  activationCode: string
+) => {
+  try {
+    const reqBody: ActivateAccountRequest = {
+      supertokensId,
+      activationCode,
+    }
+    const res = await fetch(`${BASE_API_URL}/user/activate-account`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(reqBody),
+    })
+    const resJson = await res.json()
+    if (res.status !== 200) {
+      throw new Error(resJson.msg)
+    }
+  } catch (err) {
+    throw new Error(err.message)
+  }
+}
+
 const automatoApi = {
   getSegments,
   createSegment,
   createCampaign,
   getUserDetails,
+  activateAccount,
 }
 
 export default automatoApi

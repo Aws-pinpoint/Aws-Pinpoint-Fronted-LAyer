@@ -3,6 +3,7 @@ import { NextApiRequest } from 'next'
 import pinpoint from '../pinpoint/client'
 import postgres from '../postgres/client'
 import {
+  ActivateAccountRequest,
   CreateCampaignRequest,
   CreateSegmentRequest,
   HandlerRes,
@@ -90,7 +91,6 @@ export const userGETHandler = async (
   req: NextApiRequest
   // res: NextApiResponse
 ): Promise<HandlerRes> => {
-  console.log('yaya')
   try {
     const supertokensId = req.query.supertokensid as string
     const userDetails = await postgres.getUserBySupertokensId(supertokensId)
@@ -104,6 +104,53 @@ export const userGETHandler = async (
     return {
       status: 200,
       json: { userDetails },
+    }
+  } catch (err) {
+    console.error(err)
+    return {
+      status: 500,
+      json: { msg: 'Error getting account ;(' },
+    }
+  }
+}
+
+export const userActivateAccountPOSTHandler = async (
+  req: NextApiRequest
+  // res: NextApiResponse
+): Promise<HandlerRes> => {
+  try {
+    const reqBody = req.body as ActivateAccountRequest
+    const userDetails = await postgres.getUserBySupertokensId(
+      reqBody.supertokensId
+    )
+
+    if (userDetails === null)
+      return {
+        status: 404,
+        json: { msg: 'User does not exist by this supertokensId' },
+      }
+    if (userDetails.activeAccount)
+      return {
+        status: 400,
+        json: { msg: 'User is already active' },
+      }
+
+    const ok = await postgres.activateAccount(
+      reqBody.supertokensId,
+      reqBody.activationCode
+    )
+
+    if (!ok)
+      return {
+        status: 400,
+        json: { msg: 'Invalid activation code' },
+      }
+
+    // TODO: create pinpoint project here
+
+    return {
+      status: 200,
+      json: { msg: 'Account activated!' },
     }
   } catch (err) {
     console.error(err)

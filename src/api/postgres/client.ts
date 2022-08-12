@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Sequelize, DataTypes, ModelCtor, Model } from 'sequelize'
+import { Sequelize, ModelCtor, Model } from 'sequelize'
 import pg from 'pg'
 import crypto from 'node:crypto'
 import { UserDetails } from '../../store/models'
@@ -104,6 +104,39 @@ class Postgres {
       supertokensId: res.getDataValue('supertokensId'),
       activeAccount: res.getDataValue('activeAccount'),
     } as UserDetails
+  }
+
+  async activateAccount(
+    supertokensId: string,
+    activationCode: string
+  ): Promise<boolean> {
+    try {
+      await this.ensureConnection()
+
+      const res = await this.models.VerificationCode.findOne({
+        where: { userId: supertokensId, code: activationCode, used: false },
+      })
+      if (res === null) return false
+
+      await this.models.VerificationCode.update(
+        {
+          used: true,
+        },
+        { where: { userId: supertokensId, code: activationCode } }
+      )
+
+      await this.models.User.update(
+        {
+          activeAccount: true,
+        },
+        { where: { supertokensId } }
+      )
+
+      return true
+    } catch (err) {
+      console.error(err)
+      throw new Error('Error activating account')
+    }
   }
 }
 

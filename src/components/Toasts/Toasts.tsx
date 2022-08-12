@@ -18,3 +18,38 @@ export const Toasts = () => {
     />
   )
 }
+
+export const useToasts = (): {
+  setError: (title: string, message: string) => void
+  setSuccess: (title: string, message: string) => void
+} => {
+  const [, setToasts] = useAtom(ToastsAtom)
+
+  const setError = (title: string, message: string) => {
+    setToasts({
+      type: 'add',
+      toast: {
+        id: Math.random().toString(),
+        title,
+        color: 'danger',
+        iconType: 'help',
+        text: message,
+      },
+    })
+  }
+
+  const setSuccess = (title: string, message: string) => {
+    setToasts({
+      type: 'add',
+      toast: {
+        id: Math.random().toString(),
+        title,
+        color: 'success',
+        iconType: 'user',
+        text: message,
+      },
+    })
+  }
+
+  return { setError, setSuccess }
+}

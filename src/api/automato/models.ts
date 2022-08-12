@@ -9,5 +9,10 @@ export interface CreateCampaignRequest {
   campaignDetails: CampaignDetails
 }
 
+export interface ActivateAccountRequest {
+  supertokensId: string
+  activationCode: string
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type HandlerRes = { status: number; json: any }
