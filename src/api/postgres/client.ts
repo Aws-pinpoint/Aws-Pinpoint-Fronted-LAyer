@@ -138,6 +138,27 @@ class Postgres {
       throw new Error('Error activating account')
     }
   }
+
+  async addPinpointProjectIdToAccount(
+    supertokensId: string,
+    pinpointProjectId: string
+  ): Promise<boolean> {
+    try {
+      await this.ensureConnection()
+
+      const [affectedCount] = await this.models.User.update(
+        {
+          pinpointProjectId,
+        },
+        { where: { supertokensId, activeAccount: true } }
+      )
+
+      return affectedCount > 0
+    } catch (err) {
+      console.error(err)
+      throw new Error('Error activating account')
+    }
+  }
 }
 
 const generateRandomCode = (): string => {

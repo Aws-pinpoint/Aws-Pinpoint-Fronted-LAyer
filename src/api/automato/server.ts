@@ -146,7 +146,21 @@ export const userActivateAccountPOSTHandler = async (
         json: { msg: 'Invalid activation code' },
       }
 
-    // TODO: create pinpoint project here
+    // Create pinpoit project
+    const pinpointProjectId = await pinpoint.createProject(
+      `automato~${userDetails.supertokensId}`
+    )
+
+    // Set pinpoint project id in user table
+    const ok2 = await postgres.addPinpointProjectIdToAccount(
+      userDetails.supertokensId,
+      pinpointProjectId
+    )
+    if (!ok2)
+      return {
+        status: 500,
+        json: { msg: '[E001] Error activating account' },
+      }
 
     return {
       status: 200,
@@ -156,7 +170,7 @@ export const userActivateAccountPOSTHandler = async (
     console.error(err)
     return {
       status: 500,
-      json: { msg: 'Error getting account ;(' },
+      json: { msg: '[E000] Error activating account' },
     }
   }
 }

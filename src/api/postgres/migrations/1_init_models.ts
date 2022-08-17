@@ -12,6 +12,10 @@ const userModel = {
       allowNull: false,
       defaultValue: false,
     },
+    pinpointProjectId: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   },
 }
 

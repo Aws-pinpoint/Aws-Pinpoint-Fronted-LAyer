@@ -6,6 +6,8 @@ import {
   GetCampaignCommand,
   GetSegmentsCommand,
   GetSegmentCommand,
+  CreateAppCommand,
+  CreateAppCommandInput,
 } from '@aws-sdk/client-pinpoint'
 import { CampaignDetails } from '../../components/Campaigns/CreateCampaign/models/Step5'
 import { Segment } from '../../components/Segments/CreateSegment/models'
@@ -35,12 +37,27 @@ class Pinpoint {
     })
   }
 
+  public async createProject(name: string): Promise<string> {
+    const command = new CreateAppCommand({
+      CreateApplicationRequest: {
+        Name: name,
+      },
+    } as CreateAppCommandInput)
+    try {
+      const res = await this.client.send(command)
+      return res.ApplicationResponse.Id
+    } catch (err) {
+      console.error(err)
+      throw err
+    }
+  }
+
   public async createSegment(segment: Segment) {
     const writeSegmentRequest = toWriteSegmetRequest(segment)
-    console.log(
+    /* console.log(
       'writeSegmentRequest ->',
       JSON.stringify(writeSegmentRequest, undefined, 2)
-    )
+    ) */
 
     const command = new CreateSegmentCommand({
       ApplicationId: this.applicationId,
@@ -76,6 +93,7 @@ class Pinpoint {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public async getSegment(id: string): Promise<any> {
     const command = new GetSegmentCommand({
       ApplicationId: this.applicationId,
