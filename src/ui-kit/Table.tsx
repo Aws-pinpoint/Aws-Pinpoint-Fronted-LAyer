@@ -1,5 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { createContext, useContext, useReducer, useState, useMemo } from 'react'
+import {
+  createContext,
+  useContext,
+  useReducer,
+  useState,
+  useMemo,
+  useEffect,
+} from 'react'
 import { EuiDataGrid, EuiCheckbox, EuiButtonEmpty } from '@elastic/eui'
 
 interface SortingColumns {
@@ -19,6 +26,10 @@ const SegmentsTable = ({ columns, dataStore }: Props) => {
   )
 
   const [data, setData] = useState(dataStore)
+  useEffect(() => {
+    setData(dataStore)
+  }, [dataStore])
+
   const [sortingColumns, setSortingColumns] = useState<SortingColumns[]>([
     { id: 'custom', direction: 'asc' },
   ])

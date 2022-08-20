@@ -22,13 +22,14 @@ const getSegments = async (): Promise<SegmentsList[]> => {
       },
     })
     const resJson = await res.json()
+    console.log('resJson', resJson)
     if (res.status !== 200) {
       throw new Error(resJson.msg)
     }
 
     return resJson.data as SegmentsList[]
   } catch (err) {
-    throw new Error(`Failed getting segments: "${err}"`)
+    throw new Error(`Failed getting segments: "${err.message}"`)
   }
 }
 

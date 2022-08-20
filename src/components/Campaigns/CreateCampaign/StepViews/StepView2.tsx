@@ -6,8 +6,9 @@ import {
 } from '@elastic/eui'
 import { useAtom } from 'jotai'
 import { useEffect, useState } from 'react'
+import useSegmentsList from '../../../../hooks/Segments/useSegmentsList'
 import { Title } from '../../../../ui-kit/Form'
-import { SegmentsListAtom, Step2Atom } from '../../store'
+import { Step2Atom } from '../../store'
 
 const StepView2 = () => {
   const [step2, setStep2] = useAtom(Step2Atom)
@@ -15,7 +16,8 @@ const StepView2 = () => {
   const [segmentsOptions, setSegmentsOptions] = useState<
     EuiSuperSelectOption<string>[]
   >([])
-  const [segmentsList] = useAtom(SegmentsListAtom)
+  const [segmentsList] = useSegmentsList()
+
   useEffect(() => {
     setSegmentsOptions(
       segmentsList.map(segment => ({

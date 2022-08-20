@@ -6,7 +6,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === 'GET') {
-    const r = await getCampaignGETHandler(req)
+    const r = await getCampaignGETHandler(req, res)
     res.status(r.status).json(r.json)
   } else {
     res.status(501).json({ msg: 'Not implemented' })

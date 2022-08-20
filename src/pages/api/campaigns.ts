@@ -6,7 +6,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === 'POST') {
-    const r = await createCampaignPOSTHandler(req)
+    const r = await createCampaignPOSTHandler(req, res)
     res.status(r.status).json(r.json)
   } else {
     res.status(501).json({ msg: 'Not implemented' })

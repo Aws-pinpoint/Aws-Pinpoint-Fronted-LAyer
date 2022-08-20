@@ -159,6 +159,22 @@ class Postgres {
       throw new Error('Error activating account')
     }
   }
+
+  async getAccountActiveStatusAndPinpointProjectId(
+    supertokensId: string
+  ): Promise<{ activeAccount: boolean; pinpointProjectId: string }> {
+    await this.ensureConnection()
+
+    const res = await this.models.User.findOne({
+      where: { supertokensId, activeAccount: true },
+    })
+    if (res === null) return { activeAccount: false, pinpointProjectId: '' }
+
+    return {
+      activeAccount: res.getDataValue('activeAccount'),
+      pinpointProjectId: res.getDataValue('pinpointProjectId'),
+    }
+  }
 }
 
 const generateRandomCode = (): string => {

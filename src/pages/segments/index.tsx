@@ -5,18 +5,12 @@ import { EuiButton, EuiSpacer, EuiTitle } from '@elastic/eui'
 import SegmentsTable from '../../ui-kit/Table'
 import Link from 'next/link'
 import useSegmentsTable from '../../hooks/Segments/useSegmentsTable'
-import { SegmentsList } from '../../components/Segments/models'
-import automatoApi from '../../api/automato/client'
 import { ProtectPage } from '../../components/Auth/ProtectPage'
+import useSegmentsList from '../../hooks/Segments/useSegmentsList'
 
-interface Props {
-  segmentsJson: string
-}
-// const Segments: NextPage<Props> = (props: Props) => {
-const Segments: FunctionComponent = (props: Props) => {
-  const [columns, dataStore] = useSegmentsTable(
-    JSON.parse(props.segmentsJson) as SegmentsList[]
-  )
+const Segments: FunctionComponent = () => {
+  const [segmentsList] = useSegmentsList()
+  const [columns, dataStore] = useSegmentsTable(segmentsList)
 
   return (
     <ProtectPage>
@@ -39,16 +33,6 @@ const Segments: FunctionComponent = (props: Props) => {
       </div>
     </ProtectPage>
   )
-}
-
-/* Segments.getInitialProps = async () => {
-  const segments = await pinpoint.getSegments()
-  return { segmentsJson: JSON.stringify(segments) }
-} */
-
-export async function getServerSideProps() {
-  const segments = await automatoApi.getSegments()
-  return { props: { segmentsJson: JSON.stringify(segments) } }
 }
 
 export default Segments

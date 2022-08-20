@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { NextApiRequest } from 'next'
+import { NextApiRequest, NextApiResponse } from 'next'
+import { authorize } from '../auth/auth'
 import pinpoint from '../pinpoint/client'
 import postgres from '../postgres/client'
 import {
@@ -10,9 +11,14 @@ import {
 } from './models'
 
 // GET `/api/segments`
-export const getSegmentsGETHandler = async (): Promise<HandlerRes> => {
+export const getSegmentsGETHandler = async (
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<HandlerRes> => {
   try {
-    const segments = await pinpoint.getSegments()
+    const pinpointProjectId = await authorize(req, res)
+
+    const segments = await pinpoint.getSegments(pinpointProjectId)
     return {
       status: 200,
       json: { msg: 'Segments got!', data: segments },
@@ -27,12 +33,14 @@ export const getSegmentsGETHandler = async (): Promise<HandlerRes> => {
 
 // POST `/api/segments`
 export const createSegmentPOSTHandler = async (
-  req: NextApiRequest
-  // res: NextApiResponse
+  req: NextApiRequest,
+  res: NextApiResponse
 ): Promise<HandlerRes> => {
-  const reqBody: CreateSegmentRequest = req.body
   try {
-    await pinpoint.createSegment(reqBody.segment)
+    const pinpointProjectId = await authorize(req, res)
+    const reqBody: CreateSegmentRequest = req.body
+
+    await pinpoint.createSegment(pinpointProjectId, reqBody.segment)
     return {
       status: 201,
       json: { msg: 'Segment created!' },
@@ -47,12 +55,14 @@ export const createSegmentPOSTHandler = async (
 
 // POST `/api/campaigns`
 export const createCampaignPOSTHandler = async (
-  req: NextApiRequest
-  // res: NextApiResponse
+  req: NextApiRequest,
+  res: NextApiResponse
 ): Promise<HandlerRes> => {
-  const reqBody: CreateCampaignRequest = req.body
   try {
-    await pinpoint.createCampaign(reqBody.campaignDetails)
+    const pinpointProjectId = await authorize(req, res)
+
+    const reqBody: CreateCampaignRequest = req.body
+    await pinpoint.createCampaign(pinpointProjectId, reqBody.campaignDetails)
     return {
       status: 201,
       json: { msg: 'Campaign created!' },
@@ -68,13 +78,14 @@ export const createCampaignPOSTHandler = async (
 
 // GET `/api/campaigns`
 export const getCampaignGETHandler = async (
-  req: NextApiRequest
-  // res: NextApiResponse
+  req: NextApiRequest,
+  res: NextApiResponse
 ): Promise<HandlerRes> => {
-  const id = req.query.id as string
   try {
-    console.log('id ->', id)
-    await pinpoint.getCampaign(id)
+    const pinpointProjectId = await authorize(req, res)
+
+    const id = req.query.id as string
+    await pinpoint.getCampaign(pinpointProjectId, id)
     return {
       status: 201,
       json: { msg: 'Campaign got!' },
@@ -88,8 +99,8 @@ export const getCampaignGETHandler = async (
 }
 
 export const userGETHandler = async (
-  req: NextApiRequest
-  // res: NextApiResponse
+  req: NextApiRequest,
+  _res: NextApiResponse
 ): Promise<HandlerRes> => {
   try {
     const supertokensId = req.query.supertokensid as string
@@ -115,8 +126,8 @@ export const userGETHandler = async (
 }
 
 export const userActivateAccountPOSTHandler = async (
-  req: NextApiRequest
-  // res: NextApiResponse
+  req: NextApiRequest,
+  _res: NextApiResponse
 ): Promise<HandlerRes> => {
   try {
     const reqBody = req.body as ActivateAccountRequest

@@ -23,11 +23,9 @@ interface PinpointConstructor {
   secretAccessKey: string
 }
 class Pinpoint {
-  applicationId: string // project id
   client: PinpointClient
 
   constructor(c: PinpointConstructor) {
-    this.applicationId = c.applicationId
     this.client = new PinpointClient({
       region: c.awsRegion,
       credentials: {
@@ -52,7 +50,7 @@ class Pinpoint {
     }
   }
 
-  public async createSegment(segment: Segment) {
+  public async createSegment(applicationId: string, segment: Segment) {
     const writeSegmentRequest = toWriteSegmetRequest(segment)
     /* console.log(
       'writeSegmentRequest ->',
@@ -60,7 +58,7 @@ class Pinpoint {
     ) */
 
     const command = new CreateSegmentCommand({
-      ApplicationId: this.applicationId,
+      ApplicationId: applicationId,
       WriteSegmentRequest: writeSegmentRequest,
     })
 
@@ -73,9 +71,9 @@ class Pinpoint {
     }
   }
 
-  public async getSegments(): Promise<SegmentsList[]> {
+  public async getSegments(applicationId: string): Promise<SegmentsList[]> {
     const command = new GetSegmentsCommand({
-      ApplicationId: this.applicationId,
+      ApplicationId: applicationId,
     })
 
     try {
@@ -94,9 +92,9 @@ class Pinpoint {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public async getSegment(id: string): Promise<any> {
+  public async getSegment(applicationId: string, id: string): Promise<any> {
     const command = new GetSegmentCommand({
-      ApplicationId: this.applicationId,
+      ApplicationId: applicationId,
       SegmentId: id,
     })
 
@@ -116,11 +114,14 @@ class Pinpoint {
     }
   }
 
-  public async createCampaign(campaignDetails: CampaignDetails) {
+  public async createCampaign(
+    applicationId: string,
+    campaignDetails: CampaignDetails
+  ) {
     const writeCampaignRequest = toWriteCampaignRequest(campaignDetails)
 
     const command = new CreateCampaignCommand({
-      ApplicationId: this.applicationId,
+      ApplicationId: applicationId,
       WriteCampaignRequest: writeCampaignRequest,
     })
 
@@ -135,9 +136,9 @@ class Pinpoint {
     }
   }
 
-  public async getCampaign(id: string) {
+  public async getCampaign(applicationId: string, id: string) {
     const command = new GetCampaignCommand({
-      ApplicationId: this.applicationId,
+      ApplicationId: applicationId,
       CampaignId: id,
     })
 

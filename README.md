@@ -1,6 +1,7 @@
 # 🍅 Automato Dashboard
 The dashboard of Automato, the market automation tool of 21th century.
 
+[![App Status](https://argocd.automato.firas.cc/api/badge?name=dashboard)](https://argocd.automato.firas.cc/applications/dashboard)
 ## 🧑‍💻 Stacks used
 
 #### 🚀 Frameworks

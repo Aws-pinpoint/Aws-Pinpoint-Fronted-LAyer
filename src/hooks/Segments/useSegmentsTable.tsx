@@ -11,6 +11,7 @@ const useSegmentsTable = (segments: SegmentsList[]) => {
     { id: 'Last modified date' },
   ]
   const dataStore = []
+
   segments.forEach(segment => {
     dataStore.push({
       ['Segment Name']: (
