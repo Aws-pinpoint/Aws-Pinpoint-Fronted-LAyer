@@ -45,10 +45,10 @@ export default class MyDocument extends Document {
 
     const favicon16Prod = `${pathPrefix}/images/favicon/prod/favicon-16x16.png`
     const favicon32Prod = `${pathPrefix}/images/favicon/prod/favicon-32x32.png`
-    const favicon96Prod = `${pathPrefix}/images/favicon/prod/favicon-96x96.png`
+    const favicon48Prod = `${pathPrefix}/images/favicon/prod/favicon-48x48.png`
     const favicon16Dev = `${pathPrefix}/images/favicon/dev/favicon-16x16.png`
     const favicon32Dev = `${pathPrefix}/images/favicon/dev/favicon-32x32.png`
-    const favicon96Dev = `${pathPrefix}/images/favicon/dev/favicon-96x96.png`
+    const favicon48Dev = `${pathPrefix}/images/favicon/dev/favicon-48x48.png`
 
     return (
       <Html lang="en">
@@ -90,8 +90,8 @@ export default class MyDocument extends Document {
           <link
             rel="icon"
             type="image/png"
-            href={isLocalDev ? favicon96Dev : favicon96Prod}
-            sizes="96x96"
+            href={isLocalDev ? favicon48Dev : favicon48Prod}
+            sizes="48x48"
           />
         </Head>
         <body className="guideBody">
