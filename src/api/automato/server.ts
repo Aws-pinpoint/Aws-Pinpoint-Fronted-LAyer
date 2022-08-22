@@ -31,6 +31,31 @@ export const getSegmentsGETHandler = async (
   }
 }
 
+// GET `/api/segment/<id>`
+export const getSegmentGETHandler = async (
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<HandlerRes> => {
+  try {
+    const pinpointProjectId = await authorize(req, res)
+    const segmentId = req.query.id as string
+
+    const automatoSegment = await pinpoint.getSegment(
+      pinpointProjectId,
+      segmentId
+    )
+    return {
+      status: 200,
+      json: { msg: 'Segment got!', data: automatoSegment },
+    }
+  } catch (err) {
+    return {
+      status: 500,
+      json: { msg: 'Error getting segments ;(' },
+    }
+  }
+}
+
 // POST `/api/segments`
 export const createSegmentPOSTHandler = async (
   req: NextApiRequest,

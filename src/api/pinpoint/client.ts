@@ -92,7 +92,7 @@ class Pinpoint {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public async getSegment(applicationId: string, id: string): Promise<any> {
+  public async getSegment(applicationId: string, id: string): Promise<Segment> {
     const command = new GetSegmentCommand({
       ApplicationId: applicationId,
       SegmentId: id,
@@ -107,7 +107,7 @@ class Pinpoint {
       console.log('res ->', JSON.stringify(segmentResponse, undefined, 2))
       console.log('aSegment ->', JSON.stringify(aSegment, undefined, 2))
 
-      return segmentResponse
+      return aSegment
     } catch (err) {
       console.error(err)
       throw err

@@ -55,12 +55,12 @@ export default class MyDocument extends Document {
         <Head>
           <meta
             name="description"
-            content="The Next.js EUI Starter uses Next.js, EUI library, and Emotion to help you make prototypes. You just need to know a few basic Next.js concepts and how to use EUI and you're ready to ship it!"
+            content="the dashboard of automato, the market automation tool of 21th century"
           />
-          <meta property="og:title" content="Elastic UI" />
+          <meta property="og:title" content="Automato" />
           <meta
             property="og:description"
-            content="The Next.js EUI Starter uses Next.js, EUI library, and Emotion to help you make prototypes. You just need to know a few basic Next.js concepts and how to use EUI and you're ready to ship it!"
+            content="The dashboard of Automato, the market automation tool of 21th century"
           />
           <meta
             property="og:image"

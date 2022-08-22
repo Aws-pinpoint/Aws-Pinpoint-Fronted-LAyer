@@ -1,5 +1,4 @@
 import { EuiLink } from '@elastic/eui'
-import faker from '@faker-js/faker'
 import Link from 'next/link'
 import { SegmentsList } from '../../components/Segments/models'
 

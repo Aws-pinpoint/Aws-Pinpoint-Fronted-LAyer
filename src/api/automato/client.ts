@@ -22,12 +22,30 @@ const getSegments = async (): Promise<SegmentsList[]> => {
       },
     })
     const resJson = await res.json()
-    console.log('resJson', resJson)
     if (res.status !== 200) {
       throw new Error(resJson.msg)
     }
 
     return resJson.data as SegmentsList[]
+  } catch (err) {
+    throw new Error(`Failed getting segments: "${err.message}"`)
+  }
+}
+
+const getSegment = async (id: string): Promise<Segment> => {
+  try {
+    const res = await fetch(`${BASE_API_URL}/segment?id=${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    const resJson = await res.json()
+    if (res.status !== 200) {
+      throw new Error(resJson.msg)
+    }
+
+    return resJson.data as Segment
   } catch (err) {
     throw new Error(`Failed getting segments: "${err.message}"`)
   }
@@ -131,6 +149,7 @@ const activateAccount = async (
 
 const automatoApi = {
   getSegments,
+  getSegment,
   createSegment,
   createCampaign,
   getUserDetails,

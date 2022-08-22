@@ -2,7 +2,7 @@ import '../styles/global.css'
 import { FunctionComponent, useEffect } from 'react'
 import { AppProps } from 'next/app'
 import Head from 'next/head'
-import { EuiErrorBoundary, EuiGlobalToastList } from '@elastic/eui'
+import { EuiErrorBoundary } from '@elastic/eui'
 import { Global } from '@emotion/react'
 import Chrome from '../eui/chrome'
 import { Theme } from '../eui/theme'
@@ -28,7 +28,7 @@ const EuiApp: FunctionComponent<AppProps> = ({ Component, pageProps }) => {
     <SuperTokensWrapper>
       <Head>
         {/* You can override this in other pages - see index.tsx for an example */}
-        <title>Next.js EUI Starter</title>
+        <title>Automato Dashboard</title>
       </Head>
       <Global styles={globalStyes} />
       <Theme>

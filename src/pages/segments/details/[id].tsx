@@ -1,10 +1,22 @@
 import Head from 'next/head'
 import { EuiTitle } from '@elastic/eui'
-import { GetServerSideProps } from 'next'
-import pinpoint from '../../../api/pinpoint/client'
 import { ProtectPage } from '../../../components/Auth/ProtectPage'
+import { useEffect, useState } from 'react'
+import { Segment } from '../../../components/Segments/CreateSegment/models'
+import automatoApi from '../../../api/automato/client'
+import { GetServerSideProps } from 'next'
 
-const SegmentDetails = () => {
+const SegmentDetails = ({ segmentId }: { segmentId: string }) => {
+  const [segment, setSegment] = useState<Segment | null>(null)
+
+  useEffect(() => {
+    ;(async () => {
+      const newSegment = await automatoApi.getSegment(segmentId)
+      console.log('segment ->', newSegment)
+      setSegment(newSegment)
+    })()
+  }, [])
+
   return (
     <ProtectPage>
       <Head>
@@ -20,10 +32,9 @@ const SegmentDetails = () => {
   )
 }
 
-/* export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const segmentId = query.id as string
-  const segment = await pinpoint.getSegment(segmentId)
-  return { props: { segment } }
-} */
+  return { props: { segmentId } }
+}
 
 export default SegmentDetails
