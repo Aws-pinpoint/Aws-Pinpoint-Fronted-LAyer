@@ -8,6 +8,7 @@ import {
   GetSegmentCommand,
   CreateAppCommand,
   CreateAppCommandInput,
+  GetCampaignsCommand,
 } from '@aws-sdk/client-pinpoint'
 import { CampaignDetails } from '../../components/Campaigns/CreateCampaign/models/Step5'
 import { Segment } from '../../components/Segments/CreateSegment/models'
@@ -115,6 +116,27 @@ class Pinpoint {
 
     try {
       await this.client.send(command)
+    } catch (err) {
+      console.error(err)
+      throw err
+    }
+  }
+
+  public async getCampaigns(applicationId: string) {
+    const command = new GetCampaignsCommand({
+      ApplicationId: applicationId,
+    })
+
+    try {
+      const commandRes = await this.client.send(command)
+      console.log('->', commandRes.CampaignsResponse)
+      /* const res: SegmentsList[] = commandRes.SegmentsResponse.Item.map(x => ({
+        name: x.Name,
+        id: x.Id,
+        lastModified: new Date(x.LastModifiedDate).getTime(),
+        type: x.SegmentType === 'DIMENSIONAL' ? 'Dynamic' : 'Static',
+      }))
+      return res */
     } catch (err) {
       console.error(err)
       throw err

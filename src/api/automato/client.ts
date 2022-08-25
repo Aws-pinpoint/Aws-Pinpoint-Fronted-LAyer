@@ -68,7 +68,7 @@ const createSegment = async (segment: Segment) => {
       throw new Error(resJson.msg)
     }
   } catch (err) {
-    throw new Error(`Failed creating segment: "${err}"`)
+    throw new Error(`Failed creating segment: "${err.message}"`)
   }
 }
 
@@ -89,7 +89,7 @@ const createCampaign = async (campaignDetails: CampaignDetails) => {
       throw new Error(resJson.msg)
     }
   } catch (err) {
-    throw new Error(`Failed creating segment: "${err}"`)
+    throw new Error(`Failed creating campaign: "${err.message}"`)
   }
 }
 

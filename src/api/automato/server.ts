@@ -78,6 +78,28 @@ export const createSegmentPOSTHandler = async (
   }
 }
 
+// GET `/api/campaigns`
+export const getCampaignsGETHandler = async (
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<HandlerRes> => {
+  try {
+    // const pinpointProjectId = await authorize(req, res)
+    const pinpointProjectId = '8b863bef04fc4c0a927c24e1da779487'
+
+    await pinpoint.getCampaigns(pinpointProjectId)
+    return {
+      status: 200,
+      json: { msg: 'Campaigns got!', data: {} },
+    }
+  } catch (err) {
+    return {
+      status: 500,
+      json: { msg: 'Error getting campaigns ;(' },
+    }
+  }
+}
+
 // POST `/api/campaigns`
 export const createCampaignPOSTHandler = async (
   req: NextApiRequest,
@@ -93,15 +115,15 @@ export const createCampaignPOSTHandler = async (
       json: { msg: 'Campaign created!' },
     }
   } catch (err) {
-    console.error(err)
+    console.error(err.message)
     return {
       status: 500,
-      json: { msg: 'Error creating campaign ;(' },
+      json: { msg: err.message },
     }
   }
 }
 
-// GET `/api/campaigns`
+// GET `/api/campaign`
 export const getCampaignGETHandler = async (
   req: NextApiRequest,
   res: NextApiResponse

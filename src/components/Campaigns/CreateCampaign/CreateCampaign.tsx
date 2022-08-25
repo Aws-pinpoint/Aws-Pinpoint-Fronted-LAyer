@@ -9,10 +9,14 @@ import StepView3 from './StepViews/StepView3'
 import StepView4 from './StepViews/StepView4'
 import StepView5 from './StepViews/StepView5'
 import automatoApi from '../../../api/automato/client'
+import { useToasts } from '../../Toasts/Toasts'
+import { useRouter } from 'next/router'
 
 const CreateCampaign = () => {
   const [campaign, setCampaign] = useAtom(CampaignAtom)
   const [step5] = useAtom(Step5Atom)
+  const { setSuccess, setError } = useToasts()
+  const router = useRouter()
 
   return (
     <>
@@ -52,8 +56,18 @@ const CreateCampaign = () => {
           <EuiButton
             size="s"
             fill
-            onClick={() => {
-              automatoApi.createCampaign(step5.campaignDetails)
+            onClick={async () => {
+              try {
+                await automatoApi.createCampaign(step5.campaignDetails)
+                setSuccess(
+                  'New campaign created',
+                  `${step5.campaignDetails.name} is created successfully!`
+                )
+
+                router.push('/campaigns')
+              } catch (err) {
+                setError('Error creating campaign', err.message)
+              }
             }}
           >
             Launch campaign
