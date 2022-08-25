@@ -32,6 +32,10 @@ import {
 import cloneDeep from 'clone-deep'
 import Link from 'next/link'
 import automatoApi from '../../../api/automato/client'
+import { useToasts } from '../../Toasts/Toasts'
+import { useRouter } from 'next/router'
+import { useAtom } from 'jotai'
+import { SegmentsListAtom } from '../../../store/store'
 
 const getFilterType = (
   filterAttribute: FilterAttribute
@@ -178,15 +182,31 @@ const CreateSegment = () => {
     setSegmentGroups(segmentGroupsRes)
   }
 
-  const handleCreateSegment = () => {
-    const segment: Segment = {
-      name: segmentName,
-      logic: segmentGroupsLogic,
-      segmentGroups: segmentGroups,
-    }
-    console.log(segment)
+  const { setError, setSuccess } = useToasts()
+  const [, setSegmentsList] = useAtom(SegmentsListAtom)
+  const router = useRouter()
 
-    automatoApi.createSegment(segment)
+  const handleCreateSegment = async () => {
+    try {
+      const segment: Segment = {
+        name: segmentName,
+        logic: segmentGroupsLogic,
+        segmentGroups: segmentGroups,
+      }
+
+      await automatoApi.createSegment(segment)
+
+      const newSegmentsList = await automatoApi.getSegments()
+      setSegmentsList(newSegmentsList)
+
+      setSuccess(
+        'New segment created',
+        `The segment "${segmentName}" has been successfully created`
+      )
+      await router.push('/segments')
+    } catch (err) {
+      setError('Error creating Segment', err.message)
+    }
   }
 
   return (

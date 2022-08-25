@@ -52,19 +52,13 @@ class Pinpoint {
 
   public async createSegment(applicationId: string, segment: Segment) {
     const writeSegmentRequest = toWriteSegmetRequest(segment)
-    /* console.log(
-      'writeSegmentRequest ->',
-      JSON.stringify(writeSegmentRequest, undefined, 2)
-    ) */
 
     const command = new CreateSegmentCommand({
       ApplicationId: applicationId,
       WriteSegmentRequest: writeSegmentRequest,
     })
-
     try {
-      const res = await this.client.send(command)
-      console.log('res ->', res)
+      await this.client.send(command)
     } catch (err) {
       console.error(err)
       throw err
@@ -100,13 +94,7 @@ class Pinpoint {
 
     try {
       const commandRes = await this.client.send(command)
-
-      const segmentResponse = commandRes.SegmentResponse
       const aSegment = toAutomatoSegment(commandRes.SegmentResponse)
-
-      console.log('res ->', JSON.stringify(segmentResponse, undefined, 2))
-      console.log('aSegment ->', JSON.stringify(aSegment, undefined, 2))
-
       return aSegment
     } catch (err) {
       console.error(err)
@@ -125,11 +113,8 @@ class Pinpoint {
       WriteCampaignRequest: writeCampaignRequest,
     })
 
-    console.log('campaignDetails ->', campaignDetails)
-    console.log('command ->', JSON.stringify(command, undefined, 2))
     try {
-      const res = await this.client.send(command)
-      console.log('res ->', res)
+      await this.client.send(command)
     } catch (err) {
       console.error(err)
       throw err

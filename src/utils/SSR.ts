@@ -9,3 +9,5 @@ export class SSRContainer<T> {
     return JSON.parse(this.jsonData)
   }
 }
+
+export const isSSR = () => typeof window === undefined

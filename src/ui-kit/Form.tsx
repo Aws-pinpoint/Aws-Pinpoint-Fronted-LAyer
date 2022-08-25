@@ -7,9 +7,14 @@ interface TitleProps {
   subTitle?: string
   spacerPos?: 'top' | 'bot'
   spacerSize?: 'xxl' | 'xl' | 'l' | 'm' | 's' | 'xs'
+  disableMb?: boolean
 }
 export const Title = (props: TitleProps) => (
-  <div className={`mb-2 ${props.className !== undefined && props.className}`}>
+  <div
+    className={`${!props.disableMb && 'mb-2'} ${
+      props.className !== undefined && props.className
+    }`}
+  >
     {props.spacerPos === 'top' && <EuiSpacer size={props.spacerSize || 'xl'} />}
     <EuiTitle size={props.size || 'xs'}>
       <h4>{props.value}</h4>
