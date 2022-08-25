@@ -28,6 +28,7 @@ class Postgres {
       port: Number(c.port),
       dialect: 'postgres',
       dialectModule: pg,
+      logging: false,
     })
 
     this.connectionIsEnsured = false
