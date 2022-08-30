@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { NextApiRequest, NextApiResponse } from 'next'
 import { authorize } from '../auth/auth'
+import cognito from '../cognito/client'
 import pinpoint from '../pinpoint/client'
 import postgres from '../postgres/client'
 import {
@@ -206,13 +207,17 @@ export const userActivateAccountPOSTHandler = async (
 
     // Create pinpoit project
     const pinpointProjectId = await pinpoint.createProject(
-      `automato~${userDetails.supertokensId}`
+      `automato-${userDetails.supertokensId}`
+    )
+    const cognitoIdentityPoolId = await cognito.createIdentityPool(
+      `automato-${userDetails.supertokensId}`
     )
 
     // Set pinpoint project id in user table
-    const ok2 = await postgres.addPinpointProjectIdToAccount(
+    const ok2 = await postgres.addAWScongigsToAccount(
       userDetails.supertokensId,
-      pinpointProjectId
+      pinpointProjectId,
+      cognitoIdentityPoolId
     )
     if (!ok2)
       return {

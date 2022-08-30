@@ -5,4 +5,5 @@ export interface UserDetails {
   id: string
   supertokensId: string
   activeAccount: boolean
+  sdkApiId: string | null
 }

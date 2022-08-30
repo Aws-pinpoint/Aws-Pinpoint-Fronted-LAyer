@@ -1,8 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import {
-  userActivateAccountPOSTHandler,
-  userGETHandler,
-} from '../../../api/automato/server'
+import { userActivateAccountPOSTHandler } from '../../../api/automato/server'
 
 export default async function handler(
   req: NextApiRequest,

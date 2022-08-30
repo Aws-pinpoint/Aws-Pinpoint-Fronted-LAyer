@@ -20,11 +20,15 @@ const ActivateAccount: FunctionComponent = () => {
         userDetails.supertokensId,
         activationCode
       )
+      const newUserDetails = await automatoApi.getUserDetails(
+        userDetails.supertokensId
+      )
+      setUserDetails(newUserDetails)
+
       setSuccess(
         'Account activated successfully',
         'You can now start using Automato'
       )
-      setUserDetails({ ...userDetails, activeAccount: true })
       router.push('/')
     } catch (e) {
       setError('Error activating account', e.message)

@@ -5,6 +5,10 @@ import ThirdPartyEmailPassword from 'supertokens-auth-react/recipe/thirdpartyema
 import { signOut } from 'supertokens-auth-react/recipe/thirdpartyemailpassword'
 import { useRouter } from 'next/router'
 import { userDetailsLSkey } from '../store/models'
+import { ProtectPage } from '../components/Auth/ProtectPage'
+import { Title } from '../ui-kit/Form'
+import { useAtom } from 'jotai'
+import { UserDetailsAtom } from '../store/store'
 
 const Settings: FunctionComponent = () => {
   const router = useRouter()
@@ -18,8 +22,10 @@ const Settings: FunctionComponent = () => {
     router.push('/auth')
   }
 
+  const [userDetails] = useAtom(UserDetailsAtom)
+
   return (
-    <ThirdPartyEmailPassword.ThirdPartyEmailPasswordAuth>
+    <ProtectPage>
       <Head>
         <title>Settings</title>
       </Head>
@@ -29,13 +35,22 @@ const Settings: FunctionComponent = () => {
           <h2>Settings</h2>
         </EuiTitle>
 
+        {typeof window !== 'undefined' && (
+          <Title
+            value="Frontend SDK API id"
+            subTitle={userDetails.sdkApiId}
+            className="mt-4"
+            size="s"
+          />
+        )}
+
         <EuiButton fill color="danger" className="mt-4" onClick={logout}>
           Logout
         </EuiButton>
 
         <EuiSpacer size="xs" />
       </div>
-    </ThirdPartyEmailPassword.ThirdPartyEmailPasswordAuth>
+    </ProtectPage>
   )
 }
 

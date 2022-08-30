@@ -104,7 +104,8 @@ class Postgres {
       id: res.getDataValue('id'),
       supertokensId: res.getDataValue('supertokensId'),
       activeAccount: res.getDataValue('activeAccount'),
-    } as UserDetails
+      sdkApiId: res.getDataValue('cognitoIdentityPoolId'),
+    }
   }
 
   async activateAccount(
@@ -140,9 +141,10 @@ class Postgres {
     }
   }
 
-  async addPinpointProjectIdToAccount(
+  async addAWScongigsToAccount(
     supertokensId: string,
-    pinpointProjectId: string
+    pinpointProjectId: string,
+    cognitoIdentityPoolId: string
   ): Promise<boolean> {
     try {
       await this.ensureConnection()
@@ -150,6 +152,7 @@ class Postgres {
       const [affectedCount] = await this.models.User.update(
         {
           pinpointProjectId,
+          cognitoIdentityPoolId,
         },
         { where: { supertokensId, activeAccount: true } }
       )

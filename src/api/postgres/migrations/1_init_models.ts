@@ -16,6 +16,10 @@ const userModel = {
       type: DataTypes.STRING,
       allowNull: true,
     },
+    cognitoIdentityPoolId: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   },
 }
 
