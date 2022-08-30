@@ -19,7 +19,6 @@ import { toWriteSegmetRequest } from './mappings/toPinpoint/segments'
 
 interface PinpointConstructor {
   awsRegion: string
-  applicationId: string
   accessKeyId: string
   secretAccessKey: string
 }
@@ -167,7 +166,6 @@ const pinpoint = new Pinpoint({
   awsRegion: process.env.AWS_REGION,
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  applicationId: process.env.AWS_APPLICATION_ID,
 })
 
 export default pinpoint
