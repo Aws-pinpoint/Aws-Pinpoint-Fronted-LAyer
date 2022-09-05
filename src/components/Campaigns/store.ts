@@ -1,6 +1,5 @@
 import cloneDeep from 'clone-deep'
 import { atom } from 'jotai'
-import { SegmentsList } from '../Segments/models'
 import {
   Campaign,
   defaultCampaign,

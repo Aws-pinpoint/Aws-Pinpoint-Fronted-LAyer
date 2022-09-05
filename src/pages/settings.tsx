@@ -1,7 +1,6 @@
 import { FunctionComponent } from 'react'
 import Head from 'next/head'
 import { EuiButton, EuiSpacer, EuiTitle } from '@elastic/eui'
-import ThirdPartyEmailPassword from 'supertokens-auth-react/recipe/thirdpartyemailpassword'
 import { signOut } from 'supertokens-auth-react/recipe/thirdpartyemailpassword'
 import { useRouter } from 'next/router'
 import { userDetailsLSkey } from '../store/models'

@@ -1,5 +1,5 @@
 import '../styles/global.css'
-import { FunctionComponent, useEffect } from 'react'
+import { FunctionComponent } from 'react'
 import { AppProps } from 'next/app'
 import Head from 'next/head'
 import { EuiErrorBoundary } from '@elastic/eui'

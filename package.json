@@ -19,7 +19,7 @@
     "analyze": "ANALYZE=true yarn build",
     "build": "yarn lint && rm -f public/themes/*.min.css && next build",
     "build-docs": "yarn lint && bash scripts/update-docs.sh",
-    "dev": "next",
+    "dev": "docker compose up -d && next",
     "lint": "tsc && next lint",
     "start": "next start",
     "test-docs": "yarn lint && bash scripts/test-docs.sh"
@@ -64,6 +64,7 @@
     "eslint-config-next": "12.0.4",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-unused-imports": "^2.0.0",
     "glob": "^7.2.0",
     "iniparser": "^1.0.5",
     "moment": "^2.29.1",

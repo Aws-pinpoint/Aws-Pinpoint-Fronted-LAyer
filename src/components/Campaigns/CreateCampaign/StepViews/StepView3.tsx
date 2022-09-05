@@ -8,12 +8,7 @@ import {
 import { useAtom } from 'jotai'
 import { Title } from '../../../../ui-kit/Form'
 import { Step1Atom, Step3Atom } from '../../store'
-import {
-  TemplateType,
-  templateTypeOptions,
-  TestMessageType,
-  testMessageTypeOptions,
-} from '../models/Step3'
+import { TestMessageType, testMessageTypeOptions } from '../models/Step3'
 
 const StepView3 = () => {
   const [step1] = useAtom(Step1Atom)

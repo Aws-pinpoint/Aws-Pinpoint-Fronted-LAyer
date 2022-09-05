@@ -14,6 +14,7 @@ const NotFoundPage: FunctionComponent = () => {
 
   const router = useRouter()
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleClick = (e: any) => {
     e.preventDefault()
     router.back()

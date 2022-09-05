@@ -4,7 +4,7 @@ module.exports = {
     'prettier',
     'next/core-web-vitals',
   ],
-  plugins: ['prettier'],
+  plugins: ['prettier', 'unused-imports'],
   rules: {
     // In an ideal world, we'd never have to use @ts-ignore, but that's not
     // possible right now.
@@ -63,6 +63,18 @@ module.exports = {
       {},
       {
         usePrettierrc: true,
+      },
+    ],
+
+    'no-unused-vars': 'off',
+    'unused-imports/no-unused-imports': 'error',
+    'unused-imports/no-unused-vars': [
+      'warn',
+      {
+        vars: 'all',
+        varsIgnorePattern: '^_',
+        args: 'after-used',
+        argsIgnorePattern: '^_',
       },
     ],
   },

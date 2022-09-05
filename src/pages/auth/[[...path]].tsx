@@ -4,6 +4,7 @@ import SuperTokens from 'supertokens-auth-react'
 import { redirectToAuth } from 'supertokens-auth-react/recipe/thirdpartyemailpassword'
 
 const SuperTokensComponentNoSSR = dynamic(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   new Promise(res => res(SuperTokens.getRoutingComponent)) as any,
   { ssr: false }
 )
