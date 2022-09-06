@@ -45,13 +45,17 @@ const StepView5 = () => {
           },
 
           schedule: {
-            triggerEvent: step4.onEventStep.triggerEvent,
-            attributes: step4.onEventStep.attributes,
-            metric: step4.onEventStep.metric,
-            startTime: step4.onEventStep.startTime,
-            endTime: step4.onEventStep.endTime,
-            timezone: step4.onEventStep.timeZone,
-          } as OnEventSchedule,
+            type: 'on-event',
+
+            onEventSchedule: {
+              triggerEvent: step4.onEventStep.triggerEvent,
+              attributes: step4.onEventStep.attributes,
+              metric: step4.onEventStep.metric,
+              startTime: step4.onEventStep.startTime,
+              endTime: step4.onEventStep.endTime,
+              timezone: step4.onEventStep.timeZone,
+            } as OnEventSchedule,
+          },
         },
       })
     }

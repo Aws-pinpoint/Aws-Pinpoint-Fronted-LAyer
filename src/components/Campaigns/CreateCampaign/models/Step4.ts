@@ -2,12 +2,26 @@
 // ==                              Step 4                                 ==
 // ==========================================================================
 
-export interface Step4 {
+/* export interface Step4 {
   campaignSendType: 'specific-time' | 'on-event'
   onEventStep: OnEventStep | null
   specificTimeStep: SpecificTimeStep | null
   campaignSettings?: CampaignSettings
-}
+} */
+
+export type Step4 =
+  | {
+      campaignSendType: 'specific-time'
+      specificTimeStep: SpecificTimeStep | null
+      campaignSettings?: CampaignSettings
+    }
+  | {
+      campaignSendType: 'on-event'
+      onEventStep: OnEventStep | null
+      campaignSettings?: CampaignSettings
+    }
+
+// export type CampaignSendType = 'specific-time' | 'on-event'
 
 // ==========================================================================
 // ==                            Specic Time                               ==
@@ -116,5 +130,4 @@ export const dafaultOnEventStep: OnEventStep = {
 export const defaultStep4: Step4 = {
   campaignSendType: 'on-event',
   onEventStep: dafaultOnEventStep,
-  specificTimeStep: null,
 }

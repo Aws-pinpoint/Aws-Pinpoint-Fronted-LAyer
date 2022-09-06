@@ -128,14 +128,11 @@ class Pinpoint {
 
     try {
       const commandRes = await this.client.send(command)
-      console.log('->', commandRes.CampaignsResponse)
-      /* const res: SegmentsList[] = commandRes.SegmentsResponse.Item.map(x => ({
-        name: x.Name,
-        id: x.Id,
-        lastModified: new Date(x.LastModifiedDate).getTime(),
-        type: x.SegmentType === 'DIMENSIONAL' ? 'Dynamic' : 'Static',
-      }))
-      return res */
+      // console.log('->', commandRes.CampaignsResponse)
+      console.log(
+        '->',
+        JSON.stringify(commandRes.CampaignsResponse.Item, undefined, 2)
+      )
     } catch (err) {
       console.error(err)
       throw err

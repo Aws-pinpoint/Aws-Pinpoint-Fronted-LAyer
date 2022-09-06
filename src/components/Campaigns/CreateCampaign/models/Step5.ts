@@ -30,7 +30,15 @@ export interface CampaignDetails {
     inAppMessage: string | null
   }
 
-  schedule: OnEventSchedule | SpecificTimeSchedule
+  schedule:
+    | {
+        type: 'specific-time'
+        specificTimeSchedule: SpecificTimeSchedule
+      }
+    | {
+        type: 'on-event'
+        onEventSchedule: OnEventSchedule
+      }
 }
 
 export interface OnEventSchedule {
@@ -73,10 +81,13 @@ export const defaultStep5: Step5 = {
     },
 
     schedule: {
-      frequency: 'Immediately',
-      startTime: 0,
-      endTime: 0,
-      timezone: '',
-    } as SpecificTimeSchedule,
+      type: 'specific-time',
+      specificTimeSchedule: {
+        frequency: 'Immediately',
+        startTime: 0,
+        endTime: 0,
+        timezone: '',
+      } as SpecificTimeSchedule,
+    },
   },
 }

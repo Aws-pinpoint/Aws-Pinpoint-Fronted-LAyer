@@ -1,4 +1,3 @@
-import store from 'store2'
 import { userDetailsLSkey } from '../../../store/models'
 import automatoApi from '../../automato/client'
 

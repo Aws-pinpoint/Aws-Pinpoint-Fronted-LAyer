@@ -81,8 +81,8 @@ export const createSegmentPOSTHandler = async (
 
 // GET `/api/campaigns`
 export const getCampaignsGETHandler = async (
-  req: NextApiRequest,
-  res: NextApiResponse
+  _req: NextApiRequest,
+  _res: NextApiResponse
 ): Promise<HandlerRes> => {
   try {
     // const pinpointProjectId = await authorize(req, res)

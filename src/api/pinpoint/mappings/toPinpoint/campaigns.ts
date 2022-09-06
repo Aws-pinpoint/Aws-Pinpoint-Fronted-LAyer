@@ -27,6 +27,9 @@ import {
 export const toWriteCampaignRequest = (
   campaignDetails: CampaignDetails
 ): WriteCampaignRequest => {
+  if (campaignDetails.schedule.type !== 'on-event')
+    throw new Error('Only on-event schedule is supported')
+
   const res: WriteCampaignRequest = {
     Name: campaignDetails.name,
     SegmentId: campaignDetails.segment.id,
@@ -35,10 +38,11 @@ export const toWriteCampaignRequest = (
       campaignDetails.message.channel,
       campaignDetails.priority
     ),
+
     Schedule: toPinpointSchedule(
       'on-event',
       campaignDetails.message.channel,
-      campaignDetails.schedule
+      campaignDetails.schedule.onEventSchedule
     ),
     MessageConfiguration: toPinpointMessageConfiguration(
       campaignDetails.message

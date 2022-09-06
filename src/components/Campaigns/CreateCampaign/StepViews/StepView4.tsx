@@ -16,70 +16,88 @@ const StepView4 = () => {
   const [step4, setStep4] = useAtom(Step4Atom)
   const handleTriggerEvent = (e: ChangeEvent<HTMLInputElement>) => {
     const newVal = e.target.value
-    setStep4(prev => ({
-      ...prev,
-      onEventStep: {
-        ...prev.onEventStep,
-        triggerEvent: newVal,
-      },
-    }))
+    setStep4(
+      prev =>
+        prev.campaignSendType === 'on-event' && {
+          ...prev,
+          onEventStep: {
+            ...prev.onEventStep,
+            triggerEvent: newVal,
+          },
+        }
+    )
   }
   const handleMetricOperator = (e: ChangeEvent<HTMLSelectElement>) => {
     const newOperator = e.target.value as MetricOperator
-    setStep4(prev => ({
-      ...prev,
-      onEventStep: {
-        ...prev.onEventStep,
-        metric: {
-          ...prev.onEventStep.metric,
-          operator: newOperator,
-        },
-      },
-    }))
+    setStep4(
+      prev =>
+        prev.campaignSendType === 'on-event' && {
+          ...prev,
+          onEventStep: {
+            ...prev.onEventStep,
+            metric: {
+              ...prev.onEventStep.metric,
+              operator: newOperator,
+            },
+          },
+        }
+    )
   }
   const handleMetricValue = (e: ChangeEvent<HTMLInputElement>) => {
     const newVal = e.target.value
-    setStep4(prev => ({
-      ...prev,
-      onEventStep: {
-        ...prev.onEventStep,
-        metric: {
-          ...prev.onEventStep.metric,
-          value: Number(newVal),
-        },
-      },
-    }))
+    setStep4(
+      prev =>
+        prev.campaignSendType === 'on-event' && {
+          ...prev,
+          onEventStep: {
+            ...prev.onEventStep,
+            metric: {
+              ...prev.onEventStep.metric,
+              value: Number(newVal),
+            },
+          },
+        }
+    )
   }
   const handleMetricMetric = (e: ChangeEvent<HTMLInputElement>) => {
     const newVal = e.target.value
-    setStep4(prev => ({
-      ...prev,
-      onEventStep: {
-        ...prev.onEventStep,
-        metric: {
-          ...prev.onEventStep.metric,
-          metric: newVal,
-        },
-      },
-    }))
+    setStep4(
+      prev =>
+        prev.campaignSendType === 'on-event' && {
+          ...prev,
+          onEventStep: {
+            ...prev.onEventStep,
+            metric: {
+              ...prev.onEventStep.metric,
+              metric: newVal,
+            },
+          },
+        }
+    )
   }
   const handleStartTime = (newVal: number) => {
-    setStep4(prev => ({
-      ...prev,
-      onEventStep: {
-        ...prev.onEventStep,
-        startTime: newVal,
-      },
-    }))
+    setStep4(
+      prev =>
+        prev.campaignSendType === 'on-event' && {
+          ...prev,
+          onEventStep: {
+            ...prev.onEventStep,
+            startTime: newVal,
+          },
+        }
+    )
   }
   const handleEndTime = (newVal: number) => {
-    setStep4(prev => ({
-      ...prev,
-      onEventStep: {
-        ...prev.onEventStep,
-        endTime: newVal,
-      },
-    }))
+    setStep4(
+      prev =>
+        prev.campaignSendType === 'on-event' && {
+          ...prev,
+          onEventStep: {
+            ...prev.onEventStep,
+            endTime: newVal,
+          },
+        }
+    )
   }
 
   return (
