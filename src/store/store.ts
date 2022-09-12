@@ -1,6 +1,7 @@
 import { Toast } from '@elastic/eui/src/components/toast/global_toast_list'
 import { atom } from 'jotai'
 import store from 'store2'
+import { CampaignsList } from '../components/Campaigns/models'
 import { SegmentsList } from '../components/Segments/models'
 import { UserDetails, userDetailsLSkey } from './models'
 
@@ -47,6 +48,8 @@ export const ToastsAtom = atom(
 )
 
 export const SegmentsListAtom = atom<SegmentsList[]>([])
+export const CampaignsListAtom = atom<CampaignsList[]>([])
+
 /* export const SegmentsListAtom = atom(
   async (get, set) => {
     const oldSegmentsList = get(InitSegmentsListAtom)

@@ -5,9 +5,12 @@ import SegmentsTable from '../../ui-kit/Table'
 import Link from 'next/link'
 import useCampaignsTable from '../../hooks/Campaigns/useCampaignsTable'
 import { ProtectPage } from '../../components/Auth/ProtectPage'
+import useCampaignsList from '../../hooks/Campaigns/useCampaignsList'
 
 const Campaigns: FunctionComponent = () => {
-  const [columns, dataStore] = useCampaignsTable()
+  const [campaignsList] = useCampaignsList()
+  const [columns, dataStore] = useCampaignsTable(campaignsList)
+
   return (
     <ProtectPage>
       <Head>

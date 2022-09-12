@@ -1,6 +1,8 @@
-import faker from '@faker-js/faker'
+import { EuiLink } from '@elastic/eui'
+import Link from 'next/link'
+import { CampaignsList } from '../../components/Campaigns/models'
 
-const useCampaignsTable = () => {
+const useCampaignsTable = (campaignsList: CampaignsList[]) => {
   const columns = [
     { id: 'Campaign name' },
     { id: 'Campaign id' },
@@ -10,22 +12,29 @@ const useCampaignsTable = () => {
     { id: 'Schedule' },
     { id: 'Created date' },
     { id: 'Status' },
-    { id: 'Last run result' },
+    // { id: 'Last run result' },
   ]
   const dataStore = []
-  for (let i = 1; i <= 3; i++) {
+
+  campaignsList.forEach(campaign => {
     dataStore.push({
-      ['Campaign name']: faker.fake('{{commerce.product}}'),
-      ['Campaign id']: faker.fake('{{datatype.uuid}}'),
-      ['Channel']: faker.fake('{{database.engine}}'),
-      ['Type']: 'Dynamic',
-      ['Priority']: 'Urgent',
-      ['Schedule']: faker.fake('{{date.future}}'),
-      ['Created date']: faker.fake('{{date.past}}'),
-      ['Status']: 'Pending',
-      ['Last run result']: 'Success',
+      ['Campaign name']: (
+        <Link href={`/campaigns/details/${campaign.id}`} passHref>
+          <EuiLink>
+            {campaign.name !== undefined ? campaign.name : 'Unnamed'}
+          </EuiLink>
+        </Link>
+      ),
+      ['Campaign id']: campaign.id,
+      ['Channel']: campaign.channel,
+      ['Type']: campaign.type,
+      ['Priority']: campaign.priority,
+      ['Schedule']: campaign.schedule,
+      ['Created date']: campaign.createdDate,
+      ['Status']: campaign.status,
+      // ['Last run result']: 'Success',
     })
-  }
+  })
 
   return [columns, dataStore]
 }
