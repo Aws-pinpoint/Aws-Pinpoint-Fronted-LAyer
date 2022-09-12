@@ -142,6 +142,7 @@ const toPinpointSchedule = (
     else if (channel === 'push-notification') res.Frequency = 'EVENT'
   } else {
     // if (scheduleType === 'specific-time')
+    // TODO: changes this when we implement specific time schedule
     schedule = schedule as SpecificTimeSchedule
     res.Frequency = toPinpointScheduleFrequency(schedule.frequency)
   }
