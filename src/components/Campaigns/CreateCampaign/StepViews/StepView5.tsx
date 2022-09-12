@@ -34,8 +34,6 @@ const StepView5 = () => {
 
           message: {
             channel: step1.channel,
-            contentType: '',
-            inAppMessage: '',
             header: step3.messageHeader,
             body: step3.messageBody,
             pushNotificationUrl:

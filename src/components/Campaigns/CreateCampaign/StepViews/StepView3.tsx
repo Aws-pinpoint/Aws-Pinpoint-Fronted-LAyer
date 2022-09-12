@@ -3,9 +3,12 @@ import {
   EuiFieldText,
   EuiRadioGroup,
   EuiSuperSelect,
+  EuiSuperSelectOption,
   EuiTextArea,
 } from '@elastic/eui'
 import { useAtom } from 'jotai'
+import { useEffect, useState } from 'react'
+import useSegmentsList from '../../../../hooks/Segments/useSegmentsList'
 import { Title } from '../../../../ui-kit/Form'
 import { Step1Atom, Step3Atom } from '../../store'
 import { TestMessageType, testMessageTypeOptions } from '../models/Step3'
@@ -13,6 +16,22 @@ import { TestMessageType, testMessageTypeOptions } from '../models/Step3'
 const StepView3 = () => {
   const [step1] = useAtom(Step1Atom)
   const [step3, setStep3] = useAtom(Step3Atom)
+
+  const [segmentsOptions, setSegmentsOptions] = useState<
+    EuiSuperSelectOption<string>[]
+  >([])
+  const [segmentsList] = useSegmentsList()
+  useEffect(() => {
+    setSegmentsOptions(
+      segmentsList.map(segment => ({
+        value: segment.id,
+        inputDisplay: (
+          <p>{segment.name !== undefined ? segment.name : 'Unnamed'}</p>
+        ),
+      }))
+    )
+  }, [segmentsList])
+
   return (
     <div>
       <Title
@@ -106,16 +125,7 @@ const StepView3 = () => {
       {step3.testMessageType === 'segment-name' && (
         <>
           <EuiSuperSelect
-            options={[
-              {
-                value: 'test-segment-1',
-                inputDisplay: <p>test-segment-1</p>,
-              },
-              {
-                value: 'test-segment-2',
-                inputDisplay: <p>test-segment-2</p>,
-              },
-            ]}
+            options={segmentsOptions}
             valueOfSelected={step3.testMessage}
             defaultValue=""
             onChange={val => {
@@ -145,7 +155,13 @@ const StepView3 = () => {
           </p>
         </>
       )}
-      <EuiButton size="s" fill className="mt-2">
+      <EuiButton
+        size="s"
+        fill
+        className="mt-2"
+        // TODO: implement this
+        disabled
+      >
         Send Message
       </EuiButton>
     </div>

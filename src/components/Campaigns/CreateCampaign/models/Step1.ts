@@ -45,6 +45,9 @@ export const campaignTypeOptions = [
     value: 'AB',
     label:
       'A/B test campaign - Create multiple message treatments and compare their performance.',
+
+    // TODO: implement this
+    disabled: true,
   },
 ]
 export const compareVariableOptions = [
@@ -63,6 +66,9 @@ export const channelOptions = [
   {
     value: 'email',
     label: 'Email',
+
+    // TODO: implement this
+    disabled: true,
   },
   {
     value: 'in-app',
@@ -71,6 +77,9 @@ export const channelOptions = [
   {
     value: 'sms',
     label: 'SMS',
+
+    // TODO: implement this
+    disabled: true,
   },
   {
     value: 'push-notification',
@@ -79,6 +88,9 @@ export const channelOptions = [
   {
     value: 'custom',
     label: 'Custom',
+
+    // TODO: implement this
+    disabled: true,
   },
 ]
 export const prioritizationOptions = [

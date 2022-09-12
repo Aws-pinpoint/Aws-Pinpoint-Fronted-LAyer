@@ -38,6 +38,9 @@ export const testMessageTypeOptions = [
   {
     value: 'endpoint-ids',
     label: 'Endpoint IDs',
+
+    // TODO: implement this
+    disabled: true,
   },
 ]
 

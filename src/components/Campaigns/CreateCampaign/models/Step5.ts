@@ -20,25 +20,30 @@ export interface CampaignDetails {
     holdoutPercent: number
   }
 
-  message: {
-    channel: CampaignChannel
-    header: string
-    body: string
-    pushNotificationUrl: string | null
+  message: CampaignMessage
 
-    contentType: string
-    inAppMessage: string | null
-  }
+  schedule: CampaignSchedule
+}
 
-  schedule:
-    | {
-        type: 'specific-time'
-        specificTimeSchedule: SpecificTimeSchedule
-      }
-    | {
-        type: 'on-event'
-        onEventSchedule: OnEventSchedule
-      }
+export type CampaignSchedule =
+  | {
+      type: 'specific-time'
+      specificTimeSchedule: SpecificTimeSchedule
+    }
+  | {
+      type: 'on-event'
+      onEventSchedule: OnEventSchedule
+    }
+
+export interface CampaignMessage {
+  channel: CampaignChannel
+  header: string
+  body: string
+  pushNotificationUrl: string | null
+
+  // TODO: forgot why did i put these. comment them out for now
+  // contentType: string
+  // inAppMessage: string | null
 }
 
 export interface OnEventSchedule {
@@ -76,8 +81,8 @@ export const defaultStep5: Step5 = {
       body: '',
       pushNotificationUrl: null,
 
-      contentType: '',
-      inAppMessage: null,
+      // contentType: '',
+      // inAppMessage: null,
     },
 
     schedule: {

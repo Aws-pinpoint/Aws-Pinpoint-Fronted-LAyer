@@ -61,7 +61,7 @@ const CreateCampaign = () => {
                 await automatoApi.createCampaign(step5.campaignDetails)
                 setSuccess(
                   'New campaign created',
-                  `${step5.campaignDetails.name} is created successfully!`
+                  `"${step5.campaignDetails.name}" is created successfully!`
                 )
 
                 router.push('/campaigns')
