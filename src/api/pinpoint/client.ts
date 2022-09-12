@@ -155,19 +155,18 @@ class Pinpoint {
     }
   }
 
-  public async getCampaign(applicationId: string, id: string) {
-    const command = new GetCampaignCommand({
-      ApplicationId: applicationId,
-      CampaignId: id,
-    })
-
+  public async getCampaign(
+    applicationId: string,
+    id: string
+  ): Promise<CampaignDetails> {
     try {
-      const res = await this.client.send(command)
-      console.log(
-        'res ->',
-        // res,
-        JSON.stringify(res, undefined, 2)
-      )
+      const command = new GetCampaignCommand({
+        ApplicationId: applicationId,
+        CampaignId: id,
+      })
+      const commandRes = await this.client.send(command)
+      const campaignDetails = toAutomatoCampaign(commandRes.CampaignResponse)
+      return campaignDetails
     } catch (err) {
       console.error(err)
       throw err

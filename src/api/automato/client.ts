@@ -92,6 +92,25 @@ const getCampaigns = async (): Promise<CampaignsList[]> => {
   }
 }
 
+const getCampaign = async (id: string): Promise<CampaignDetails> => {
+  try {
+    const res = await fetch(`${BASE_API_URL}/campaign?id=${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    const resJson = await res.json()
+    if (res.status !== 200) {
+      throw new Error(resJson.msg)
+    }
+
+    return resJson.data as CampaignDetails
+  } catch (err) {
+    throw new Error(`Failed getting campaigns: "${err.message}"`)
+  }
+}
+
 const createCampaign = async (campaignDetails: CampaignDetails) => {
   try {
     const reqBody: CreateCampaignRequest = {
@@ -171,6 +190,7 @@ const automatoApi = {
   getSegments,
   getSegment,
   createSegment,
+  getCampaign,
   getCampaigns,
   createCampaign,
   getUserDetails,
