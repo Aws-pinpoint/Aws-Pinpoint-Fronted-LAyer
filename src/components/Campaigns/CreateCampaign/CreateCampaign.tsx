@@ -11,12 +11,14 @@ import StepView5 from './StepViews/StepView5'
 import automatoApi from '../../../api/automato/client'
 import { useToasts } from '../../Toasts/Toasts'
 import { useRouter } from 'next/router'
+import { CampaignsListAtom } from '../../../store/store'
 
 const CreateCampaign = () => {
   const [campaign, setCampaign] = useAtom(CampaignAtom)
   const [step5] = useAtom(Step5Atom)
   const { setSuccess, setError } = useToasts()
   const router = useRouter()
+  const [, setCampaignsList] = useAtom(CampaignsListAtom)
 
   return (
     <>
@@ -59,6 +61,10 @@ const CreateCampaign = () => {
             onClick={async () => {
               try {
                 await automatoApi.createCampaign(step5.campaignDetails)
+
+                const newCampaignsList = await automatoApi.getCampaigns()
+                setCampaignsList(newCampaignsList)
+
                 setSuccess(
                   'New campaign created',
                   `"${step5.campaignDetails.name}" is created successfully!`

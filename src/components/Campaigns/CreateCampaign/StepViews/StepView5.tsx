@@ -1,6 +1,7 @@
 import { useAtom } from 'jotai'
 import { useEffect } from 'react'
 import { Title } from '../../../../ui-kit/Form'
+import CampaignDetailsComponent from '../../CampaignsDetailsComponent'
 import {
   Step1Atom,
   Step2Atom,
@@ -15,8 +16,7 @@ const StepView5 = () => {
   const [step2] = useAtom(Step2Atom)
   const [step3] = useAtom(Step3Atom)
   const [step4] = useAtom(Step4Atom)
-  const [, setStep5] = useAtom(Step5Atom)
-  // const [step5, setStep5] = useAtom(Step5Atom)
+  const [step5, setStep5] = useAtom(Step5Atom)
 
   useEffect(() => {
     if (step4.campaignSendType === 'on-event' && step4.onEventStep !== null) {
@@ -67,7 +67,8 @@ const StepView5 = () => {
         spacerSize="xxl"
         spacerPos="bot"
       />
-      <Title value="Details" subTitle="Placeholder details here..." />
+      <Title size="m" value="Campaign details" />
+      <CampaignDetailsComponent campaignDetails={step5.campaignDetails} />
     </div>
   )
 }
