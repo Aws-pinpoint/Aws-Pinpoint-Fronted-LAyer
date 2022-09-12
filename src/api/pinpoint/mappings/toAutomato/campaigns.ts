@@ -49,7 +49,7 @@ export const toAutomatoCampaign = (
       id: pCampaign.SegmentId,
       holdoutPercent: pCampaign.HoldoutPercent,
       //TODO: get segment name and put it here
-      name: '~',
+      name: 'WIP',
     },
 
     schedule: automatoCampaignSchedule,

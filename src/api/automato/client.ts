@@ -7,6 +7,7 @@ import { Segment } from '../../components/Segments/CreateSegment/models'
 import { CampaignDetails } from '../../components/Campaigns/CreateCampaign/models/Step5'
 import { SegmentsList } from '../../components/Segments/models'
 import { UserDetails } from '../../store/models'
+import { CampaignsList } from '../../components/Campaigns/models'
 
 const BASE_API_URL =
   process.env.NODE_ENV === 'production'
@@ -69,6 +70,25 @@ const createSegment = async (segment: Segment) => {
     }
   } catch (err) {
     throw new Error(`Failed creating segment: "${err.message}"`)
+  }
+}
+
+const getCampaigns = async (): Promise<CampaignsList[]> => {
+  try {
+    const res = await fetch(`${BASE_API_URL}/campaigns/`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    const resJson = await res.json()
+    if (res.status !== 200) {
+      throw new Error(resJson.msg)
+    }
+
+    return resJson.data as CampaignsList[]
+  } catch (err) {
+    throw new Error(`Failed getting campaigns: "${err.message}"`)
   }
 }
 
@@ -151,6 +171,7 @@ const automatoApi = {
   getSegments,
   getSegment,
   createSegment,
+  getCampaigns,
   createCampaign,
   getUserDetails,
   activateAccount,

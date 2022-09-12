@@ -11,8 +11,10 @@ import {
   GetCampaignsCommand,
 } from '@aws-sdk/client-pinpoint'
 import { CampaignDetails } from '../../components/Campaigns/CreateCampaign/models/Step5'
+import { CampaignsList } from '../../components/Campaigns/models'
 import { Segment } from '../../components/Segments/CreateSegment/models'
 import { SegmentsList } from '../../components/Segments/models'
+import { toAutomatoCampaign } from './mappings/toAutomato/campaigns'
 import { toAutomatoSegment } from './mappings/toAutomato/segments'
 import { toWriteCampaignRequest } from './mappings/toPinpoint/campaigns'
 import { toWriteSegmetRequest } from './mappings/toPinpoint/segments'
@@ -128,11 +130,25 @@ class Pinpoint {
 
     try {
       const commandRes = await this.client.send(command)
-      // console.log('->', commandRes.CampaignsResponse)
-      console.log(
-        '->',
-        JSON.stringify(commandRes.CampaignsResponse.Item, undefined, 2)
-      )
+
+      const pCampaigns = commandRes.CampaignsResponse.Item
+      const res: CampaignsList[] = pCampaigns.map(pCampaign => {
+        const campaignDetails = toAutomatoCampaign(pCampaign)
+        const x: CampaignsList = {
+          name: campaignDetails.name,
+          id: pCampaign.Id,
+          channel: campaignDetails.message.channel,
+          //TODO: change this when we implement AB campaign type
+          type: 'standard',
+          priority: campaignDetails.priority,
+          schedule: 'WIP',
+          createdDate: pCampaign.CreationDate,
+          status: pCampaign.State.CampaignStatus,
+        }
+        return x
+      })
+
+      return res
     } catch (err) {
       console.error(err)
       throw err

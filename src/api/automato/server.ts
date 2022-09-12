@@ -81,17 +81,16 @@ export const createSegmentPOSTHandler = async (
 
 // GET `/api/campaigns`
 export const getCampaignsGETHandler = async (
-  _req: NextApiRequest,
-  _res: NextApiResponse
+  req: NextApiRequest,
+  res: NextApiResponse
 ): Promise<HandlerRes> => {
   try {
-    // const pinpointProjectId = await authorize(req, res)
-    const pinpointProjectId = '8b863bef04fc4c0a927c24e1da779487'
+    const pinpointProjectId = await authorize(req, res)
 
-    await pinpoint.getCampaigns(pinpointProjectId)
+    const campaignsList = await pinpoint.getCampaigns(pinpointProjectId)
     return {
       status: 200,
-      json: { msg: 'Campaigns got!', data: {} },
+      json: { msg: 'Campaigns got!', data: campaignsList },
     }
   } catch (err) {
     return {
