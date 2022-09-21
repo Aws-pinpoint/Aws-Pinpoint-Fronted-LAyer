@@ -1,9 +1,8 @@
 import { FunctionComponent } from 'react'
 import Head from 'next/head'
-import { EuiSpacer } from '@elastic/eui'
-import HomeHero from '../eui/starter/home_hero'
-import HomeWhy from '../eui/starter/home_why'
 import { ProtectPage } from '../components/Auth/ProtectPage'
+import { AppAnalytics } from '../components/Analytics/AppAnalytics'
+import { Title } from '../ui-kit/Form'
 
 const Index: FunctionComponent = () => {
   return (
@@ -12,10 +11,9 @@ const Index: FunctionComponent = () => {
         <Head>
           <title>Analytics</title>
         </Head>
+        <Title value="Analytics" size="l" spacerSize="m" spacerPos="bot" />
 
-        <HomeHero />
-        <EuiSpacer size="xxl" />
-        <HomeWhy />
+        <AppAnalytics />
       </>
     </ProtectPage>
   )
