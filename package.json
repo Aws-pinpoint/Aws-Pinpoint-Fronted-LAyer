@@ -19,7 +19,7 @@
     "analyze": "ANALYZE=true yarn build",
     "build": "yarn lint && rm -f public/themes/*.min.css && next build",
     "build-docs": "yarn lint && bash scripts/update-docs.sh",
-    "dev": "docker compose up -d && next",
+    "dev": "next",
     "lint": "tsc && next lint",
     "start": "next start",
     "test-docs": "yarn lint && bash scripts/test-docs.sh"
@@ -49,7 +49,7 @@
     "sequelize": "^6.21.3",
     "store2": "^2.14.2",
     "supertokens-auth-react": "^0.24.2",
-    "supertokens-node": "^11.0.2",
+    "supertokens-node": "^12.1.5",
     "usehooks-ts": "^2.6.0"
   },
   "devDependencies": {

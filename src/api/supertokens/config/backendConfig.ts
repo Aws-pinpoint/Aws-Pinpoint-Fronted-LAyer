@@ -1,5 +1,6 @@
 import ThirdPartyEmailPasswordNode from 'supertokens-node/recipe/thirdpartyemailpassword'
 import SessionNode from 'supertokens-node/recipe/session'
+import Dashboard from 'supertokens-node/recipe/dashboard'
 import { appInfo } from './appInfo'
 import { TypeInput } from 'supertokens-node/types'
 import { postSignupBackendHook } from '../lib/backendHooks'
@@ -12,6 +13,7 @@ export const backendConfig = (): TypeInput => {
     },
     appInfo,
     recipeList: [
+      Dashboard.init({ apiKey: 'ABC' }),
       ThirdPartyEmailPasswordNode.init({
         override: {
           apis: originalImplementation => {
