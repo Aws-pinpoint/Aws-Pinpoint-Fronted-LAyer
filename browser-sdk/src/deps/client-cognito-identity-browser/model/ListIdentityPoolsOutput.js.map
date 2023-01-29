@@ -1,0 +1,1 @@
+{"version":3,"file":"ListIdentityPoolsOutput.js","sourceRoot":"","sources":["ListIdentityPoolsOutput.ts"],"names":[],"mappings":";;AAAA,2DAAwD;AAG3C,QAAA,uBAAuB,GAAgB;IAChD,IAAI,EAAE,WAAW;IACjB,QAAQ,EAAE,EAAE;IACZ,OAAO,EAAE;QACL,aAAa,EAAE;YACX,KAAK,EAAE,uCAAkB;SAC5B;QACD,SAAS,EAAE;YACP,KAAK,EAAE;gBACH,IAAI,EAAE,QAAQ;gBACd,GAAG,EAAE,CAAC;aACT;SACJ;KACJ;CACJ,CAAC"}

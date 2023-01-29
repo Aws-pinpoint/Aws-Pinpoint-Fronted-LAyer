@@ -1,0 +1,50 @@
+{
+  "name": "automato-browser-sdk",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "watch": "watchify src/index.ts -p tsify --noImplicitAny -o ../public/js/analytics.js",
+    "dev": "browserify src/index.ts -p tsify --noImplicitAny -d > ../public/js/analytics.min.js",
+    "build": "browserify src/index.ts -p tsify --noImplicitAny > ../public/js/analytics.min.js && uglifyjs --compress --mangle -o ../public/js/analytics.min.js -- ../public/js/analytics.min.js"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.18",
+    "typescript": "^4.9.4",
+    "watchify": "^4.0.0",
+    "browserify": "^17.0.0",
+    "tsify": "^5.0.4",
+    "uglify-js": "^3.17.4",
+    "@aws-sdk/client-documentation-generator": "^0.1.0-preview.1",
+    "rimraf": "^2.6.2",
+    "typedoc": "^0.10.0"
+  },
+  "dependencies": {
+    "@analytics/aws-pinpoint": "^0.7.7",
+    "analytics": "^0.8.1",
+    "@aws-sdk/types": "3.257.0",
+    "@aws-sdk/middleware-header-default": "^3.110.0",
+    "@aws-sdk/url-parser-browser": "^3.1.0",
+    "@aws-sdk/middleware-serializer": "^0.1.0-preview.1",
+    "@aws-sdk/retry-middleware": "^0.1.0-preview.1",
+    "@aws-sdk/signing-middleware": "^0.1.0-preview.2",
+    "@aws-sdk/core-handler": "^0.1.0-preview.1",
+    "@aws-sdk/json-error-unmarshaller": "^0.1.0-preview.2",
+    "@aws-sdk/json-builder": "^0.1.0-preview.1",
+    "@aws-sdk/json-parser": "^0.1.0-preview.1",
+    "@aws-sdk/protocol-json-rpc": "^0.1.0-preview.2",
+    "@aws-sdk/stream-collector-browser": "^0.1.0-preview.1",
+    "@aws-crypto/sha256-browser": "^0.1.0-preview.1",
+    "@aws-sdk/config-resolver": "^0.1.0-preview.1",
+    "@aws-sdk/fetch-http-handler": "^0.1.0-preview.1",
+    "@aws-sdk/middleware-content-length": "^0.1.0-preview.1",
+    "@aws-sdk/middleware-stack": "^0.1.0-preview.2",
+    "@aws-sdk/signature-v4": "^0.1.0-preview.2",
+    "@aws-sdk/util-base64-browser": "^0.1.0-preview.1",
+    "@aws-sdk/util-body-length-browser": "^0.1.0-preview.1",
+    "@aws-sdk/util-user-agent-browser": "^0.1.0-preview.2",
+    "@aws-sdk/util-utf8-browser": "^0.1.0-preview.1",
+    "@aws-sdk/util-locate-window": "3.208.0",
+    "tslib": "^1.8.0",
+    "@aws-sdk/client-cognito-identity-browser": "^0.1.0-preview.2"
+  }
+}

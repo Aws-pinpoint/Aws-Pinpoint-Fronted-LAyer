@@ -1,0 +1,1 @@
+{"version":3,"file":"DeleteIdentitiesOutput.js","sourceRoot":"","sources":["DeleteIdentitiesOutput.ts"],"names":[],"mappings":";;AAAA,2EAAwE;AAG3D,QAAA,sBAAsB,GAAgB;IAC/C,IAAI,EAAE,WAAW;IACjB,QAAQ,EAAE,EAAE;IACZ,OAAO,EAAE;QACL,sBAAsB,EAAE;YACpB,KAAK,EAAE,uDAA0B;SACpC;KACJ;CACJ,CAAC"}

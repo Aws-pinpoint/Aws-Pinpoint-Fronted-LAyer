@@ -14,7 +14,7 @@ yarn-error.log
 # Files in here are copied by the build
 public/themes
 
-node_modules
+/node_modules
 .next
 
 # Default `next export` output directory

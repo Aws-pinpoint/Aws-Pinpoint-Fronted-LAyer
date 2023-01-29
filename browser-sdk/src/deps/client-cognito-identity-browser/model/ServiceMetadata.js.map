@@ -1,0 +1,1 @@
+{"version":3,"file":"ServiceMetadata.js","sourceRoot":"","sources":["ServiceMetadata.ts"],"names":[],"mappings":";;AAEa,QAAA,eAAe,GAAsB;IAC9C,UAAU,EAAE,YAAY;IACxB,cAAc,EAAE,kBAAkB;IAClC,WAAW,EAAE,KAAK;IAClB,QAAQ,EAAE,MAAM;IAChB,eAAe,EAAE,yBAAyB;IAC1C,gBAAgB,EAAE,IAAI;IACtB,YAAY,EAAE,2BAA2B;IACzC,GAAG,EAAE,6BAA6B;CACrC,CAAC;AACW,QAAA,aAAa,GAAW,iBAAiB,CAAC"}

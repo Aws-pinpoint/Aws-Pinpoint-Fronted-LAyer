@@ -1,0 +1,1 @@
+{"version":3,"file":"DeleteIdentityPoolInput.js","sourceRoot":"","sources":["DeleteIdentityPoolInput.ts"],"names":[],"mappings":";;AAEa,QAAA,uBAAuB,GAAgB;IAChD,IAAI,EAAE,WAAW;IACjB,QAAQ,EAAE;QACN,gBAAgB;KACnB;IACD,OAAO,EAAE;QACL,cAAc,EAAE;YACZ,KAAK,EAAE;gBACH,IAAI,EAAE,QAAQ;gBACd,GAAG,EAAE,CAAC;aACT;SACJ;KACJ;CACJ,CAAC"}
