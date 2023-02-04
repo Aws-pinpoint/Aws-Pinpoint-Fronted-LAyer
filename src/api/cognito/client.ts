@@ -1,6 +1,7 @@
 import {
   CognitoIdentityClient,
   CreateIdentityPoolCommand,
+  SetIdentityPoolRolesCommand,
 } from '@aws-sdk/client-cognito-identity'
 
 interface CognitoConstructor {
@@ -22,15 +23,24 @@ class Cognito {
   }
 
   async createIdentityPool(name: string): Promise<string> {
-    const command = new CreateIdentityPoolCommand({
+    const pool_command = new CreateIdentityPoolCommand({
       IdentityPoolName: name,
       AllowUnauthenticatedIdentities: true,
     })
     try {
-      const res = await this.client.send(command)
-      const identityPoolId = res.IdentityPoolId
+      const pool_res = await this.client.send(pool_command)
+      const identityPoolId = pool_res.IdentityPoolId
 
-      // TODO: change some iam roles here???
+      // assign roles to the identity pool
+      const roles_command = new SetIdentityPoolRolesCommand({
+        IdentityPoolId: identityPoolId,
+        Roles: {
+          unauthenticated: 'arn:aws:iam::319183329627:role/PutEvents',
+          authenticated: 'arn:aws:iam::319183329627:role/PutEvents',
+        },
+      })
+
+      await this.client.send(roles_command)
 
       return identityPoolId
     } catch (err) {
