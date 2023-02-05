@@ -1,0 +1,24 @@
+{
+  "name": "automato-browser-sdk",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "watch": "watchify src/index.ts -p tsify --noImplicitAny -o ../public/js/amplify.js",
+    "dev": "browserify src/index.ts -p tsify --noImplicitAny -d > ../public/js/amplify.js",
+    "build": "browserify src/index.ts -p tsify --noImplicitAny > ../public/js/amplify.min.js && uglifyjs --compress --mangle -o ../public/js/amplify.min.js -- ../public/js/amplify.min.js"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.18",
+    "typescript": "^4.9.4",
+    "watchify": "^4.0.0",
+    "browserify": "^17.0.0",
+    "tsify": "^5.0.4",
+    "uglify-js": "^3.17.4",
+    "rimraf": "^2.6.2",
+    "typedoc": "^0.10.0"
+  },
+  "dependencies": {
+    "@aws-amplify/analytics": "^6.0.12",
+    "@aws-amplify/auth": "^5.1.6"
+  }
+}
