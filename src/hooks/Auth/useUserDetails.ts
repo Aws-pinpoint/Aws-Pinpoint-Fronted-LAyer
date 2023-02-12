@@ -14,7 +14,6 @@ export const useUserDetails = () => {
   )
 
   const userIsActive = async (supertokensId: string): Promise<boolean> => {
-    console.log(userDetails)
     if (userDetails === null) {
       const newUserDetails = await automatoApi.getUserDetails(supertokensId)
       setUserDetails(newUserDetails)

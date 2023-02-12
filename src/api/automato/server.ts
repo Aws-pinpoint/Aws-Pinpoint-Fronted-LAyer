@@ -206,15 +206,15 @@ export const userActivateAccountPOSTHandler = async (
 
     // Create pinpoit project
     const pinpointProjectId = await pinpoint.createProject(
-      `automato-${userDetails.supertokensId}`
+      `automato-${userDetails?.supertokensId}`
     )
     const cognitoIdentityPoolId = await cognito.createIdentityPool(
-      `automato-${userDetails.supertokensId}`
+      `automato-${userDetails?.supertokensId}`
     )
 
     // Set pinpoint project id in user table
     const ok2 = await postgres.addAWScongigsToAccount(
-      userDetails.supertokensId,
+      userDetails?.supertokensId,
       pinpointProjectId,
       cognitoIdentityPoolId
     )

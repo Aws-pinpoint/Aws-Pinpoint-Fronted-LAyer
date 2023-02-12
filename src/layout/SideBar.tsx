@@ -1,121 +1,51 @@
-import {
-  EuiIcon,
-  EuiKeyPadMenuItem,
-  EuiPageSideBar,
-  useGeneratedHtmlId,
-} from '@elastic/eui'
-import Link from 'next/link'
+import { EuiIcon, EuiSideNav } from '@elastic/eui'
 import { useRouter } from 'next/router'
-import { CSSProperties, useEffect, useState } from 'react'
+import { useState } from 'react'
 
 const SideBar = () => {
-  const keypadButtonId_1 = useGeneratedHtmlId({
-    prefix: 'keypadButton',
-    suffix: 'first',
-  })
-  const keypadButtonId_2 = useGeneratedHtmlId({
-    prefix: 'keypadButton',
-    suffix: 'second',
-  })
-  const keypadButtonId_3 = useGeneratedHtmlId({
-    prefix: 'keypadButton',
-    suffix: 'third',
-  })
-  const keypadButtonId_4 = useGeneratedHtmlId({
-    prefix: 'keypadButton',
-    suffix: 'fourth',
-  })
-  const [selectedID, setSelectedID] = useState(keypadButtonId_1)
+  const { push } = useRouter()
 
-  const { pathname } = useRouter()
-  useEffect(() => {
-    if (pathname === '/') {
-      setSelectedID(keypadButtonId_1)
-    } else if (pathname.startsWith('/analytics')) {
-      setSelectedID(keypadButtonId_2)
-    } else if (pathname.startsWith('/campaigns')) {
-      setSelectedID(keypadButtonId_3)
-    } else if (pathname.startsWith('/settings')) {
-      setSelectedID(keypadButtonId_4)
-    } else {
-      setSelectedID(undefined)
+  const [selectedItemName, setSelectedItem] = useState('Time stuff')
+
+  const createItem = (name, url: string | undefined, data = {}) => {
+    return {
+      id: name,
+      name,
+      isSelected: selectedItemName === name,
+      onClick: () => {
+        setSelectedItem(name)
+        if (url) push(url)
+      },
+      ...data,
     }
-  }, [pathname])
+  }
+
+  const sideNav = [
+    createItem('Dashboard', '/', {
+      icon: <EuiIcon type="home" />,
+    }),
+    createItem('Analytics', '/analytics', {
+      icon: <EuiIcon type="visLine" />,
+    }),
+    createItem('Segments', '/segments', {
+      icon: <EuiIcon type="outlierDetectionJob" />,
+    }),
+    createItem('Campaigns', '/campaigns', {
+      icon: <EuiIcon type="bell" />,
+    }),
+    createItem('Settings', '/settings', {
+      icon: <EuiIcon type="gear" />,
+    }),
+  ]
 
   return (
-    <EuiPageSideBar paddingSize="s" sticky>
-      <nav
-        aria-label="Nav title"
-        style={{
-          marginTop: '3.6rem',
-        }}
-      >
-        <PageButton
-          label="Analytics"
-          href="/"
-          keypadID={keypadButtonId_1}
-          onClick={() => setSelectedID(keypadButtonId_1)}
-          selectedID={selectedID}
-          icontType="visualizeApp"
-        />
-
-        <PageButton
-          label="Segments"
-          href="/segments"
-          keypadID={keypadButtonId_2}
-          onClick={() => setSelectedID(keypadButtonId_2)}
-          selectedID={selectedID}
-          icontType="spacesApp"
-        />
-
-        <PageButton
-          label="Campaigns"
-          href="/campaigns"
-          keypadID={keypadButtonId_3}
-          onClick={() => setSelectedID(keypadButtonId_3)}
-          selectedID={selectedID}
-          icontType="bell"
-        />
-
-        <PageButton
-          label="Settings"
-          href="/settings"
-          keypadID={keypadButtonId_4}
-          onClick={() => setSelectedID(keypadButtonId_4)}
-          selectedID={selectedID}
-          icontType="managementApp"
-        />
-      </nav>
-    </EuiPageSideBar>
-  )
-}
-
-const buttonStyle: CSSProperties = {
-  width: '100%',
-  height: '4rem',
-  marginBottom: '1rem',
-}
-interface PageButtonProps {
-  keypadID: string
-  selectedID: string
-  href: string
-  label: string
-  onClick: () => void
-  icontType: string
-}
-const PageButton = (props: PageButtonProps) => {
-  return (
-    <Link href={props.href} passHref>
-      <EuiKeyPadMenuItem
-        id={props.keypadID}
-        label={props.label}
-        isSelected={props.selectedID === props.keypadID}
-        onClick={props.onClick}
-        style={buttonStyle}
-      >
-        <EuiIcon type={props.icontType} size="l" color="inherit" />
-      </EuiKeyPadMenuItem>
-    </Link>
+    <EuiSideNav
+      heading={null}
+      mobileTitle={null}
+      isOpenOnMobile={true}
+      items={sideNav}
+      style={{ width: 192 }}
+    />
   )
 }
 

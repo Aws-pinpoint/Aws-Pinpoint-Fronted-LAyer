@@ -1,19 +1,18 @@
 import { FunctionComponent } from 'react'
 import Head from 'next/head'
 import { ProtectPage } from '../components/Auth/ProtectPage'
-import { AppAnalytics } from '../components/Analytics/AppAnalytics'
-import { Title } from '../ui-kit/Form'
+import { EuiPageHeader } from '@elastic/eui'
 
 const Index: FunctionComponent = () => {
   return (
     <ProtectPage>
       <>
         <Head>
-          <title>Analytics</title>
+          <title>Automoato - Dashboard</title>
         </Head>
-        <Title value="Analytics" size="l" spacerSize="m" spacerPos="bot" />
+        <EuiPageHeader pageTitle="Dashboard" iconType="home" description="" />
 
-        <AppAnalytics />
+        <p></p>
       </>
     </ProtectPage>
   )

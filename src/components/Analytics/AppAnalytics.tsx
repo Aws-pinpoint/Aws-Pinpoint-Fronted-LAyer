@@ -1,5 +1,4 @@
 import { Line } from 'react-chartjs-2'
-import { Title } from '../../ui-kit/Form'
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -24,8 +23,6 @@ ChartJS.register(
 export const AppAnalytics = () => {
   return (
     <>
-      <Title value="Application Analytics" />
-
       <Line
         datasetIdKey="id"
         data={{

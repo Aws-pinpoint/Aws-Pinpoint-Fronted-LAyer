@@ -1,38 +1,32 @@
 import Navbar from './Navbar'
 import SideBar from './SideBar'
-import {
-  EuiPage,
-  EuiPageContent,
-  EuiPageContentBody,
-  EuiPageBody,
-} from '@elastic/eui'
-import { useAuth } from '../hooks/Auth/useAuth'
+import { EuiPage, EuiPageBody, EuiPageSidebar, EuiShowFor } from '@elastic/eui'
+import { css } from '@emotion/react'
+import { useAtom } from 'jotai'
+import { UserDetailsAtom } from '../store/store'
 
 const Layout = ({ children }) => {
-  const { loggedIn } = useAuth()
+  const [userDetails] = useAtom(UserDetailsAtom)
 
   return (
     <>
-      <EuiPage paddingSize="none">
-        <Navbar />
+      <Navbar />
+      <EuiPage
+        css={css`
+          margin-top: 48px;
+        `}
+        paddingSize="none"
+      >
+        {userDetails && (
+          <EuiShowFor sizes={['m', 'l', 'xl']}>
+            <EuiPageSidebar paddingSize="l">
+              <SideBar />
+            </EuiPageSidebar>
+          </EuiShowFor>
+        )}
 
-        {loggedIn && <SideBar />}
-
-        <EuiPageBody
-          panelled
-          style={{
-            marginTop: '3.6rem',
-          }}
-        >
-          <EuiPageContent
-            hasBorder={false}
-            hasShadow={false}
-            paddingSize="none"
-            color="transparent"
-            borderRadius="none"
-          >
-            <EuiPageContentBody restrictWidth>{children}</EuiPageContentBody>
-          </EuiPageContent>
+        <EuiPageBody panelled paddingSize="l">
+          {children}
         </EuiPageBody>
       </EuiPage>
     </>

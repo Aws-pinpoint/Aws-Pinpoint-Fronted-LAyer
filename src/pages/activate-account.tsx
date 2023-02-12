@@ -7,6 +7,9 @@ import automatoApi from '../api/automato/client'
 import { useAtom } from 'jotai'
 import { UserDetailsAtom } from '../store/store'
 import { useRouter } from 'next/router'
+import { ProtectPage } from '../components/Auth/ProtectPage'
+
+ThirdPartyEmailPassword.init({})
 
 const ActivateAccount: FunctionComponent = () => {
   const [activationCode, setActivationCode] = useState('')
@@ -17,11 +20,11 @@ const ActivateAccount: FunctionComponent = () => {
   const handleActivateAccount = async () => {
     try {
       await automatoApi.activateAccount(
-        userDetails.supertokensId,
+        userDetails?.supertokensId,
         activationCode
       )
       const newUserDetails = await automatoApi.getUserDetails(
-        userDetails.supertokensId
+        userDetails?.supertokensId
       )
       setUserDetails(newUserDetails)
 
@@ -35,9 +38,9 @@ const ActivateAccount: FunctionComponent = () => {
     }
   }
   return (
-    <ThirdPartyEmailPassword.ThirdPartyEmailPasswordAuth>
+    <ProtectPage>
       <Head>
-        <title>Activate Account</title>
+        <title>Automoato - Activate Account</title>
       </Head>
 
       <div>
@@ -55,11 +58,9 @@ const ActivateAccount: FunctionComponent = () => {
           value={activationCode}
           onChange={e => setActivationCode(e.target.value)}
         />
-        <EuiButton fill className="mt-2" onClick={handleActivateAccount}>
-          Activate account
-        </EuiButton>
+        <EuiButton onClick={handleActivateAccount}>Activate account</EuiButton>
       </div>
-    </ThirdPartyEmailPassword.ThirdPartyEmailPasswordAuth>
+    </ProtectPage>
   )
 }
 

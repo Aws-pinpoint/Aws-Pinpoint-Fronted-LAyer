@@ -22,9 +22,7 @@ const pathPrefix = usePathPrefix ? derivePathPrefix() : ''
 const themeConfig = buildThemeConfig()
 
 const nextConfig = {
-  experimental: {
-    outputStandalone: true,
-  },
+  output: 'standalone',
 
   /** Disable the `X-Powered-By: Next.js` response header. */
   poweredByHeader: false,
@@ -112,7 +110,7 @@ const nextConfig = {
   },
 }
 
-/**
+/*
  * Enhances the Next config with the ability to:
  * - Analyze the webpack bundle
  * - Load images from JavaScript.
@@ -224,7 +222,13 @@ function derivePathPrefix() {
       const originUrl = gitConfig['remote "origin"'].url
 
       // eslint-disable-next-line prettier/prettier
-      return '/' + originUrl.split('/').pop().replace(/\.git$/, '');
+      return (
+        '/' +
+        originUrl
+          .split('/')
+          .pop()
+          .replace(/\.git$/, '')
+      )
     }
   }
 

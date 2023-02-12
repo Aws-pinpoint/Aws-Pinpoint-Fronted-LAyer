@@ -1,5 +1,5 @@
-import ThirdPartyEmailPasswordReact from 'supertokens-auth-react/recipe/thirdpartyemailpassword'
-import SessionReact from 'supertokens-auth-react/recipe/session'
+import ThirdPartyEmailPassword from 'supertokens-auth-react/recipe/thirdpartyemailpassword'
+import Session from 'supertokens-auth-react/recipe/session'
 import { appInfo } from './appInfo'
 import {
   postSigninFrontendHook,
@@ -13,7 +13,7 @@ export const frontendConfig = () => {
   return {
     appInfo,
     recipeList: [
-      ThirdPartyEmailPasswordReact.init({
+      ThirdPartyEmailPassword.init({
         onHandleEvent: async context => {
           if (context.action === 'SESSION_ALREADY_EXISTS') {
             // ~
@@ -55,7 +55,7 @@ export const frontendConfig = () => {
           ], */
         },
       }),
-      SessionReact.init(),
+      Session.init(),
     ],
   }
 }

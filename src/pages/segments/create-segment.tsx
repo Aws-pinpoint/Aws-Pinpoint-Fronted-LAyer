@@ -7,7 +7,7 @@ const CreateSegmentPage = () => {
   return (
     <ProtectPage>
       <Head>
-        <title>Create a Segment</title>
+        <title>Automoato - Create a Segment</title>
       </Head>
 
       <div>

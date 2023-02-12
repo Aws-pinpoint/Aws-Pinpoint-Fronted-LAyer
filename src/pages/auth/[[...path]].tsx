@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import dynamic from 'next/dynamic'
-import SuperTokens from 'supertokens-auth-react'
-import { redirectToAuth } from 'supertokens-auth-react/recipe/thirdpartyemailpassword'
+import SuperTokens, { redirectToAuth } from 'supertokens-auth-react'
 
 const SuperTokensComponentNoSSR = dynamic(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

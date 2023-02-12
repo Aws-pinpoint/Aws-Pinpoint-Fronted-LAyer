@@ -28,7 +28,7 @@ const SegmentDetails = ({ segmentId }: { segmentId: string }) => {
   return (
     <ProtectPage>
       <Head>
-        <title>Segment Details - x</title>
+        <title>Automoato - Segment Details - x</title>
       </Head>
 
       <EuiTitle size="l">

@@ -6,7 +6,7 @@ const CreateCampaignPage = () => {
   return (
     <ProtectPage>
       <Head>
-        <title>Create a campaign</title>
+        <title>Automoato - Create a campaign</title>
       </Head>
 
       <CreateCampaign />

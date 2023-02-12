@@ -26,7 +26,7 @@ const Settings: FunctionComponent = () => {
   return (
     <ProtectPage>
       <Head>
-        <title>Settings</title>
+        <title>Automoato - Settings</title>
       </Head>
 
       <div>
@@ -37,7 +37,7 @@ const Settings: FunctionComponent = () => {
         {typeof window !== 'undefined' && (
           <Title
             value="Frontend SDK API id"
-            subTitle={userDetails.sdkApiId}
+            subTitle={userDetails?.sdkApiId}
             className="mt-4"
             size="s"
           />

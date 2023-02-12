@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react'
 import Head from 'next/head'
-import { EuiButton, EuiSpacer, EuiTitle } from '@elastic/eui'
+import { EuiButton, EuiPageHeader, EuiSpacer } from '@elastic/eui'
 // import SegmentsTable from '../../components/Segments/SegmentsTable'
 import SegmentsTable from '../../ui-kit/Table'
 import Link from 'next/link'
@@ -15,22 +15,26 @@ const Segments: FunctionComponent = () => {
   return (
     <ProtectPage>
       <Head>
-        <title>Segments</title>
+        <title>Automoato - Segments</title>
       </Head>
 
-      <div>
-        <EuiTitle size="l">
-          <h2>Segments</h2>
-        </EuiTitle>
-
-        <EuiSpacer size="xl" />
-        <div className="flex flex-row-reverse mb-2">
-          <Link href="/segments/create-segment" passHref>
+      <EuiPageHeader
+        bottomBorder
+        pageTitle="Segments"
+        iconType="outlierDetectionJob"
+        rightSideItems={[
+          <Link
+            key="create-segment-action"
+            href="/segments/create-segment"
+            passHref
+          >
             <EuiButton fill>Create a segment</EuiButton>
-          </Link>
-        </div>
-        <SegmentsTable columns={columns} dataStore={dataStore} />
-      </div>
+          </Link>,
+        ]}
+      />
+      <EuiSpacer size="m" />
+
+      <SegmentsTable columns={columns} dataStore={dataStore} />
     </ProtectPage>
   )
 }
