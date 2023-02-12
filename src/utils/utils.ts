@@ -1,2 +1,3 @@
-export const objIsEmpty = (obj: Record<string, unknown>) =>
-  obj === undefined || Object.keys(obj).length === 0
+export const objIsEmpty = (obj: object) =>
+  obj === undefined ||
+  (typeof obj === 'object' && Object.keys(obj).length === 0)

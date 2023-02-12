@@ -12,7 +12,7 @@ import {
 import { FunctionComponent } from 'react'
 import { EuiHeaderSectionItemButton, EuiIcon, EuiToolTip } from '@elastic/eui'
 import { useTheme } from '../eui/theme'
-import SideNav from './SideNav'
+import { SideNav } from './SideNav'
 
 const Navbar = () => {
   return (

@@ -2,13 +2,13 @@ import { useState } from 'react'
 import { EuiCollapsibleNav, EuiButtonIcon } from '@elastic/eui'
 import SideBar from './SideBar'
 
-export default () => {
+export const SideNav = () => {
   const [navIsOpen, setNavIsOpen] = useState<boolean>(
     JSON.parse(
       String(localStorage.getItem('euiCollapsibleNavExample--isDocked'))
     ) || false
   )
-  const [navIsDocked, setNavIsDocked] = useState<boolean>(
+  const [navIsDocked] = useState<boolean>(
     JSON.parse(
       String(localStorage.getItem('euiCollapsibleNavExample--isDocked'))
     ) || false
