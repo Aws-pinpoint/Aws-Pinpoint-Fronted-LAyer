@@ -11,9 +11,6 @@
     "elastic",
     "typescript"
   ],
-  "engines": {
-    "node": ">=18.12.1"
-  },
   "license": "Apache-2.0",
   "scripts": {
     "analyze": "ANALYZE=true yarn build",
@@ -45,6 +42,7 @@
     "jotai": "^2.0.0",
     "nextjs-cors": "^2.1.2",
     "pg": "^8.9.0",
+    "moment": "^2.29.4",
     "pg-hstore": "^2.3.4",
     "react-chartjs-2": "^5.2.0",
     "regenerator-runtime": "^0.13.11",
@@ -73,7 +71,6 @@
     "eslint-plugin-unused-imports": "^2.0.0",
     "glob": "^8.1.0",
     "iniparser": "^1.0.5",
-    "moment": "^2.29.4",
     "next": "^13.1.6",
     "null-loader": "^4.0.1",
     "postcss": "^8.4.21",

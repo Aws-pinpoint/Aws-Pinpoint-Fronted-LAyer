@@ -14,3 +14,7 @@ export interface CampaignsList {
   schedule: string
   status: string
 }
+
+export interface CustomAttributesList {
+  name: string
+}

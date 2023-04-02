@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import {
   EuiButton,
   EuiButtonIcon,
@@ -48,6 +48,12 @@ const getFilterType = (
 }
 
 const CreateSegment = () => {
+  const customAttributes = useMemo(async () => {
+    return await automatoApi.getCustomAttributes()
+  }, [])
+
+  console.log(customAttributes)
+
   const [segmentName, setSegmentName] = useState('')
   const [segmentGroupsLogic, setSegmentGroupsLogic] =
     useState<GroupsLogic>('AND')

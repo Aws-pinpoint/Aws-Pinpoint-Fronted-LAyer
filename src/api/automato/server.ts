@@ -100,6 +100,29 @@ export const getCampaignsGETHandler = async (
   }
 }
 
+// GET `/api/customAttributes`
+export const getCstomAttributesGETHandler = async (
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<HandlerRes> => {
+  try {
+    const pinpointProjectId = await authorize(req, res)
+
+    const customAttribtesList = await pinpoint.getCustomAttributes(
+      pinpointProjectId
+    )
+    return {
+      status: 200,
+      json: { msg: 'Custom attributes got!', data: customAttribtesList },
+    }
+  } catch (err) {
+    return {
+      status: 500,
+      json: { msg: 'Error getting custom attributes ;(' },
+    }
+  }
+}
+
 // GET `/api/campaign`
 export const getCampaignGETHandler = async (
   req: NextApiRequest,

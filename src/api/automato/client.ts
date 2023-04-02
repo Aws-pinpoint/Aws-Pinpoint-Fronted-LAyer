@@ -7,12 +7,35 @@ import { Segment } from '../../components/Segments/CreateSegment/models'
 import { CampaignDetails } from '../../components/Campaigns/CreateCampaign/models/Step5'
 import { SegmentsList } from '../../components/Segments/models'
 import { UserDetails } from '../../store/models'
-import { CampaignsList } from '../../components/Campaigns/models'
+import {
+  CampaignsList,
+  CustomAttributesList,
+} from '../../components/Campaigns/models'
+import { ResultRow } from '@aws-sdk/client-pinpoint'
 
 const BASE_API_URL =
   process.env.NODE_ENV === 'production'
     ? process.env.NEXT_PUBLIC_BASE_API_URL
     : 'http://localhost:3000/api'
+
+const getCustomAttributes = async (): Promise<CustomAttributesList[]> => {
+  try {
+    const res = await fetch(`${BASE_API_URL}/customAttributes/`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    const resJson = await res.json()
+    if (res.status !== 200) {
+      throw new Error(resJson.msg)
+    }
+
+    return resJson.data as CampaignsList[]
+  } catch (err) {
+    throw new Error(`Failed getting customAttributes: "${err.message}"`)
+  }
+}
 
 const getSegments = async (): Promise<SegmentsList[]> => {
   try {
@@ -161,6 +184,36 @@ const getUserDetails = async (
   }
 }
 
+const getAnalytics = async (
+  kpi: string,
+  from: Date,
+  to: Date
+): Promise<ResultRow[]> => {
+  try {
+    const res = await fetch(
+      `${BASE_API_URL}/analytics?kpi=${encodeURIComponent(
+        kpi
+      )}&from=${encodeURIComponent(from.toISOString())}&to=${encodeURIComponent(
+        to.toISOString()
+      )}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    )
+    const resJson = await res.json()
+    if (res.status !== 200) {
+      throw new Error(resJson.msg)
+    }
+
+    return resJson.data
+  } catch (err) {
+    throw new Error(`Failed getting campaigns: "${err.message}"`)
+  }
+}
+
 const activateAccount = async (
   supertokensId: string,
   activationCode: string
@@ -187,8 +240,10 @@ const activateAccount = async (
 }
 
 const automatoApi = {
+  getAnalytics,
   getSegments,
   getSegment,
+  getCustomAttributes,
   createSegment,
   getCampaign,
   getCampaigns,

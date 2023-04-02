@@ -1,20 +1,44 @@
 import { css, keyframes } from '@emotion/react'
 import {
+  EuiAvatar,
+  EuiContextMenuItem,
+  EuiContextMenuPanel,
   EuiHeader,
   EuiHeaderLogo,
   EuiHeaderSection,
   EuiHeaderSectionItem,
+  EuiPopover,
   EuiShowFor,
   EuiThemeComputed,
   useEuiTheme,
 } from '@elastic/eui'
 
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useState } from 'react'
 import { EuiHeaderSectionItemButton, EuiIcon, EuiToolTip } from '@elastic/eui'
 import { useTheme } from '../eui/theme'
 import { SideNav } from './SideNav'
+import { useAtom } from 'jotai'
+import { UserDetailsAtom } from '../store/store'
+import { useRouter } from 'next/router'
+import { signOut } from 'supertokens-website'
+import { userDetailsLSkey } from '../store/models'
+// import { userDetailsLSkey } from '../store/models'
 
 const Navbar = () => {
+  const [userDetails] = useAtom(UserDetailsAtom)
+  const [isUserMenuPopoverOpen, setUserMenuPopoverOpen] = useState(false)
+  const router = useRouter()
+  const logout = async () => {
+    setUserMenuPopoverOpen(false)
+    // signout from supertokens
+    await signOut()
+
+    //empty localStorage
+    localStorage.removeItem(userDetailsLSkey)
+
+    router.reload()
+  }
+
   return (
     <EuiHeader position="fixed">
       <EuiHeaderSection grow={false}>
@@ -35,6 +59,36 @@ const Navbar = () => {
         <EuiHeaderSectionItem>
           <ThemeSwitcher key="theme-switcher" />
         </EuiHeaderSectionItem>
+        {userDetails && (
+          <EuiHeaderSectionItem>
+            <EuiPopover
+              button={
+                <EuiAvatar
+                  size="s"
+                  name={`${userDetails.id}`}
+                  iconType="user"
+                  color="#f22836"
+                  iconColor="#fff"
+                  onClick={() => setUserMenuPopoverOpen(!isUserMenuPopoverOpen)}
+                  style={{ cursor: 'pointer' }}
+                />
+              }
+              isOpen={isUserMenuPopoverOpen}
+              closePopover={() => setUserMenuPopoverOpen(false)}
+              panelPaddingSize="none"
+              anchorPosition="downLeft"
+            >
+              <EuiContextMenuPanel
+                size="s"
+                items={[
+                  <EuiContextMenuItem key="Logout" icon="exit" onClick={logout}>
+                    Logout
+                  </EuiContextMenuItem>,
+                ]}
+              />
+            </EuiPopover>
+          </EuiHeaderSectionItem>
+        )}
       </EuiHeaderSection>
     </EuiHeader>
   )

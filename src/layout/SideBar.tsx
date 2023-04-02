@@ -33,9 +33,9 @@ const SideBar = () => {
     createItem('Campaigns', '/campaigns', {
       icon: <EuiIcon type="bell" />,
     }),
-    createItem('Settings', '/settings', {
-      icon: <EuiIcon type="gear" />,
-    }),
+    // createItem('Settings', '/settings', {
+    //   icon: <EuiIcon type="gear" />,
+    // }),
   ]
 
   return (

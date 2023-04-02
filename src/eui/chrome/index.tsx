@@ -4,6 +4,27 @@ import { useTheme } from '../theme'
 
 import createCache from '@emotion/cache'
 
+import { EuiThemeAmsterdam } from '@elastic/eui'
+
+const automatoTheme = {
+  // Set the primary color here
+  ...EuiThemeAmsterdam,
+  root: {
+    ...EuiThemeAmsterdam.root,
+    colors: {
+      ...EuiThemeAmsterdam.root.colors,
+      LIGHT: {
+        ...EuiThemeAmsterdam.root.colors.LIGHT,
+        primary: '#f22836',
+      },
+      DARK: {
+        ...EuiThemeAmsterdam.root.colors.DARK,
+        primary: '#f22836',
+      },
+    },
+  },
+}
+
 /**
  * Renders the UI that surrounds the page content.
  */
@@ -29,6 +50,7 @@ const Chrome = ({ children }) => {
     <EuiProvider
       colorMode={colorMode as EuiThemeColorMode}
       cache={emotionCache}
+      theme={automatoTheme}
     >
       {children}
     </EuiProvider>

@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
-  PinpointClient,
   CreateSegmentCommand,
   CreateCampaignCommand,
   GetCampaignCommand,
@@ -9,9 +8,15 @@ import {
   CreateAppCommand,
   CreateAppCommandInput,
   GetCampaignsCommand,
+  PinpointClient,
+  GetEventStreamCommand,
+  GetApplicationDateRangeKpiCommand,
 } from '@aws-sdk/client-pinpoint'
 import { CampaignDetails } from '../../components/Campaigns/CreateCampaign/models/Step5'
-import { CampaignsList } from '../../components/Campaigns/models'
+import {
+  CampaignsList,
+  // CustomAttributesList,
+} from '../../components/Campaigns/models'
 import { Segment } from '../../components/Segments/CreateSegment/models'
 import { SegmentsList } from '../../components/Segments/models'
 import { toAutomatoCampaign } from './mappings/toAutomato/campaigns'
@@ -104,6 +109,21 @@ class Pinpoint {
     }
   }
 
+  public async getCustomAttributes(applicationId: string): Promise<string> {
+    try {
+      const command = new GetEventStreamCommand({
+        ApplicationId: applicationId,
+      })
+      const response = await this.client.send(command)
+      const res = response.EventStream
+      console.log(res)
+      return 'res'
+    } catch (err) {
+      console.error(err)
+      throw err
+    }
+  }
+
   public async createCampaign(
     applicationId: string,
     campaignDetails: CampaignDetails
@@ -167,6 +187,28 @@ class Pinpoint {
       const commandRes = await this.client.send(command)
       const campaignDetails = toAutomatoCampaign(commandRes.CampaignResponse)
       return campaignDetails
+    } catch (err) {
+      console.error(err)
+      throw err
+    }
+  }
+
+  public async getAnalytics(
+    applicationId: string,
+    kpi: string,
+    from: Date,
+    to: Date
+  ) {
+    const command = new GetApplicationDateRangeKpiCommand({
+      ApplicationId: applicationId,
+      KpiName: kpi,
+      StartTime: from,
+      EndTime: to,
+    })
+
+    try {
+      const commandRes = await this.client.send(command)
+      return commandRes.ApplicationDateRangeKpiResponse.KpiResult.Rows
     } catch (err) {
       console.error(err)
       throw err
