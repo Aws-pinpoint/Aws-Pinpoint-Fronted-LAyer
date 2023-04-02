@@ -11,7 +11,7 @@ import {
 } from 'chart.js'
 import { useEffect, useState } from 'react'
 import automatoApi from '../../api/automato/client'
-import { EuiSelectOption } from '@elastic/eui'
+import { EuiLoadingChart, EuiSelectOption } from '@elastic/eui'
 import moment from 'moment'
 
 ChartJS.register(
@@ -36,8 +36,11 @@ export const AppAnalytics = (props: AppAnalyticsProps) => {
     data: string[]
   }>({ labels: [], data: [] })
 
+  const [isLoading, setIsLoading] = useState(true)
+
   useEffect(() => {
     ;(async () => {
+      setIsLoading(true)
       try {
         const analyticsData = await automatoApi.getAnalytics(
           props.kpi.text.toString(),
@@ -63,12 +66,36 @@ export const AppAnalytics = (props: AppAnalyticsProps) => {
       } catch (error) {
         console.error(error)
       }
+      setIsLoading(false)
     })()
   }, [props.kpi, props.from, props.to])
 
   return (
-    <>
+    <div style={{ position: 'relative', marginTop: 30 }}>
+      {isLoading && (
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <div
+            style={{
+              position: 'relative',
+              margin: 'auto',
+            }}
+          >
+            <EuiLoadingChart size="xl" />
+          </div>
+        </div>
+      )}
       <Line
+        style={{
+          ...(isLoading ? { filter: 'blur(5px)' } : {}),
+        }}
         datasetIdKey="id"
         data={{
           labels: analytics.labels,
@@ -88,6 +115,6 @@ export const AppAnalytics = (props: AppAnalyticsProps) => {
           ],
         }}
       />
-    </>
+    </div>
   )
 }
