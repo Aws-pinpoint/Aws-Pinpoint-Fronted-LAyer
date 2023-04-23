@@ -82,6 +82,9 @@ const toPinpointSegmentDimensions = (
 ): SegmentDimensions => {
   const res: SegmentDimensions = {
     Demographic: {},
+    Attributes: {},
+    Metrics: {},
+    UserAttributes: {},
   }
   srcCriteria.filters.forEach(filter => {
     // A very basic way to check `filter` type
@@ -95,6 +98,28 @@ const toPinpointSegmentDimensions = (
       res.Demographic = {
         ...res.Demographic,
         ...newSgDemographics,
+      }
+    }
+    if (filter.attribute.startsWith('EndpointCustomAttributes_')) {
+      res.Attributes[
+        filter.attribute.replace('EndpointCustomAttributes_', '')
+      ] = {
+        AttributeType: operatorToDimecsionType(filter.operator),
+        Values: [filter.value],
+      }
+    }
+    if (filter.attribute.startsWith('EndpointUserAttributes_')) {
+      res.UserAttributes[
+        filter.attribute.replace('EndpointUserAttributes_', '')
+      ] = {
+        AttributeType: operatorToDimecsionType(filter.operator),
+        Values: [filter.value],
+      }
+    }
+    if (filter.attribute.startsWith('EndpointMetricAttributes_')) {
+      res.Metrics[filter.attribute.replace('EndpointMetricAttributes_', '')] = {
+        ComparisonOperator: operatorToDimecsionType(filter.operator),
+        Value: parseInt(filter.value),
       }
     }
   })
@@ -153,11 +178,15 @@ const toPinpointSetDimentsion = (
   const res: SetDimension = {
     Values: values,
   }
-  if (operator === 'Is') {
-    res.DimensionType = 'INCLUSIVE'
-  } else if (operator === 'Is not') {
-    res.DimensionType = 'EXCLUSIVE'
-  }
-
+  res.DimensionType = operatorToDimecsionType(operator)
   return res
+}
+
+const operatorToDimecsionType = (op: string): string => {
+  switch (op) {
+    case 'Is not':
+      return 'EXCLUSIVE'
+    default:
+      return 'INCLUSIVE'
+  }
 }

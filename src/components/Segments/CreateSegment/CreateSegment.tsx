@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   EuiButton,
   EuiButtonIcon,
@@ -48,11 +48,11 @@ const getFilterType = (
 }
 
 const CreateSegment = () => {
-  const customAttributes = useMemo(async () => {
-    return await automatoApi.getCustomAttributes()
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [customAttributes, setCustomAttributes] = useState<any>({})
+  useEffect(() => {
+    automatoApi.getCustomAttributes().then(setCustomAttributes)
   }, [])
-
-  console.log(customAttributes)
 
   const [segmentName, setSegmentName] = useState('')
   const [segmentGroupsLogic, setSegmentGroupsLogic] =
@@ -302,7 +302,71 @@ const CreateSegment = () => {
                           </p>
                         )}
                         <EuiSelect
-                          options={attributeOptions}
+                          options={[
+                            ...attributeOptions,
+                            ...(customAttributes.EndpointCustomAttributes
+                              ?.length
+                              ? [
+                                  {
+                                    value: 'EndpointCustomAttributes',
+                                    text: 'Custom Endpoint Attributes',
+                                    disabled: true,
+                                  },
+                                ]
+                              : []),
+                            ...customAttributes.EndpointCustomAttributes.map(
+                              attr => ({
+                                value: `EndpointCustomAttributes_${attr}`,
+                                text: attr,
+                              })
+                            ),
+                            ...(customAttributes.EndpointUserAttributes?.length
+                              ? [
+                                  {
+                                    value: 'EndpointUserAttributes',
+                                    text: 'Endpoint User Attributes',
+                                    disabled: true,
+                                  },
+                                ]
+                              : []),
+                            ...customAttributes.EndpointUserAttributes.map(
+                              attr => ({
+                                value: `EndpointUserAttributes_${attr}`,
+                                text: attr,
+                              })
+                            ),
+                            ...(customAttributes.EndpointMetricAttributes
+                              ?.length
+                              ? [
+                                  {
+                                    value: 'EndpointMetricAttributes',
+                                    text: 'Metrics',
+                                    disabled: true,
+                                  },
+                                ]
+                              : []),
+                            ...customAttributes.EndpointMetricAttributes.map(
+                              attr => ({
+                                value: `EndpointMetricAttributes_${attr}`,
+                                text: attr,
+                              })
+                            ),
+                            // ...(customAttributes.UserMetricAttributes?.length
+                            //   ? [
+                            //       {
+                            //         value: 'UserMetricAttributes',
+                            //         text: 'User Metrics',
+                            //         disabled: true,
+                            //       },
+                            //     ]
+                            //   : []),
+                            // ...customAttributes.UserMetricAttributes.map(
+                            //   attr => ({
+                            //     value: `UserMetricAttributes_${attr}`,
+                            //     text: attr,
+                            //   })
+                            // ),
+                          ]}
                           value={filter.attribute}
                           onChange={e => {
                             handleFilterAttribute(
