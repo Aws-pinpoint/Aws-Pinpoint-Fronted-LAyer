@@ -304,7 +304,7 @@ const CreateSegment = () => {
                         <EuiSelect
                           options={[
                             ...attributeOptions,
-                            ...(customAttributes.EndpointCustomAttributes
+                            ...(customAttributes?.EndpointCustomAttributes
                               ?.length
                               ? [
                                   {
@@ -314,13 +314,13 @@ const CreateSegment = () => {
                                   },
                                 ]
                               : []),
-                            ...customAttributes.EndpointCustomAttributes.map(
+                            ...(customAttributes?.EndpointCustomAttributes?.map(
                               attr => ({
                                 value: `EndpointCustomAttributes_${attr}`,
                                 text: attr,
                               })
-                            ),
-                            ...(customAttributes.EndpointUserAttributes?.length
+                            ) || []),
+                            ...(customAttributes?.EndpointUserAttributes?.length
                               ? [
                                   {
                                     value: 'EndpointUserAttributes',
@@ -329,13 +329,13 @@ const CreateSegment = () => {
                                   },
                                 ]
                               : []),
-                            ...customAttributes.EndpointUserAttributes.map(
+                            ...(customAttributes?.EndpointUserAttributes?.map(
                               attr => ({
                                 value: `EndpointUserAttributes_${attr}`,
                                 text: attr,
                               })
-                            ),
-                            ...(customAttributes.EndpointMetricAttributes
+                            ) || []),
+                            ...(customAttributes?.EndpointMetricAttributes
                               ?.length
                               ? [
                                   {
@@ -345,13 +345,13 @@ const CreateSegment = () => {
                                   },
                                 ]
                               : []),
-                            ...customAttributes.EndpointMetricAttributes.map(
+                            ...(customAttributes?.EndpointMetricAttributes?.map(
                               attr => ({
                                 value: `EndpointMetricAttributes_${attr}`,
                                 text: attr,
                               })
-                            ),
-                            // ...(customAttributes.UserMetricAttributes?.length
+                            ) || []),
+                            // ...(customAttributes?.UserMetricAttributes?.length
                             //   ? [
                             //       {
                             //         value: 'UserMetricAttributes',
@@ -360,7 +360,7 @@ const CreateSegment = () => {
                             //       },
                             //     ]
                             //   : []),
-                            // ...customAttributes.UserMetricAttributes.map(
+                            // ...customAttributes?.UserMetricAttributes.map(
                             //   attr => ({
                             //     value: `UserMetricAttributes_${attr}`,
                             //     text: attr,
