@@ -9,7 +9,6 @@ import {
   CreateAppCommandInput,
   GetCampaignsCommand,
   PinpointClient,
-  GetEventStreamCommand,
   GetApplicationDateRangeKpiCommand,
 } from '@aws-sdk/client-pinpoint'
 import { CampaignDetails } from '../../components/Campaigns/CreateCampaign/models/Step5'
@@ -23,6 +22,83 @@ import { toAutomatoCampaign } from './mappings/toAutomato/campaigns'
 import { toAutomatoSegment } from './mappings/toAutomato/segments'
 import { toWriteCampaignRequest } from './mappings/toPinpoint/campaigns'
 import { toWriteSegmetRequest } from './mappings/toPinpoint/segments'
+import https from 'https'
+import aws4 from 'aws4'
+
+interface AWSRESTConstructor {
+  awsRegion: string
+  accessKeyId: string
+  secretAccessKey: string
+}
+
+type ExtraHeaders = {
+  [k: string]: unknown
+}
+
+interface AWSRESTCallOpts {
+  host?: string
+  method?: string
+  path?: string
+  body?: string
+  service?: string
+  region?: string
+  signQuery?: boolean
+  extraHeadersToIgnore?: ExtraHeaders
+  extraHeadersToInclude?: ExtraHeaders
+}
+class AWSREST {
+  props: AWSRESTConstructor
+
+  constructor(c: AWSRESTConstructor) {
+    this.props = c
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public async call(opts: AWSRESTCallOpts): Promise<any> {
+    const o = {
+      host: 'pinpoint.us-east-1.amazonaws.com',
+      service: 'mobiletargeting',
+      region: this.props.awsRegion,
+      ...opts,
+    }
+
+    const reqOpts = aws4.sign(o, {
+      accessKeyId: this.props.accessKeyId,
+      secretAccessKey: this.props.secretAccessKey,
+    })
+
+    return new Promise((resolve, reject) => {
+      https
+        .request(reqOpts, res => {
+          if (res.statusCode < 200 || res.statusCode >= 300) {
+            reject(new Error(`statusCode=${res.statusCode}`))
+            return
+          }
+
+          let body = []
+          res.on('data', chunk => {
+            body.push(chunk)
+          })
+
+          res.on('end', () => {
+            try {
+              body = JSON.parse(Buffer.concat(body).toString())
+            } catch (e) {
+              reject(e)
+              return
+            }
+
+            resolve(body)
+          })
+        })
+        .end(opts.body || '')
+        .on('error', err => {
+          reject(err)
+        })
+      // resolve({})
+    })
+  }
+}
 
 interface PinpointConstructor {
   awsRegion: string
@@ -31,6 +107,7 @@ interface PinpointConstructor {
 }
 class Pinpoint {
   client: PinpointClient
+  restClient: AWSREST
 
   constructor(c: PinpointConstructor) {
     this.client = new PinpointClient({
@@ -40,6 +117,7 @@ class Pinpoint {
         secretAccessKey: c.secretAccessKey,
       },
     })
+    this.restClient = new AWSREST(c)
   }
 
   public async createProject(name: string): Promise<string> {
@@ -109,15 +187,12 @@ class Pinpoint {
     }
   }
 
-  public async getCustomAttributes(applicationId: string): Promise<string> {
+  public async getCustomAttributes(applicationId: string): Promise<unknown> {
     try {
-      const command = new GetEventStreamCommand({
-        ApplicationId: applicationId,
+      const res = await this.restClient.call({
+        path: `/v1/apps/${applicationId}/endpoints/attributes/legacy`,
       })
-      const response = await this.client.send(command)
-      const res = response.EventStream
-      console.log(res)
-      return 'res'
+      return res
     } catch (err) {
       console.error(err)
       throw err
