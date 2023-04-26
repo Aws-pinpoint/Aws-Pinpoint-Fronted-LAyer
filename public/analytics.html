@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Automato analytics integration demo</title>
+  <link rel="stylesheet" href="http://markdowncss.github.io/air/css/air.css">
+</head>
+
+<body>
+
+  <h1>Hello</h1>
+  <h3>This is a demo page for Automato web analytics integration</h3>
+
+  <p>If you want to integrate automato in your website just follow these steps:</p>
+  <ol>
+    <li>
+      Paste the following code at the end of <code>&lt;head&gt;</code> tag:
+      <pre><code class="language-html">&lt;script src="https://app.automato.pro/js/analytics.min.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+  window.automato = window.initAutomatoTracker(
+    "&lt;PROJECT_ID&gt;",
+    "&lt;POOL_ID&gt;"
+  );
+&lt;/script&gt;</code></pre>
+    <blockquote>
+      The automato team will provide you your <code>&lt;PROJECT_ID&gt;</code> and <code>&lt;POOL_ID&gt;</code>
+    </blockquote>
+    </li>
+    <li>
+      Identify your users using:
+      <pre><code class="language-js">automato.identify({
+  firstName: "Foulen",
+  lastName: "Fouleni",
+  age: 33,
+})</code></pre>
+    </li>
+    <li>
+      Track user actions using:
+      <pre><code class="language-js">automato.track("addToCart", {
+  item: "Awesome product",
+  price: 1234.56
+})</code></pre>
+    </li>
+  </ol>
+  
+  <script src="/js/analytics.min.js"></script>
+  <script>
+    let {projectId, poolId} = JSON.parse(atob((new URL(window.location.href)).searchParams.get("id")))
+    window.automato = window.initAutomatoTracker(
+      projectId,
+      poolId
+    );
+  </script>
+</body>
+
+</html>
