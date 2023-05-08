@@ -21,11 +21,11 @@
       <pre><code class="language-html">&lt;script src="https://app.automato.pro/js/analytics.min.js"&gt;&lt;/script&gt;
 &lt;script&gt;
   window.automato = window.initAutomatoTracker(
-    "&lt;PROJECT_ID&gt;",
-    "&lt;POOL_ID&gt;"
+    "<span id="projectId">&lt;PROJECT_ID&gt;</span>",
+    "<span id="poolId">&lt;POOL_ID&gt;</span>"
   );
 &lt;/script&gt;</code></pre>
-    <blockquote>
+    <blockquote id="idsNote">
       The automato team will provide you your <code>&lt;PROJECT_ID&gt;</code> and <code>&lt;POOL_ID&gt;</code>
     </blockquote>
     </li>
@@ -35,14 +35,19 @@
   firstName: "Foulen",
   lastName: "Fouleni",
   age: 33,
+  // or any other user data you can send to have more detailed audiences
 })</code></pre>
     </li>
     <li>
       Track user actions using:
-      <pre><code class="language-js">automato.track("addToCart", {
+      <pre><code class="language-js">automato.track("&lt;MY_EVENT_NAME&gt;", {
   item: "Awesome product",
-  price: 1234.56
+  price: 1234.56,
+  // or any detail you could record to have accurate targeted campaigns
 })</code></pre>
+    <blockquote>
+      Replace the <code>&lt;MY_EVENT_NAME&gt;</code> by the triggered event by the user, ex: "addToCart", "login", "openProductDetails", ...
+    </blockquote>
     </li>
   </ol>
   
@@ -53,6 +58,11 @@
       projectId,
       poolId
     );
+    if (projectId && poolId) {
+      document.getElementById("projectId").innerHTML = projectId;
+      document.getElementById("poolId").innerHTML = poolId;
+      document.getElementById("idsNote").remove();
+    }
   </script>
 </body>
 
