@@ -134,17 +134,25 @@ module.exports = withBundleAnalyzer({
  * @return {ThemeConfig}
  */
 function buildThemeConfig() {
-  const themeFiles = glob.sync(
+  const themeFiles = [
     path.join(
       __dirname,
       'node_modules',
       '@elastic',
       'eui',
       'dist',
-      'eui_theme_*.min.css'
+      'eui_theme_dark.min.css'
+    ),
+    path.join(
+      __dirname,
+      'node_modules',
+      '@elastic',
+      'eui',
+      'dist',
+      'eui_theme_light.min.css'
     )
-  )
-
+  ]
+  
   const themeConfig = {
     availableThemes: [],
     copyConfig: [],
