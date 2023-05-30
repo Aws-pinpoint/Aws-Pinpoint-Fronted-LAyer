@@ -36,6 +36,9 @@ const SideBar = () => {
     // createItem('Settings', '/settings', {
     //   icon: <EuiIcon type="gear" />,
     // }),
+    createItem('Journeys','/journeys',{
+      icon: <EuiIcon type="visMapRegion"/>
+    })
   ]
 
   return (
