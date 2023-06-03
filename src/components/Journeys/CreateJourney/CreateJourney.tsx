@@ -80,7 +80,7 @@ const CreateJourney = () => {
               <EuiButton onClick={() => {}} iconType="dashboardApp">
                 Schedule
               </EuiButton>
-              <EuiButton color="warning" fill>
+              <EuiButton color="primary" fill>
                 Review
               </EuiButton>
             </div>
