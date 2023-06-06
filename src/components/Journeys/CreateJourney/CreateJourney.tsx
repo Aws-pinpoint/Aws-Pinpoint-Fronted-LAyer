@@ -9,6 +9,7 @@ import ReactFlow, {
   addEdge,
 } from 'reactflow'
 import 'reactflow/dist/style.css'
+import ContextMenuButton from './ContextMenuButton'
 
 const options = [
   {
@@ -68,15 +69,7 @@ const CreateJourney = () => {
           </div>
           <div>
             <div className="grid grid-cols-3 gap-2">
-              <EuiComboBox
-                aria-label="Accessible screen reader label"
-                placeholder="Actions"
-                singleSelection={{ asPlainText: true }}
-                options={options}
-                selectedOptions={selectedOptions}
-                onChange={onChange}
-                style={{ width: '200px' }}
-              />
+              <ContextMenuButton />
               <EuiButton onClick={() => {}} iconType="dashboardApp">
                 Schedule
               </EuiButton>
