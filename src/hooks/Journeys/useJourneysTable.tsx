@@ -5,7 +5,7 @@ import { JourneysList } from '../../components/Journeys/model'
 const useSegmentsTable = (journeys: JourneysList[]) => {
   const columns = [
     { id: 'Journey Name' },
-    { id: 'Last Modified' },
+    { id: 'Last Modified date' },
     { id: 'Creation Date' },
     { id: 'Status' },
     { id: 'ID' },
@@ -21,10 +21,10 @@ const useSegmentsTable = (journeys: JourneysList[]) => {
           </EuiLink>
         </Link>
       ),
-      ['Segment ID']: journey.id,
+      ['ID']: journey.id,
       ['Status']: journey.status,
       ['Creation Date']: journey.creationDate,
-      ['Last modified date']: new Date(journey.lastModified).toLocaleString(),
+      ['Last Modified date']: new Date(journey.lastModified).toLocaleString(),
     })
   })
 

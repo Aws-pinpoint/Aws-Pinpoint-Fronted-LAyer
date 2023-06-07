@@ -17,7 +17,6 @@ const useJourneysList = (): [
       if (journeysList.length === 0)
         try {
           const newJourneysList = await automatoApi.getJourneys()
-          console.log(newJourneysList)
           setJourneysList(newJourneysList)
         } catch (error) {
           setError('Error getting segments', error.message)
