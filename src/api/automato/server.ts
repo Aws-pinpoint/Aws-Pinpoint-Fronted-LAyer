@@ -168,6 +168,27 @@ export const createCampaignPOSTHandler = async (
   }
 }
 
+// GET `/api/journeys`
+export const getJourneysGETHandler = async (
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<HandlerRes> => {
+  try {
+    const pinpointProjectId = await authorize(req, res)
+
+    const journeys = await pinpoint.getJourneys(pinpointProjectId)
+    return {
+      status: 200,
+      json: { msg: 'Journeys got!', data: journeys },
+    }
+  } catch (err) {
+    return {
+      status: 500,
+      json: { msg: 'Error getting journeys ;(' },
+    }
+  }
+}
+
 export const userGETHandler = async (
   req: NextApiRequest,
   _res: NextApiResponse

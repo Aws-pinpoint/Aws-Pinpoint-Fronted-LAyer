@@ -4,15 +4,12 @@ import { ProtectPage } from "../../components/Auth/ProtectPage"
 import Head from "next/head"
 import { EuiPageHeader, EuiButton , EuiSpacer } from "@elastic/eui"
 import SegmentsTable from "../../ui-kit/Table"
+import useJourneysTable from "../../hooks/Journeys/useJourneysTable"
+import useJourneysList from "../../hooks/Journeys/useJourneysList"
 
 const Journeys: FunctionComponent = () => {
-  const columns = [
-    { id: 'Journey Name' },
-    { id: 'Last Modified' },
-    { id: 'Creation Date' },
-    { id: 'Status' },
-    { id: 'ID' },
-  ]
+  const [journeysList] = useJourneysList()
+  const [columns, dataStore] = useJourneysTable(journeysList)
 
   return (
     <ProtectPage>
@@ -35,7 +32,7 @@ const Journeys: FunctionComponent = () => {
             ]}
         />
         <EuiSpacer size="m" />
-        {/*<SegmentsTable columns={columns} />*/}
+        <SegmentsTable columns={columns} dataStore={dataStore} />
     </ProtectPage>
   )
 }

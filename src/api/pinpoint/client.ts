@@ -10,8 +10,10 @@ import {
   GetCampaignsCommand,
   PinpointClient,
   GetApplicationDateRangeKpiCommand,
+  ListJourneysCommand,
 } from '@aws-sdk/client-pinpoint'
 import { CampaignDetails } from '../../components/Campaigns/CreateCampaign/models/Step5'
+import { JourneysList } from '../../components/Journeys/model'
 import {
   CampaignsList,
   // CustomAttributesList,
@@ -262,6 +264,27 @@ class Pinpoint {
       const commandRes = await this.client.send(command)
       const campaignDetails = toAutomatoCampaign(commandRes.CampaignResponse)
       return campaignDetails
+    } catch (err) {
+      console.error(err)
+      throw err
+    }
+  }
+
+  public async getJourneys(applicationId: string): Promise<JourneysList[]> {
+    const command = new ListJourneysCommand({
+      ApplicationId: applicationId,
+    })
+
+    try {
+      const commandRes = await this.client.send(command)
+      const res: JourneysList[] = commandRes.JourneysResponse.Item.map(x => ({
+        name: x.Name,
+        id: x.Id,
+        status: x.State,
+        creationDate: x.CreationDate,
+        lastModified: new Date(x.LastModifiedDate).getTime(),
+      }))
+      return res
     } catch (err) {
       console.error(err)
       throw err

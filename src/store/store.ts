@@ -3,6 +3,7 @@ import { atom } from 'jotai'
 import store from 'store2'
 import { CampaignsList } from '../components/Campaigns/models'
 import { SegmentsList } from '../components/Segments/models'
+import { JourneysList } from '../components/Journeys/model'
 import { UserDetails, userDetailsLSkey } from './models'
 
 /* const UserDetailsInitAtom = atom<UserDetails | null>(
@@ -49,6 +50,7 @@ export const ToastsAtom = atom(
 
 export const SegmentsListAtom = atom<SegmentsList[]>([])
 export const CampaignsListAtom = atom<CampaignsList[]>([])
+export const JourneysListAtom = atom<JourneysList[]>([])
 
 /* export const SegmentsListAtom = atom(
   async (get, set) => {

@@ -6,6 +6,7 @@ import {
 import { Segment } from '../../components/Segments/CreateSegment/models'
 import { CampaignDetails } from '../../components/Campaigns/CreateCampaign/models/Step5'
 import { SegmentsList } from '../../components/Segments/models'
+import { JourneysList } from '../../components/Journeys/model'
 import { UserDetails } from '../../store/models'
 import {
   CampaignsList,
@@ -155,6 +156,25 @@ const createCampaign = async (campaignDetails: CampaignDetails) => {
   }
 }
 
+const getJourneys = async (): Promise<JourneysList[]> => {
+  try {
+    const res = await fetch(`${BASE_API_URL}/journeys/`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    const resJson = await res.json()
+    if (res.status !== 200) {
+      throw new Error(resJson.msg)
+    }
+
+    return resJson.data as JourneysList[]
+  } catch (err) {
+    throw new Error(`Failed getting segments: "${err.message}"`)
+  }
+}
+
 const getUserDetails = async (
   supertokensId: string
 ): Promise<UserDetails | null> => {
@@ -248,6 +268,7 @@ const automatoApi = {
   getCampaign,
   getCampaigns,
   createCampaign,
+  getJourneys,
   getUserDetails,
   activateAccount,
 }
