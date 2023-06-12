@@ -6,13 +6,18 @@ import {
   useGeneratedHtmlId,
 } from '@elastic/eui';
 import ModalTestComponent from './ButtonViews/ModalTest';
+import ModalDuplicateComponent from './ButtonViews/ModalDuplicate';
 
 export default () => {
   const [isPopoverOpen, setPopover] = useState(false);
 
-  //Modal Info
-  const [isModalVisible, setIsModalVisible] = useState(false)
-  const closeModal = () => setIsModalVisible(false)
+  //Test Modal Info
+  const [isTestModalVisible, setIsTestModalVisible] = useState(false)
+  const closeTestModal = () => setIsTestModalVisible(false)
+
+  //Duplicate Modal Info
+  const [isDuplicateModalVisible, setIsDuplicateModalVisible] = useState(false)
+  const closeDuplicateModal = () => setIsDuplicateModalVisible(false)
 
   const contextMenuPopoverId = useGeneratedHtmlId({
     prefix: 'contextMenuPopover',
@@ -26,8 +31,6 @@ export default () => {
     setPopover(false);
   };
 
-  let modal
-
   const panels = [
     {
       id: 0,
@@ -36,12 +39,14 @@ export default () => {
         {
           name: 'Test',
           onClick: () => {
-            console.log(isModalVisible)
-            setIsModalVisible(true)
+            setIsTestModalVisible(true)
           }
         },
         {
           name: 'Duplicate',
+          onClick: () => {
+            setIsDuplicateModalVisible(true)
+          }
         },
         {
           name: 'Delete',
@@ -70,7 +75,8 @@ export default () => {
       anchorPosition="downLeft"
     >
       <EuiContextMenu initialPanelId={0} panels={panels} />
-      <ModalTestComponent isVisible={isModalVisible} closeModal={closeModal} />
+      <ModalTestComponent isVisible={isTestModalVisible} closeModal={closeTestModal} />
+      <ModalDuplicateComponent isVisible={isDuplicateModalVisible} closeModal={closeDuplicateModal} />
     </EuiPopover>
     </>
   );
