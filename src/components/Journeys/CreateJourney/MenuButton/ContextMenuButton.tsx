@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import {
   EuiButton,
   EuiContextMenu,
   EuiPopover,
   useGeneratedHtmlId,
-} from '@elastic/eui';
-import ModalTestComponent from './ButtonViews/ModalTest';
-import ModalDuplicateComponent from './ButtonViews/ModalDuplicate';
+} from '@elastic/eui'
+import ModalTestComponent from './ButtonViews/ModalTest'
+import ModalDuplicateComponent from './ButtonViews/ModalDuplicate'
+import ModalDeleteComponent from './ButtonViews/ModalDelete'
 
 export default () => {
-  const [isPopoverOpen, setPopover] = useState(false);
+  const [isPopoverOpen, setPopover] = useState(false)
 
   //Test Modal Info
   const [isTestModalVisible, setIsTestModalVisible] = useState(false)
@@ -19,17 +20,21 @@ export default () => {
   const [isDuplicateModalVisible, setIsDuplicateModalVisible] = useState(false)
   const closeDuplicateModal = () => setIsDuplicateModalVisible(false)
 
+  //Delete Modal Info
+  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false)
+  const closeDeleteModal = () => setIsDeleteModalVisible(false)
+
   const contextMenuPopoverId = useGeneratedHtmlId({
     prefix: 'contextMenuPopover',
-  });
+  })
 
   const onButtonClick = () => {
-    setPopover(!isPopoverOpen);
-  };
+    setPopover(!isPopoverOpen)
+  }
 
   const closePopover = () => {
-    setPopover(false);
-  };
+    setPopover(false)
+  }
 
   const panels = [
     {
@@ -40,44 +45,57 @@ export default () => {
           name: 'Test',
           onClick: () => {
             setIsTestModalVisible(true)
-          }
+          },
         },
         {
           name: 'Duplicate',
           onClick: () => {
             setIsDuplicateModalVisible(true)
-          }
+          },
         },
         {
           name: 'Delete',
+          onClick: () => {
+            setIsDeleteModalVisible(true)
+          },
         },
         {
           name: 'Settings',
         },
       ],
     },
-  ];
+  ]
 
   const button = (
     <EuiButton iconType="arrowDown" iconSide="right" onClick={onButtonClick}>
       Actions
     </EuiButton>
-  );
+  )
 
   return (
     <>
-    <EuiPopover
-      id={contextMenuPopoverId}
-      button={button}
-      isOpen={isPopoverOpen}
-      closePopover={closePopover}
-      panelPaddingSize="none"
-      anchorPosition="downLeft"
-    >
-      <EuiContextMenu initialPanelId={0} panels={panels} />
-      <ModalTestComponent isVisible={isTestModalVisible} closeModal={closeTestModal} />
-      <ModalDuplicateComponent isVisible={isDuplicateModalVisible} closeModal={closeDuplicateModal} />
-    </EuiPopover>
+      <EuiPopover
+        id={contextMenuPopoverId}
+        button={button}
+        isOpen={isPopoverOpen}
+        closePopover={closePopover}
+        panelPaddingSize="none"
+        anchorPosition="downLeft"
+      >
+        <EuiContextMenu initialPanelId={0} panels={panels} />
+        <ModalTestComponent
+          isVisible={isTestModalVisible}
+          closeModal={closeTestModal}
+        />
+        <ModalDuplicateComponent
+          isVisible={isDuplicateModalVisible}
+          closeModal={closeDuplicateModal}
+        />
+        <ModalDeleteComponent
+          isVisible={isDeleteModalVisible}
+          closeModal={closeDeleteModal}
+        />
+      </EuiPopover>
     </>
-  );
-};
+  )
+}
