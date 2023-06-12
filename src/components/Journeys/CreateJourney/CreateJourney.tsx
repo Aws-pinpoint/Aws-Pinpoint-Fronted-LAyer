@@ -31,14 +31,15 @@ const options = [
 ]
 
 const initialNodes = [
-  { id: '1', type: 'journeyEntry', position: { x: 0, y: 0 }, data: { value: 123 } }
+  { id: '1', type: 'journeyEntry', position: { x: 0, y: 0 } },
+  { id: '2', type: 'addActivity', position: { x: 0, y: 150 } },
 ]
 
 const initialEdges = [{ id: 'e1-2', source: '1', target: '2' }]
 
 const CreateJourney = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes)
-  const [edges, setEdges, onEdgesChange] = useEdgesState([])
+  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges)
   const [journeyTitle, setJourneyTitle] = useState('')
   const [selectedOptions, setSelected] = useState([options[2]])
 
