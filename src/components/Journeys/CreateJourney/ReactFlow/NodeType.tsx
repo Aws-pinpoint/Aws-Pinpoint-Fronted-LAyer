@@ -1,3 +1,3 @@
 import CustomNode from './CustomNode'
 
-export const nodeTypes = {textUpdater: CustomNode }
+export const nodeTypes = {journeyEntry: CustomNode }

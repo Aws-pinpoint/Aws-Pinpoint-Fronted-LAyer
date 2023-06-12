@@ -31,7 +31,7 @@ const options = [
 ]
 
 const initialNodes = [
-  { id: '1', type: 'textUpdater', position: { x: 0, y: 0 }, data: { value: 123 } }
+  { id: '1', type: 'journeyEntry', position: { x: 0, y: 0 }, data: { value: 123 } }
 ]
 
 const initialEdges = [{ id: 'e1-2', source: '1', target: '2' }]
