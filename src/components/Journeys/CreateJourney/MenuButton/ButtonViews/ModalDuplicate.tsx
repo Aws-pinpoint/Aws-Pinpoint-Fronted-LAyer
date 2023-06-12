@@ -1,12 +1,6 @@
-import React, { useState } from 'react'
 import {
-  EuiModal,
-  EuiModalHeader,
-  EuiModalBody,
-  useGeneratedHtmlId,
   EuiConfirmModal,
 } from '@elastic/eui'
-import Link from 'next/link'
 
 const ModalDuplicateComponent = ({ isVisible, closeModal }) => {
   return (
