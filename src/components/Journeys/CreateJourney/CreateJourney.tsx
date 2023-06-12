@@ -1,5 +1,5 @@
 import { EuiTitle, EuiButton, EuiFieldText, EuiComboBox } from '@elastic/eui'
-import { useCallback, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import ReactFlow, {
   MiniMap,
   Controls,
@@ -9,7 +9,8 @@ import ReactFlow, {
   addEdge,
 } from 'reactflow'
 import 'reactflow/dist/style.css'
-import ContextMenuButton from './ContextMenuButton'
+import ContextMenuButton from './MenuButton/ContextMenuButton'
+import { nodeTypes } from './ReactFlow/NodeType'
 
 const options = [
   {
@@ -30,15 +31,14 @@ const options = [
 ]
 
 const initialNodes = [
-  { id: '1', position: { x: 0, y: 0 }, data: { label: '1' } },
-  { id: '2', position: { x: 0, y: 100 }, data: { label: '2' } },
+  { id: '1', type: 'textUpdater', position: { x: 0, y: 0 }, data: { value: 123 } }
 ]
 
 const initialEdges = [{ id: 'e1-2', source: '1', target: '2' }]
 
 const CreateJourney = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes)
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges)
+  const [edges, setEdges, onEdgesChange] = useEdgesState([])
   const [journeyTitle, setJourneyTitle] = useState('')
   const [selectedOptions, setSelected] = useState([options[2]])
 
@@ -86,6 +86,7 @@ const CreateJourney = () => {
             onNodesChange={onNodesChange}
             onEdgesChange={onEdgesChange}
             onConnect={onConnect}
+            nodeTypes={nodeTypes}
             fitView
           >
             <Controls />
