@@ -4,34 +4,27 @@ import {
   EuiModalHeader,
   EuiModalBody,
   useGeneratedHtmlId,
-  EuiConfirmModal
+  EuiConfirmModal,
 } from '@elastic/eui'
 import Link from 'next/link'
 
 const ModalDuplicateComponent = ({ isVisible, closeModal }) => {
-  
-  const [value, setValue] = useState('')
-  const [checked, setChecked] = useState(false)
-  const basicCheckboxId = useGeneratedHtmlId({ prefix: 'basicCheckbox' })
-  const onChange = e => {
-    setChecked(e.target.checked)
-  }
   return (
     <div>
       {isVisible && (
         <EuiConfirmModal
-        title="Duplicate Journey"
-        onCancel={closeModal}
-        onConfirm={closeModal}
-        cancelButtonText="Cancel"
-        confirmButtonText="Copy"
-        defaultFocusedButton='confirm'
+          title="Duplicate Journey"
+          onCancel={closeModal}
+          onConfirm={closeModal}
+          cancelButtonText="Cancel"
+          confirmButtonText="Copy"
+          defaultFocusedButton="confirm"
         >
           <p>
-          When you duplicate this journey, 
-          Amazon Pinpoint creates a new journey with exactly the same activities and configuration. 
-          The new journey is created in draft mode. 
-          You have to publish the new journey before new participants are added to it.
+            When you duplicate this journey, Amazon Pinpoint creates a new
+            journey with exactly the same activities and configuration. The new
+            journey is created in draft mode. You have to publish the new
+            journey before new participants are added to it.
           </p>
         </EuiConfirmModal>
       )}

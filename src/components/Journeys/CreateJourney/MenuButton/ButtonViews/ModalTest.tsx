@@ -3,20 +3,15 @@ import {
   EuiModal,
   EuiModalHeader,
   EuiModalBody,
-  EuiModalFooter,
   EuiForm,
   EuiFormRow,
-  EuiFieldText,
   EuiSpacer,
   EuiButton,
-  EuiFilePicker,
   EuiSelect,
   EuiText,
   EuiButtonEmpty,
-  EuiCheckboxGroup,
   useGeneratedHtmlId,
   EuiCheckbox,
-  EuiFormControlLayout,
   EuiFieldNumber,
 } from '@elastic/eui'
 import Link from 'next/link'
@@ -62,11 +57,11 @@ const ModalTestComponent = ({ isVisible, closeModal }) => {
               <EuiSpacer />
               {!checked && (
                 <EuiFieldNumber
-                placeholder="Custom wait time (in hours)"
-                value={value}
-                onChange={e => onChange(e)}
-                aria-label="Use aria labels when no actual label is in use"
-              />
+                  placeholder="Custom wait time (in hours)"
+                  value={value}
+                  onChange={e => onChange(e)}
+                  aria-label="Use aria labels when no actual label is in use"
+                />
               )}
 
               <EuiSpacer />
